@@ -40,5 +40,11 @@ namespace SmoothCoastlines
         //public float heightMidAboveWhichToWatchOceanicity = 0.5f;
         //public float midHeightMidOceanicityMin = 4.1f;
         //public float midHeightMidOceanicityMax = 16.4f; //These values are the oceanicity at the spot multiplied by the OceanicityFactor, this is what it recieves so it makes it easier to calculate them
+
+        public double terrainNoiseFrequencyMult = 1.0;
+        public double terrainNoisePersistance = 0.9;
+        public bool enableEdgeLandformSmoothing = false;
+        public int landformSmoothingRadius = 3;
+        public int landformMapPadding = 4;
     }
 }

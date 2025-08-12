@@ -35,7 +35,7 @@ namespace SmoothCoastlines.ContinentalUpheaval {
             for (int i = 0; i < codes.Count; i++) {
                 if (divCount == 0 && codes[i].opcode == OpCodes.Div) {
                     divCount++;
-                    oceanScaleField = codes[i-1].operand as FieldInfo;
+                    oceanScaleField = codes[i - 1].operand as FieldInfo;
                     continue;
                 }
 
@@ -58,7 +58,7 @@ namespace SmoothCoastlines.ContinentalUpheaval {
                     CodeInstruction.LoadArgument(0),
                     new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(GenMaps), "requireLandAt"))
                 };
-                
+
                 codes[indexOfUpheavalMapScale].operand = oceanScaleField;
                 codes[indexOfGetGeoUpheaval - 4].operand = 1873;
                 codes[indexOfGetGeoUpheaval].operand = getTerraPretyUpheavalMap;
@@ -122,7 +122,7 @@ namespace SmoothCoastlines.ContinentalUpheaval {
             }
 
             var sub64FromWorldHeight = new List<CodeInstruction> {
-                new CodeInstruction(OpCodes.Ldc_I4_S, 64),
+                new CodeInstruction(OpCodes.Ldc_I4, 64),
                 new CodeInstruction(OpCodes.Sub)
             };
 
@@ -164,18 +164,30 @@ namespace SmoothCoastlines.ContinentalUpheaval {
             }
 
             var sub64FromWorldHeight = new List<CodeInstruction> {
-                new CodeInstruction(OpCodes.Ldc_I4_S, 64),
+                new CodeInstruction(OpCodes.Ldc_I4, 64),
                 new CodeInstruction(OpCodes.Sub)
             };
 
+            codes[indexOfLoad256F + 14].opcode = OpCodes.Call;
+            codes[indexOfLoad256F + 14].operand = AccessTools.Method(typeof(ContinentalUpheavalPatches), "GetConfigurableFrequency");
+            codes[indexOfLoad256F + 19].opcode = OpCodes.Call;
+            codes[indexOfLoad256F + 19].operand = AccessTools.Method(typeof(ContinentalUpheavalPatches), "GetConfigurablePersistance");
             codes.InsertRange(indexOfLoad256F + 9, sub64FromWorldHeight); //Sets the WorldHeight sent to TerrainOctaves to WorldHeight - 64
             codes.InsertRange(indexOfLoad256F - 1, sub64FromWorldHeight); //Sets the NoiseScale to WorldHeight - 64
 
             return codes.AsEnumerable();
         }
 
+        public static double GetConfigurableFrequency() {
+            return (0.00030618621784789723 * SmoothCoastlinesModSystem.config.terrainNoiseFrequencyMult);
+        }
+
+        public static double GetConfigurablePersistance() {
+            return SmoothCoastlinesModSystem.config.terrainNoisePersistance;
+        }
+
         [HarmonyTranspiler]
-        [HarmonyPatch(typeof(GenTerra), "loadGamePre")] //This patch drops the SeaLevel down by 64 blocks, which is 1 step on the World Size scale.
+        [HarmonyPatch(typeof(GenTerra), nameof(GenTerra.AssetsFinalize))] //This patch drops the SeaLevel down by 64 blocks, which is 1 step on the World Size scale.
         public static IEnumerable<CodeInstruction> GenTerraAssetsFinalizeTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator) {
             var codes = new List<CodeInstruction>(instructions);
 
@@ -189,7 +201,7 @@ namespace SmoothCoastlines.ContinentalUpheaval {
             }
 
             var sub64FromWorldHeight = new List<CodeInstruction> {
-                new CodeInstruction(OpCodes.Ldc_I4_S, 64),
+                new CodeInstruction(OpCodes.Ldc_I4, 64),
                 new CodeInstruction(OpCodes.Sub)
             };
 
@@ -216,7 +228,7 @@ namespace SmoothCoastlines.ContinentalUpheaval {
                 new CodeInstruction(OpCodes.Ldc_I4_S, 64),
                 new CodeInstruction(OpCodes.Sub)
             };
-            
+
             codes.InsertRange(indexOfCallVirt + 1, sub64FromWorldHeight); //Sub 64 from the Worldheight being sent to LerpThresholds
 
             return codes.AsEnumerable();
@@ -289,7 +301,7 @@ namespace SmoothCoastlines.ContinentalUpheaval {
         }
 
         [HarmonyTranspiler]
-        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator) {
             var codes = new List<CodeInstruction>(instructions);
 
             int ldelemaCount = 0;
@@ -298,6 +310,7 @@ namespace SmoothCoastlines.ContinentalUpheaval {
             var mapsizem2Field = AccessTools.Field(AccessTools.FirstInner(typeof(GenTerra), t => t.Name.Contains("<>c__DisplayClass33_0")), "mapsizeYm2");
             int indexMapsizeField = -1;
             int indexMapsizeM2Field = -1;
+            int indexLdelemaRef = -1;
 
             for (int i = 0; i < codes.Count; i++) {
                 if (ldelemaCount == 0 && codes[i].opcode == OpCodes.Ldelema) {
@@ -318,7 +331,12 @@ namespace SmoothCoastlines.ContinentalUpheaval {
                     continue;
                 }
 
-                if (indexMapsizeM2Field > -1 && codes[i].opcode == OpCodes.Ldfld && (FieldInfo)codes[i].operand == mapsizeField) {
+                if (indexMapsizeM2Field > -1 && codes[i].opcode == OpCodes.Ldelem_Ref) {
+                    indexLdelemaRef = i;
+                    continue;
+                }
+
+                if (indexLdelemaRef > -1 && codes[i].opcode == OpCodes.Ldfld && (FieldInfo)codes[i].operand == mapsizeField) {
                     indexMapsizeField = i + 1;
                     break;
                 }
@@ -338,7 +356,43 @@ namespace SmoothCoastlines.ContinentalUpheaval {
                 new CodeInstruction(OpCodes.Sub)
             };
 
-            if (indexOfOceanicityCompVal > -1 && indexMapsizeM2Field > -1 && indexMapsizeField > -1) {
+            if (indexOfOceanicityCompVal > -1 && indexMapsizeM2Field > -1 && indexMapsizeField > -1 && indexLdelemaRef > -1) {
+                var examineMethod = AccessTools.Method(typeof(MoreContinentalUpheavalPatches), "InjectAndExamineThresholdLerp", new Type[] { typeof(float[]), typeof(double), typeof(int), typeof(float), typeof(float[][]), typeof(double), typeof(double) });
+                codes[indexLdelemaRef - 19].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef - 18].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef - 17].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef - 16].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef - 15].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef - 14].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef - 13].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef - 12].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef - 11].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef - 10].opcode = OpCodes.Nop;
+
+                codes[indexLdelemaRef - 8].opcode = OpCodes.Ldloc_S;
+                codes[indexLdelemaRef - 8].operand = 7;
+                codes[indexLdelemaRef - 7].opcode = OpCodes.Ldloc_S;
+                codes[indexLdelemaRef - 7].operand = 22;
+                codes[indexLdelemaRef - 6].opcode = OpCodes.Nop;
+
+                codes[indexLdelemaRef - 1].opcode = OpCodes.Ldloc_S;
+                codes[indexLdelemaRef - 1].operand = 15;
+                codes[indexLdelemaRef].opcode = OpCodes.Ldloc_S;
+                codes[indexLdelemaRef].operand = 16;
+                codes[indexLdelemaRef + 1].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef + 2].opcode = OpCodes.Call;
+                codes[indexLdelemaRef + 2].operand = examineMethod;
+
+                codes[indexLdelemaRef + 6].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef + 7].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef + 8].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef + 9].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef + 10].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef + 11].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef + 12].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef + 13].opcode = OpCodes.Nop;
+                codes[indexLdelemaRef + 14].opcode = OpCodes.Nop;
+
                 //codes.InsertRange(indexMapsizeField, sub64FromWorldHeight); //Sub 64 from GeoUpheaval Mapsize
                 codes.InsertRange(indexMapsizeM2Field, sub64FromWorldHeight); //Sub 64 from the StartSampleDisplacedThreshold MapsizeM2
                 codes.RemoveAt(indexOfOceanicityCompVal);
@@ -368,8 +422,216 @@ namespace SmoothCoastlines.ContinentalUpheaval {
             return codes.AsEnumerable();
         }
 
-        private static float GetHeightmapCompValue(int worldx, int worldz, float oceanicity) {
+        public static float GetHeightmapCompValue(int worldx, int worldz, float oceanicity) {
             return MapLayerLandformsSmooth.noiseLandforms.GetCompValueForOceanicity(worldx, worldz, oceanicity);
+        }
+        
+        public static float InjectAndExamineThresholdLerp(float[] columnLandformIndexedWeights, double threshold, int distortedPosYBase, float distortedPosYSlide, float[][] terrainYThresholds, double noiseMin, double noiseMax) {
+            float total = 0;
+
+            for (int i = 0; i < columnLandformIndexedWeights.Length; i++) {
+                float weight = columnLandformIndexedWeights[i];
+                if (weight == 0) {
+                    continue;
+                }
+                total += weight * GameMath.Lerp(terrainYThresholds[i][distortedPosYBase], terrainYThresholds[i][distortedPosYBase + 1], distortedPosYSlide);
+            }
+
+            return total;
+        }
+    }
+
+    [HarmonyPatch]
+    public class AttemptSmoothingPatch {
+
+        public static MethodBase TargetMethod() {
+            var method = AccessTools.Constructor(typeof(LerpedWeightedIndex2DMap), new Type[] { typeof(int[]), typeof(int), typeof(int), typeof(int), typeof(int) });
+            return method;
+        }
+
+        [HarmonyTranspiler]
+        public static IEnumerable<CodeInstruction> LerpedWeightedIndex2DMapConstructorTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator) {
+            var codes = new List<CodeInstruction>(instructions);
+
+            int stfldCount = 0;
+            object groupsField = null;
+            int indexOfInjectOverride = -1;
+            int indexOfBreakTo = -1;
+
+            for (int i = 0; i < codes.Count; i++) {
+                if (stfldCount < 4 && codes[i].opcode == OpCodes.Stfld) {
+                    stfldCount++;
+                    if (stfldCount < 3) {
+                        continue;
+                    }
+                    groupsField = codes[i].operand;
+                    continue;
+                }
+
+                if (stfldCount == 4 && codes[i].opcode == OpCodes.Div) {
+                    indexOfInjectOverride = i + 2;
+                    continue;
+                }
+
+                if (indexOfInjectOverride > -1 && codes[i].opcode == OpCodes.Endfinally) {
+                    indexOfBreakTo = i + 1;
+                    break;
+                }
+            }
+
+            if (indexOfInjectOverride > -1 && indexOfBreakTo > -1) {
+                var newLabel = ilGenerator.DefineLabel();
+                var lerpMapOverrideMethod = AccessTools.Method(typeof(AttemptSmoothingPatch), "LerpMapConstructorInjection", new Type[] { typeof(int[]), typeof(WeightedIndex[][]), typeof(Dictionary<int, float>), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(float) });
+
+                var callLerpMapOverride = new List<CodeInstruction> {
+                    CodeInstruction.LoadArgument(1),
+                    CodeInstruction.LoadArgument(0),
+                    CodeInstruction.LoadField(typeof(LerpedWeightedIndex2DMap), "groups"),
+                    CodeInstruction.LoadLocal(0),
+                    CodeInstruction.LoadArgument(2),
+                    CodeInstruction.LoadLocal(1),
+                    CodeInstruction.LoadLocal(2),
+                    CodeInstruction.LoadLocal(3),
+                    CodeInstruction.LoadLocal(4),
+                    CodeInstruction.LoadLocal(5),
+                    CodeInstruction.LoadLocal(6),
+                    CodeInstruction.LoadLocal(7),
+                    new CodeInstruction(OpCodes.Call, lerpMapOverrideMethod),
+                    new CodeInstruction(OpCodes.Br, newLabel)
+                };
+
+                codes[indexOfBreakTo].labels.Add(newLabel);
+                codes.InsertRange(indexOfInjectOverride, callLerpMapOverride);
+            } else {
+                
+            }
+
+            return codes.AsEnumerable();
+        }
+
+        public static void LerpMapConstructorInjection(int[] rawScalarValues, WeightedIndex[][] groups, Dictionary<int, float> indices, int sizeX, int x, int z, int minx, int minz, int maxx, int maxz, float weightFrac) {
+            if (SmoothCoastlinesModSystem.config.enableEdgeLandformSmoothing) {
+                bool isEdge = false;
+                var curLandform = rawScalarValues[z * sizeX + x];
+                var numOtherAdjacent = 0;
+                int miniMinX = Math.Max(0, x - 1);
+                int miniMinZ = Math.Max(0, z - 1);
+                int miniMaxX = Math.Min(sizeX - 1, x + 1); //This 1 is the blur radius - 2 with default settings.
+                int miniMaxZ = Math.Min(sizeX - 1, z + 1); //Be sure to send the blurRadius and calc this properly if it works out.
+                int chunkThreshold = (((miniMaxX - miniMinX) + 1) * ((miniMaxZ - miniMinZ) + 1)) / 2;
+
+                for (int ax = miniMinX; ax <= miniMaxX; ax++) {
+                    for (int az = miniMinZ; az <= miniMaxZ; az++) {
+                        if (ax == 0 && az == 0) {
+                            continue;
+                        }
+                        if (curLandform != rawScalarValues[az * sizeX + ax]) {
+                            numOtherAdjacent++;
+                            if (numOtherAdjacent >= chunkThreshold) {
+                                isEdge = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (isEdge) {
+                        break;
+                    }
+                }
+
+                if (isEdge) {
+                    LerpConstructorForEdgeChunk(rawScalarValues, groups, indices, sizeX, x, z, minx, minz, maxx, maxz, weightFrac, chunkThreshold, curLandform);
+                } else {
+                    LerpConstructorForNormalChunk(rawScalarValues, groups, indices, sizeX, x, z, minx, minz, maxx, maxz, weightFrac);
+                }
+            } else {
+                LerpConstructorForNormalChunk(rawScalarValues, groups, indices, sizeX, x, z, minx, minz, maxx, maxz, weightFrac);
+            }
+
+            /*if (isEdge && indices.Count > 1) {
+                KeyValuePair<int, float> dominantPair = indices.First();
+                KeyValuePair<int, float> secondaryPair = dominantPair;
+
+                foreach (var index in indices) {
+                    if (index.Value > dominantPair.Value) {
+                        dominantPair = index;
+                    }
+                    if (index.Value < dominantPair.Value && index.Value > secondaryPair.Value) {
+                        secondaryPair = index;
+                    }
+                }
+
+                if (dominantPair.Key != secondaryPair.Key) {
+                    var lostWeight = (dominantPair.Value * 0.42f);
+                    indices[dominantPair.Key] -= lostWeight;
+                    indices[secondaryPair.Key] += lostWeight;
+                }
+            }*/
+        }
+
+        public static void LerpConstructorForNormalChunk(int[] rawScalarValues, WeightedIndex[][] groups, Dictionary<int, float> indices, int sizeX, int x, int z, int minx, int minz, int maxx, int maxz, float weightFrac) {
+            for (int bx = minx; bx <= maxx; bx++) {
+                for (int bz = minz; bz <= maxz; bz++) {
+                    int index = rawScalarValues[bz * sizeX + bx];
+
+                    if (indices.TryGetValue(index, out float prevValue)) {
+                        indices[index] = weightFrac + prevValue;
+                    } else {
+                        indices[index] = weightFrac;
+                    }
+                }
+            }
+
+            groups[z * sizeX + x] = new WeightedIndex[indices.Count];
+            int i = 0;
+            foreach (var val in indices) {
+                groups[z * sizeX + x][i++] = new WeightedIndex() { Index = val.Key, Weight = val.Value };
+            }
+        }
+
+        public static void LerpConstructorForEdgeChunk(int[] rawScalarValues, WeightedIndex[][] groups, Dictionary<int, float> indices, int sizeX, int x, int z, int minx, int minz, int maxx, int maxz, float weightFrac, int chunkThreshold, int curLandform) {
+            Dictionary<int, int> counts = new Dictionary<int, int>();
+            float remainder = 1f;
+
+            for (int bx = minx; bx <= maxx; bx++) {
+                for (int bz = minz; bz <= maxz; bz++) {
+                    int index = rawScalarValues[bz * sizeX + bx];
+
+                    if (indices.TryGetValue(index, out float prevValue)) {
+                        var prevCount = counts[index];
+                        prevCount++;
+                        counts[index] = prevCount;
+
+                        var fracMult = 0.5f;
+                        if (prevCount < chunkThreshold) {
+                            fracMult = ((float)chunkThreshold / (float)prevCount);
+                        }
+                        fracMult = (fracMult * weightFrac);
+                        indices[index] = fracMult + prevValue;
+                        remainder -= fracMult;
+                    } else {
+                        indices[index] = weightFrac;
+                        remainder -= weightFrac;
+                        counts[index] = 1;
+                    }
+                }
+            }
+
+            /*remainder = remainder / indices.Count;
+            groups[z * sizeX + x] = new WeightedIndex[indices.Count];
+            int i = 0;
+            foreach (var val in indices) {
+                groups[z * sizeX + x][i++] = new WeightedIndex() { Index = val.Key, Weight = val.Value + remainder };
+            }*/
+
+            groups[z * sizeX + x] = new WeightedIndex[indices.Count];
+            int i = 0;
+            foreach (var val in indices) {
+                if (val.Key == curLandform) {
+                    groups[z * sizeX + x][i++] = new WeightedIndex() { Index = val.Key, Weight = val.Value + remainder };
+                } else {
+                    groups[z * sizeX + x][i++] = new WeightedIndex() { Index = val.Key, Weight = val.Value };
+                }
+            }
         }
     }
 }

@@ -87,7 +87,7 @@
         "code": "abridgedruggedrotundgentleslopeslake",
         "comment": "abridgedruggedrotundgentleslopeslake",
         "hexcolor": "#333333",
-        "weight": 1.4,
+        "weight": 0.7,
         "terrainOctaves": [
           0,
           0,
@@ -96,8 +96,8 @@
           0.25,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -176,8 +176,8 @@
           0.25,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -252,8 +252,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -361,7 +361,7 @@
         "code": "abridgedruggedrotundfoothillslake",
         "comment": "abridgedruggedrotundfoothillslake",
         "hexcolor": "#333333",
-        "weight": 1.4,
+        "weight": 0.7,
         "terrainOctaves": [
           0,
           0,
@@ -370,8 +370,8 @@
           0.25,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -446,8 +446,8 @@
           0.25,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -520,8 +520,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -542,6 +542,330 @@
             "terrainYKeyThresholds": [
               1.0,
               0.478,
+              0.0
+            ]
+          }
+        ]
+      },
+      {
+        "code": "abridgedsmoothconcaveflatslake",
+        "comment": "abridgedsmoothconcaveflatslake",
+        "hexcolor": "#333333",
+        "weight": 15,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0.3,
+          0,
+          0.06
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "terrainYKeyPositions": [
+          0.37,
+          0.431,
+          0.442,
+          0.461
+        ],
+        "terrainYKeyThresholds": [
+          0.792,
+          0.676,
+          0.351,
+          0.0
+        ],
+        "mutations": [
+          {
+            "code": "abridgedsmoothconcaveflatslake",
+            "comment": "abridgedsmoothconcaveflatslake",
+            "chance": 0.15,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.3,
+              0,
+              0.03
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "terrainYKeyPositions": [
+              0.37,
+              0.431,
+              0.451
+            ],
+            "terrainYKeyThresholds": [
+              0.795,
+              0.676,
+              0.0
+            ]
+          }
+        ]
+      },
+      {
+        "code": "abridgedruggedconcaveflatslake",
+        "comment": "abridgedruggedconcaveflatslake",
+        "hexcolor": "#333333",
+        "weight": 1.875,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0.2,
+          0.2,
+          0.1,
+          0.1
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0,
+          0.02,
+          0.02,
+          0.02,
+          0.02,
+          0.042
+        ],
+        "terrainYKeyPositions": [
+          0.37,
+          0.431,
+          0.442,
+          0.461
+        ],
+        "terrainYKeyThresholds": [
+          0.792,
+          0.676,
+          0.351,
+          0.0
+        ],
+        "mutations": [
+          {
+            "code": "abridgedruggedconcaveflatslake",
+            "comment": "abridgedruggedconcaveflatslake",
+            "chance": 0.15,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0.8,
+              0,
+              0.3,
+              0.04,
+              0.01
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06,
+              0.06,
+              0.015
+            ],
+            "terrainYKeyPositions": [
+              0.37,
+              0.431,
+              0.451
+            ],
+            "terrainYKeyThresholds": [
+              0.795,
+              0.676,
+              0.0
+            ]
+          }
+        ]
+      },
+      {
+        "code": "abridgedsmoothconcaveplainslake",
+        "comment": "abridgedsmoothconcaveplainslake",
+        "hexcolor": "#333333",
+        "weight": 15,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0.3,
+          0,
+          0.06
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "terrainYKeyPositions": [
+          0.373,
+          0.431,
+          0.452,
+          0.489
+        ],
+        "terrainYKeyThresholds": [
+          0.787,
+          0.676,
+          0.363,
+          0.0
+        ],
+        "mutations": [
+          {
+            "code": "abridgedsmoothconcaveplainslake",
+            "comment": "abridgedsmoothconcaveplainslake",
+            "chance": 0.15,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.3,
+              0,
+              0.03
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "terrainYKeyPositions": [
+              0.368,
+              0.431,
+              0.46,
+              0.486
+            ],
+            "terrainYKeyThresholds": [
+              0.787,
+              0.676,
+              0.197,
+              0.0
+            ]
+          }
+        ]
+      },
+      {
+        "code": "abridgedruggedconcaveplainslake",
+        "comment": "abridgedruggedconcaveplainslake",
+        "hexcolor": "#333333",
+        "weight": 1.875,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0.2,
+          0.2,
+          0.1,
+          0.1
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0,
+          0.02,
+          0.02,
+          0.02,
+          0.02,
+          0.042
+        ],
+        "terrainYKeyPositions": [
+          0.373,
+          0.431,
+          0.452,
+          0.489
+        ],
+        "terrainYKeyThresholds": [
+          0.787,
+          0.676,
+          0.363,
+          0.0
+        ],
+        "mutations": [
+          {
+            "code": "abridgedruggedconcaveplainslake",
+            "comment": "abridgedruggedconcaveplainslake",
+            "chance": 0.15,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0.8,
+              0,
+              0.3,
+              0.04,
+              0.01
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06,
+              0.06,
+              0.015
+            ],
+            "terrainYKeyPositions": [
+              0.368,
+              0.431,
+              0.46,
+              0.486
+            ],
+            "terrainYKeyThresholds": [
+              0.787,
+              0.676,
+              0.197,
               0.0
             ]
           }
@@ -633,7 +957,7 @@
         "code": "abridgedruggedconcavegentleslopeslake",
         "comment": "abridgedruggedconcavegentleslopeslake",
         "hexcolor": "#333333",
-        "weight": 3.75,
+        "weight": 1.875,
         "terrainOctaves": [
           0,
           0,
@@ -642,8 +966,8 @@
           1,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -724,8 +1048,8 @@
           1,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -800,8 +1124,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -913,7 +1237,7 @@
         "code": "abridgedruggedconcavefoothillslake",
         "comment": "abridgedruggedconcavefoothillslake",
         "hexcolor": "#333333",
-        "weight": 3.75,
+        "weight": 1.875,
         "terrainOctaves": [
           0,
           0,
@@ -922,8 +1246,8 @@
           1,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -1002,8 +1326,8 @@
           1,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -1078,8 +1402,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -1189,7 +1513,7 @@
         "code": "broadruggedrotundgentleslopeslake",
         "comment": "broadruggedrotundgentleslopeslake",
         "hexcolor": "#333333",
-        "weight": 1.4,
+        "weight": 0.7,
         "terrainOctaves": [
           0,
           0,
@@ -1198,8 +1522,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -1278,8 +1602,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -1354,8 +1678,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -1463,7 +1787,7 @@
         "code": "broadruggedrotundfoothillslake",
         "comment": "broadruggedrotundfoothillslake",
         "hexcolor": "#333333",
-        "weight": 1.4,
+        "weight": 0.7,
         "terrainOctaves": [
           0,
           0,
@@ -1472,8 +1796,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -1548,8 +1872,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -1622,8 +1946,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -1731,7 +2055,7 @@
         "code": "broadruggedrotundgrandhillslake",
         "comment": "broadruggedrotundgrandhillslake",
         "hexcolor": "#333333",
-        "weight": 0.7,
+        "weight": 0.35,
         "terrainOctaves": [
           0,
           0,
@@ -1740,8 +2064,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -1818,8 +2142,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -1892,8 +2216,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -1914,6 +2238,330 @@
             "terrainYKeyThresholds": [
               1.0,
               0.475,
+              0.0
+            ]
+          }
+        ]
+      },
+      {
+        "code": "broadsmoothconcaveflatslake",
+        "comment": "broadsmoothconcaveflatslake",
+        "hexcolor": "#333333",
+        "weight": 15,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0.5,
+          0.5,
+          0,
+          0.3,
+          0,
+          0.06
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "terrainYKeyPositions": [
+          0.37,
+          0.431,
+          0.44,
+          0.461
+        ],
+        "terrainYKeyThresholds": [
+          0.859,
+          0.743,
+          0.398,
+          0.0
+        ],
+        "mutations": [
+          {
+            "code": "broadsmoothconcaveflatslake",
+            "comment": "broadsmoothconcaveflatslake",
+            "chance": 0.15,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              1,
+              1,
+              0,
+              0.3,
+              0,
+              0.03
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "terrainYKeyPositions": [
+              0.37,
+              0.431,
+              0.451
+            ],
+            "terrainYKeyThresholds": [
+              0.862,
+              0.743,
+              0.0
+            ]
+          }
+        ]
+      },
+      {
+        "code": "broadruggedconcaveflatslake",
+        "comment": "broadruggedconcaveflatslake",
+        "hexcolor": "#333333",
+        "weight": 1.875,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0.5,
+          0.5,
+          0.2,
+          0.2,
+          0.1,
+          0.1
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0.02,
+          0.02,
+          0.02,
+          0.02,
+          0.02,
+          0.042
+        ],
+        "terrainYKeyPositions": [
+          0.37,
+          0.431,
+          0.44,
+          0.461
+        ],
+        "terrainYKeyThresholds": [
+          0.859,
+          0.743,
+          0.398,
+          0.0
+        ],
+        "mutations": [
+          {
+            "code": "broadruggedconcaveflatslake",
+            "comment": "broadruggedconcaveflatslake",
+            "chance": 0.15,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0.8,
+              0.8,
+              0,
+              0.3,
+              0.04,
+              0.01
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06,
+              0.06,
+              0.06,
+              0.015
+            ],
+            "terrainYKeyPositions": [
+              0.37,
+              0.431,
+              0.451
+            ],
+            "terrainYKeyThresholds": [
+              0.862,
+              0.743,
+              0.0
+            ]
+          }
+        ]
+      },
+      {
+        "code": "broadsmoothconcaveplainslake",
+        "comment": "broadsmoothconcaveplainslake",
+        "hexcolor": "#333333",
+        "weight": 15,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0.5,
+          0.5,
+          0,
+          0.3,
+          0,
+          0.06
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "terrainYKeyPositions": [
+          0.373,
+          0.431,
+          0.452,
+          0.489
+        ],
+        "terrainYKeyThresholds": [
+          0.854,
+          0.743,
+          0.38,
+          0.0
+        ],
+        "mutations": [
+          {
+            "code": "broadsmoothconcaveplainslake",
+            "comment": "broadsmoothconcaveplainslake",
+            "chance": 0.15,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              1,
+              1,
+              0,
+              0.3,
+              0,
+              0.03
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "terrainYKeyPositions": [
+              0.368,
+              0.431,
+              0.46,
+              0.486
+            ],
+            "terrainYKeyThresholds": [
+              0.854,
+              0.743,
+              0.197,
+              0.0
+            ]
+          }
+        ]
+      },
+      {
+        "code": "broadruggedconcaveplainslake",
+        "comment": "broadruggedconcaveplainslake",
+        "hexcolor": "#333333",
+        "weight": 1.875,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0.5,
+          0.5,
+          0.2,
+          0.2,
+          0.1,
+          0.1
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0.02,
+          0.02,
+          0.02,
+          0.02,
+          0.02,
+          0.042
+        ],
+        "terrainYKeyPositions": [
+          0.373,
+          0.431,
+          0.452,
+          0.489
+        ],
+        "terrainYKeyThresholds": [
+          0.854,
+          0.743,
+          0.38,
+          0.0
+        ],
+        "mutations": [
+          {
+            "code": "broadruggedconcaveplainslake",
+            "comment": "broadruggedconcaveplainslake",
+            "chance": 0.15,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0.8,
+              0.8,
+              0,
+              0.3,
+              0.04,
+              0.01
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06,
+              0.06,
+              0.06,
+              0.015
+            ],
+            "terrainYKeyPositions": [
+              0.368,
+              0.431,
+              0.46,
+              0.486
+            ],
+            "terrainYKeyThresholds": [
+              0.854,
+              0.743,
+              0.197,
               0.0
             ]
           }
@@ -2005,7 +2653,7 @@
         "code": "broadruggedconcavegentleslopeslake",
         "comment": "broadruggedconcavegentleslopeslake",
         "hexcolor": "#333333",
-        "weight": 3.75,
+        "weight": 1.875,
         "terrainOctaves": [
           0,
           0,
@@ -2014,8 +2662,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -2096,8 +2744,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -2172,8 +2820,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -2285,7 +2933,7 @@
         "code": "broadruggedconcavefoothillslake",
         "comment": "broadruggedconcavefoothillslake",
         "hexcolor": "#333333",
-        "weight": 3.75,
+        "weight": 1.875,
         "terrainOctaves": [
           0,
           0,
@@ -2294,8 +2942,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -2374,8 +3022,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -2450,8 +3098,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -2563,7 +3211,7 @@
         "code": "broadruggedconcavegrandhillslake",
         "comment": "broadruggedconcavegrandhillslake",
         "hexcolor": "#333333",
-        "weight": 1.875,
+        "weight": 0.9,
         "terrainOctaves": [
           0,
           0,
@@ -2572,8 +3220,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -2654,8 +3302,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -2732,8 +3380,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -2845,7 +3493,7 @@
         "code": "vastruggedrotundgentleslopeslake",
         "comment": "vastruggedrotundgentleslopeslake",
         "hexcolor": "#333333",
-        "weight": 1.4,
+        "weight": 0.7,
         "terrainOctaves": [
           0,
           0,
@@ -2854,8 +3502,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -2934,8 +3582,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -3010,8 +3658,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -3119,7 +3767,7 @@
         "code": "vastruggedrotundfoothillslake",
         "comment": "vastruggedrotundfoothillslake",
         "hexcolor": "#333333",
-        "weight": 1.4,
+        "weight": 0.7,
         "terrainOctaves": [
           0,
           0,
@@ -3128,8 +3776,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -3204,8 +3852,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -3278,8 +3926,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -3387,7 +4035,7 @@
         "code": "vastruggedrotundgrandhillslake",
         "comment": "vastruggedrotundgrandhillslake",
         "hexcolor": "#333333",
-        "weight": 0.7,
+        "weight": 0.35,
         "terrainOctaves": [
           0,
           0,
@@ -3396,8 +4044,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -3474,8 +4122,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -3548,8 +4196,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -3661,7 +4309,7 @@
         "code": "vastruggedconcaveflatslake",
         "comment": "vastruggedconcaveflatslake",
         "hexcolor": "#333333",
-        "weight": 3.75,
+        "weight": 1.875,
         "terrainOctaves": [
           0,
           0,
@@ -3670,8 +4318,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -3823,7 +4471,7 @@
         "code": "vastruggedconcaveplainslake",
         "comment": "vastruggedconcaveplainslake",
         "hexcolor": "#333333",
-        "weight": 3.75,
+        "weight": 1.875,
         "terrainOctaves": [
           0,
           0,
@@ -3832,8 +4480,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -3987,7 +4635,7 @@
         "code": "vastruggedconcavegentleslopeslake",
         "comment": "vastruggedconcavegentleslopeslake",
         "hexcolor": "#333333",
-        "weight": 3.75,
+        "weight": 1.875,
         "terrainOctaves": [
           0,
           0,
@@ -3996,8 +4644,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -4078,8 +4726,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -4154,8 +4802,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -4267,7 +4915,7 @@
         "code": "vastruggedconcavefoothillslake",
         "comment": "vastruggedconcavefoothillslake",
         "hexcolor": "#333333",
-        "weight": 3.75,
+        "weight": 1.875,
         "terrainOctaves": [
           0,
           0,
@@ -4276,8 +4924,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -4356,8 +5004,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -4432,8 +5080,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -4545,7 +5193,7 @@
         "code": "vastruggedconcavegrandhillslake",
         "comment": "vastruggedconcavegrandhillslake",
         "hexcolor": "#333333",
-        "weight": 1.875,
+        "weight": 0.9,
         "terrainOctaves": [
           0,
           0,
@@ -4554,8 +5202,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -4636,8 +5284,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -4712,8 +5360,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -4827,7 +5475,7 @@
         "code": "vastruggedconcaveglorioushillslake",
         "comment": "vastruggedconcaveglorioushillslake",
         "hexcolor": "#333333",
-        "weight": 1.8,
+        "weight": 0.9,
         "terrainOctaves": [
           0,
           0,
@@ -4836,8 +5484,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -4864,8 +5512,8 @@
         ],
         "mutations": [
           {
-            "code": "abridgedruggedconcaveglorioushillslake",
-            "comment": "abridgedruggedconcaveglorioushillslake",
+            "code": "vastruggedconcaveglorioushillslake",
+            "comment": "vastruggedconcaveglorioushillslake",
             "chance": 0.15,
             "hexcolor": "#AAAA00",
             "terrainOctaves": [
@@ -4918,8 +5566,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -4994,8 +5642,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -5111,7 +5759,7 @@
         "code": "endlessruggedrotundgentleslopeslake",
         "comment": "endlessruggedrotundgentleslopeslake",
         "hexcolor": "#333333",
-        "weight": 1.4,
+        "weight": 0.7,
         "terrainOctaves": [
           0,
           1,
@@ -5120,8 +5768,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -5204,8 +5852,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -5282,8 +5930,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -5393,7 +6041,7 @@
         "code": "endlessruggedrotundfoothillslake",
         "comment": "endlessruggedrotundfoothillslake",
         "hexcolor": "#333333",
-        "weight": 1.4,
+        "weight": 0.7,
         "terrainOctaves": [
           0,
           1,
@@ -5402,8 +6050,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -5478,8 +6126,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -5552,8 +6200,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -5661,7 +6309,7 @@
         "code": "endlessruggedrotundgrandhillslake",
         "comment": "endlessruggedrotundgrandhillslake",
         "hexcolor": "#333333",
-        "weight": 0.7,
+        "weight": 0.35,
         "terrainOctaves": [
           0,
           1,
@@ -5670,8 +6318,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -5748,8 +6396,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -5822,8 +6470,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -5939,7 +6587,7 @@
         "code": "endlessruggedconcaveflatslake",
         "comment": "endlessruggedconcaveflatslake",
         "hexcolor": "#333333",
-        "weight": 3.75,
+        "weight": 1.875,
         "terrainOctaves": [
           0,
           1,
@@ -5948,8 +6596,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -6109,7 +6757,7 @@
         "code": "endlessruggedconcaveplainslake",
         "comment": "endlessruggedconcaveplainslake",
         "hexcolor": "#333333",
-        "weight": 3.75,
+        "weight": 1.875,
         "terrainOctaves": [
           0,
           1,
@@ -6118,8 +6766,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -6281,7 +6929,7 @@
         "code": "endlessruggedconcavegentleslopeslake",
         "comment": "endlessruggedconcavegentleslopeslake",
         "hexcolor": "#333333",
-        "weight": 3.75,
+        "weight": 1.875,
         "terrainOctaves": [
           0,
           1,
@@ -6290,8 +6938,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -6376,8 +7024,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -6454,8 +7102,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -6569,7 +7217,7 @@
         "code": "endlessruggedconcavefoothillslake",
         "comment": "endlessruggedconcavefoothillslake",
         "hexcolor": "#333333",
-        "weight": 3.75,
+        "weight": 1.875,
         "terrainOctaves": [
           0,
           1,
@@ -6578,8 +7226,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -6658,8 +7306,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -6734,8 +7382,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -6847,7 +7495,7 @@
         "code": "endlessruggedconcavegrandhillslake",
         "comment": "endlessruggedconcavegrandhillslake",
         "hexcolor": "#333333",
-        "weight": 1.875,
+        "weight": 0.9,
         "terrainOctaves": [
           0,
           1,
@@ -6856,8 +7504,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -6938,8 +7586,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -7014,8 +7662,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -7129,7 +7777,7 @@
         "code": "endlessruggedconcaveglorioushillslake",
         "comment": "endlessruggedconcaveglorioushillslake",
         "hexcolor": "#333333",
-        "weight": 1.8,
+        "weight": 0.9,
         "terrainOctaves": [
           0,
           1,
@@ -7138,8 +7786,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -7166,8 +7814,8 @@
         ],
         "mutations": [
           {
-            "code": "abridgedruggedconcaveglorioushillslake",
-            "comment": "abridgedruggedconcaveglorioushillslake",
+            "code": "endlessruggedconcaveglorioushillslake",
+            "comment": "endlessruggedconcaveglorioushillslake",
             "chance": 0.15,
             "hexcolor": "#AAAA00",
             "terrainOctaves": [
@@ -7220,8 +7868,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -7296,8 +7944,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -7329,7 +7977,7 @@
         "code": "endlessruggedconcavegigantichillslake",
         "comment": "endlessruggedconcavegigantichillslake",
         "hexcolor": "#333333",
-        "weight": 0.9,
+        "weight": 0.45,
         "terrainOctaves": [
           0,
           1,
@@ -7338,8 +7986,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -7420,8 +8068,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -7496,8 +8144,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -7615,7 +8263,7 @@
         "code": "eternalruggedrotundplainslake",
         "comment": "eternalruggedrotundplainslake",
         "hexcolor": "#333333",
-        "weight": 16.5,
+        "weight": 8.25,
         "terrainOctaves": [
           1,
           1,
@@ -7624,8 +8272,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -7783,7 +8431,7 @@
         "code": "eternalruggedrotundgentleslopeslake",
         "comment": "eternalruggedrotundgentleslopeslake",
         "hexcolor": "#333333",
-        "weight": 16.5,
+        "weight": 8.25,
         "terrainOctaves": [
           1,
           1,
@@ -7792,8 +8440,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -7876,8 +8524,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -7954,8 +8602,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -8073,7 +8721,7 @@
         "code": "eternalruggedrotundfoothillslake",
         "comment": "eternalruggedrotundfoothillslake",
         "hexcolor": "#333333",
-        "weight": 16.5,
+        "weight": 8.25,
         "terrainOctaves": [
           1,
           1,
@@ -8082,8 +8730,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -8166,8 +8814,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -8244,8 +8892,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -8363,7 +9011,7 @@
         "code": "eternalruggedrotundgrandhillslake",
         "comment": "eternalruggedrotundgrandhillslake",
         "hexcolor": "#333333",
-        "weight": 8,
+        "weight": 4,
         "terrainOctaves": [
           1,
           1,
@@ -8372,8 +9020,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -8456,8 +9104,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -8534,8 +9182,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -8653,7 +9301,7 @@
         "code": "eternalruggedconcaveflatslake",
         "comment": "eternalruggedconcaveflatslake",
         "hexcolor": "#333333",
-        "weight": 45,
+        "weight": 22.5,
         "terrainOctaves": [
           1,
           1,
@@ -8662,8 +9310,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -8823,7 +9471,7 @@
         "code": "eternalruggedconcaveplainslake",
         "comment": "eternalruggedconcaveplainslake",
         "hexcolor": "#333333",
-        "weight": 45,
+        "weight": 22.5,
         "terrainOctaves": [
           1,
           1,
@@ -8832,8 +9480,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -8995,7 +9643,7 @@
         "code": "eternalruggedconcavegentleslopeslake",
         "comment": "eternalruggedconcavegentleslopeslake",
         "hexcolor": "#333333",
-        "weight": 45,
+        "weight": 22.5,
         "terrainOctaves": [
           1,
           1,
@@ -9004,8 +9652,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -9090,8 +9738,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -9168,8 +9816,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -9289,7 +9937,7 @@
         "code": "eternalruggedconcavefoothillslake",
         "comment": "eternalruggedconcavefoothillslake",
         "hexcolor": "#333333",
-        "weight": 45,
+        "weight": 22.5,
         "terrainOctaves": [
           1,
           1,
@@ -9298,8 +9946,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -9384,8 +10032,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -9462,8 +10110,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -9583,7 +10231,7 @@
         "code": "eternalruggedconcavegrandhillslake",
         "comment": "eternalruggedconcavegrandhillslake",
         "hexcolor": "#333333",
-        "weight": 22.5,
+        "weight": 11.25,
         "terrainOctaves": [
           1,
           1,
@@ -9592,8 +10240,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -9678,8 +10326,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -9756,8 +10404,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -9879,7 +10527,7 @@
         "code": "eternalruggedconcaveglorioushillslake",
         "comment": "eternalruggedconcaveglorioushillslake",
         "hexcolor": "#333333",
-        "weight": 22.5,
+        "weight": 11.25,
         "terrainOctaves": [
           1,
           1,
@@ -9888,8 +10536,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -9918,8 +10566,8 @@
         ],
         "mutations": [
           {
-            "code": "abridgedruggedconcaveglorioushillslake",
-            "comment": "abridgedruggedconcaveglorioushillslake",
+            "code": "eternalruggedconcaveglorioushillslake",
+            "comment": "eternalruggedconcaveglorioushillslake",
             "chance": 0.15,
             "hexcolor": "#AAAA00",
             "terrainOctaves": [
@@ -9976,8 +10624,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -10056,8 +10704,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -10091,7 +10739,7 @@
         "code": "eternalruggedconcavegigantichillslake",
         "comment": "eternalruggedconcavegigantichillslake",
         "hexcolor": "#333333",
-        "weight": 11.25,
+        "weight": 5.6,
         "terrainOctaves": [
           1,
           1,
@@ -10100,8 +10748,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -10182,8 +10830,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -10258,8 +10906,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -10293,7 +10941,7 @@
         "code": "eternalruggedconcaveimmortalhillslake",
         "comment": "eternalruggedconcaveimmortalhillslake",
         "hexcolor": "#333333",
-        "weight": 5.6,
+        "weight": 2.8,
         "terrainOctaves": [
           1,
           1,
@@ -10302,8 +10950,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -10384,8 +11032,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -10460,8 +11108,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -10610,7 +11258,7 @@
         "code": "eternalruggedrotundfoothillsdryvalley",
         "comment": "eternalruggedrotundfoothillsdryvalley",
         "hexcolor": "#333333",
-        "weight": 8,
+        "weight": 4,
         "minRain": 0,
         "maxRain": 128,
         "useClimateMap": true,
@@ -10622,8 +11270,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -10660,8 +11308,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.14
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -10739,8 +11387,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -10777,8 +11425,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -10851,8 +11499,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -11001,7 +11649,7 @@
         "code": "eternalruggedrotundgrandhillsdryvalley",
         "comment": "eternalruggedrotundgrandhillsdryvalley",
         "hexcolor": "#333333",
-        "weight": 4.2,
+        "weight": 2.1,
         "minRain": 0,
         "maxRain": 128,
         "useClimateMap": true,
@@ -11013,8 +11661,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -11053,8 +11701,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.14
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -11134,8 +11782,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -11172,8 +11820,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -11246,8 +11894,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -11400,7 +12048,7 @@
         "code": "eternalruggedconcavefoothillsdryvalley",
         "comment": "eternalruggedconcavefoothillsdryvalley",
         "hexcolor": "#333333",
-        "weight": 22.5,
+        "weight": 11.25,
         "minRain": 0,
         "maxRain": 128,
         "useClimateMap": true,
@@ -11412,8 +12060,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -11535,8 +12183,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -11649,8 +12297,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -11807,7 +12455,7 @@
         "code": "eternalruggedconcavegrandhillsdryvalley",
         "comment": "eternalruggedconcavegrandhillsdryvalley",
         "hexcolor": "#333333",
-        "weight": 11.25,
+        "weight": 5.6,
         "minRain": 0,
         "maxRain": 128,
         "useClimateMap": true,
@@ -11819,8 +12467,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -11944,8 +12592,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -12060,8 +12708,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -12218,7 +12866,7 @@
         "code": "eternalruggedconcaveglorioushillsdryvalley",
         "comment": "eternalruggedconcaveglorioushillsdryvalley",
         "hexcolor": "#333333",
-        "weight": 11.25,
+        "weight": 5.6,
         "minRain": 0,
         "maxRain": 128,
         "useClimateMap": true,
@@ -12230,8 +12878,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -12355,8 +13003,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -12471,8 +13119,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -12504,7 +13152,7 @@
         "code": "eternalruggedconcavegigantichillsdryvalley",
         "comment": "eternalruggedconcavegigantichillsdryvalley",
         "hexcolor": "#333333",
-        "weight": 5.6,
+        "weight": 2.8,
         "minRain": 0,
         "maxRain": 128,
         "useClimateMap": true,
@@ -12516,8 +13164,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -12641,8 +13289,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -12757,8 +13405,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -12790,7 +13438,7 @@
         "code": "eternalruggedconcaveimmortalhillsdryvalley",
         "comment": "eternalruggedconcaveimmortalhillsdryvalley",
         "hexcolor": "#333333",
-        "weight": 2.8,
+        "weight": 1.4,
         "minRain": 0,
         "maxRain": 128,
         "useClimateMap": true,
@@ -12802,8 +13450,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -12927,8 +13575,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.12,
+          0.12
         ],
         "terrainOctaveThresholds": [
           0.02,
@@ -13043,8 +13691,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.12,
+              0.12
             ],
             "terrainOctaveThresholds": [
               0.02,
@@ -13088,8 +13736,8 @@
           0.25,
           0.2,
           0.2,
-          0.2,
-          0.14
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -13162,8 +13810,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.1,
+              0.1
             ],
             "terrainOctaveThresholds": [
               0,
@@ -13205,8 +13853,8 @@
           0.25,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -13279,8 +13927,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.1,
+              0.1
             ],
             "terrainOctaveThresholds": [
               0,
@@ -13322,8 +13970,8 @@
           0.25,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -13398,8 +14046,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.1,
+              0.1
             ],
             "terrainOctaveThresholds": [
               0,
@@ -13441,8 +14089,8 @@
           0.25,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -13517,8 +14165,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.1,
+              0.1
             ],
             "terrainOctaveThresholds": [
               0,
@@ -13562,8 +14210,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -13636,8 +14284,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.1,
+              0.1
             ],
             "terrainOctaveThresholds": [
               0,
@@ -13679,8 +14327,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -13755,8 +14403,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.1,
+              0.1
             ],
             "terrainOctaveThresholds": [
               0,
@@ -13800,8 +14448,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -13876,8 +14524,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.1,
+              0.1
             ],
             "terrainOctaveThresholds": [
               0,
@@ -13921,8 +14569,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -13997,8 +14645,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.1,
+              0.1
             ],
             "terrainOctaveThresholds": [
               0,
@@ -14040,8 +14688,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -14118,8 +14766,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.1,
+              0.1
             ],
             "terrainOctaveThresholds": [
               0,
@@ -14165,8 +14813,8 @@
           0.5,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -14243,8 +14891,8 @@
               1,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.1,
+              0.1
             ],
             "terrainOctaveThresholds": [
               0,
@@ -14290,8 +14938,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -14366,8 +15014,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.1,
+              0.1
             ],
             "terrainOctaveThresholds": [
               0,
@@ -14411,8 +15059,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -14487,8 +15135,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.1,
+              0.1
             ],
             "terrainOctaveThresholds": [
               0,
@@ -14532,8 +15180,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -14610,8 +15258,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.1,
+              0.1
             ],
             "terrainOctaveThresholds": [
               0,
@@ -14657,8 +15305,8 @@
           0,
           0.2,
           0.2,
-          0.2,
-          0.16
+          0.1,
+          0.1
         ],
         "terrainOctaveThresholds": [
           0,
@@ -14735,8 +15383,8 @@
               0,
               0.2,
               0.2,
-              0.2,
-              0.16
+              0.1,
+              0.1
             ],
             "terrainOctaveThresholds": [
               0,
@@ -14770,7 +15418,7 @@
         "code": "vastmicroplateaulake",
         "comment": "vastmicroplateaulake",
         "hexcolor": "#333333",
-        "weight": 320,
+        "weight": 640,
         "minRain": 0,
         "maxRain": 175,
         "useClimateMap": true,
@@ -14779,7 +15427,7 @@
           0,
           1.15,
           1.15,
-          0,
+          1.15,
           0,
           0.6,
           0.2,
@@ -14790,7 +15438,7 @@
           0,
           0.08,
           0.08,
-          0,
+          0.08,
           0,
           0.02,
           0.02,
@@ -14828,7 +15476,7 @@
         ],
         "mutations": [
           {
-            "chance": 0.85,
+            "chance": 0.66,
             "code": "vastmicroplateaulake",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -14858,20 +15506,20 @@
               0.412,
               0.419,
               0.427,
-              0.436,
-              0.462,
+              0.439,
+              0.447,
               0.509,
               0.519,
               0.555,
-              0.629
+              0.606
             ],
             "terrainYKeyThresholds": [
               1.0,
               1.0,
               0.964,
               0.865,
-              0.622,
-              0.511,
+              0.575,
+              0.531,
               0.388,
               0.28,
               0.14,
@@ -14879,7 +15527,7 @@
             ]
           },
           {
-            "chance": 0.12,
+            "chance": 0.1,
             "code": "vastmicroplateaulake",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -14978,7 +15626,7 @@
         "code": "vastminorplateaulake",
         "comment": "vastminorplateaulake",
         "hexcolor": "#333333",
-        "weight": 320,
+        "weight": 640,
         "minRain": 0,
         "maxRain": 175,
         "useClimateMap": true,
@@ -14987,7 +15635,7 @@
           0,
           1.15,
           1.15,
-          0,
+          1.15,
           0,
           0.6,
           0.2,
@@ -14998,7 +15646,7 @@
           0,
           0.08,
           0.08,
-          0,
+          0.08,
           0,
           0.02,
           0.02,
@@ -15036,7 +15684,7 @@
         ],
         "mutations": [
           {
-            "chance": 0.85,
+            "chance": 0.66,
             "code": "vastminorplateaulake",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -15066,20 +15714,20 @@
               0.412,
               0.419,
               0.427,
-              0.445,
-              0.468,
+              0.443,
+              0.453,
               0.527,
               0.541,
-              0.586,
-              0.68
+              0.581,
+              0.648
             ],
             "terrainYKeyThresholds": [
               1.0,
               1.0,
               0.964,
               0.865,
-              0.619,
-              0.511,
+              0.566,
+              0.529,
               0.388,
               0.28,
               0.14,
@@ -15087,7 +15735,7 @@
             ]
           },
           {
-            "chance": 0.12,
+            "chance": 0.1,
             "code": "vastminorplateaulake",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -15186,7 +15834,7 @@
         "code": "vastmajorplateaulake",
         "comment": "vastmajorplateaulake",
         "hexcolor": "#333333",
-        "weight": 160,
+        "weight": 320,
         "minRain": 0,
         "maxRain": 175,
         "useClimateMap": true,
@@ -15195,7 +15843,7 @@
           0,
           1.15,
           1.15,
-          0,
+          1.15,
           0,
           0.6,
           0.2,
@@ -15206,7 +15854,7 @@
           0,
           0.08,
           0.08,
-          0,
+          0.08,
           0,
           0.02,
           0.02,
@@ -15244,7 +15892,7 @@
         ],
         "mutations": [
           {
-            "chance": 0.85,
+            "chance": 0.66,
             "code": "vastmajorplateaulake",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -15274,28 +15922,28 @@
               0.412,
               0.419,
               0.427,
-              0.452,
-              0.49,
+              0.449,
+              0.462,
               0.56,
               0.571,
-              0.637,
-              0.735
+              0.62,
+              0.692
             ],
             "terrainYKeyThresholds": [
               1.0,
               1.0,
               0.964,
               0.865,
-              0.616,
-              0.485,
+              0.578,
+              0.53,
               0.372,
               0.273,
-              0.127,
+              0.125,
               0.0
             ]
           },
           {
-            "chance": 0.12,
+            "chance": 0.1,
             "code": "vastmajorplateaulake",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -15394,7 +16042,7 @@
         "code": "vastmagnificentplateaulake",
         "comment": "vastmagnificentplateaulake",
         "hexcolor": "#333333",
-        "weight": 80,
+        "weight": 160,
         "minRain": 0,
         "maxRain": 175,
         "useClimateMap": true,
@@ -15403,7 +16051,7 @@
           0,
           1.15,
           1.15,
-          0,
+          1.15,
           0,
           0.6,
           0.2,
@@ -15414,7 +16062,7 @@
           0,
           0.08,
           0.08,
-          0,
+          0.08,
           0,
           0.02,
           0.02,
@@ -15452,7 +16100,7 @@
         ],
         "mutations": [
           {
-            "chance": 0.85,
+            "chance": 0.66,
             "code": "vastmagnificentplateaulake",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -15482,20 +16130,20 @@
               0.412,
               0.419,
               0.427,
-              0.456,
-              0.5,
+              0.451,
+              0.469,
               0.594,
               0.61,
-              0.681,
-              0.793
+              0.656,
+              0.731
             ],
             "terrainYKeyThresholds": [
               1.0,
               1.0,
               0.964,
               0.865,
-              0.611,
-              0.484,
+              0.579,
+              0.529,
               0.355,
               0.233,
               0.108,
@@ -15503,7 +16151,7 @@
             ]
           },
           {
-            "chance": 0.12,
+            "chance": 0.1,
             "code": "vastmagnificentplateaulake",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -15602,7 +16250,7 @@
         "code": "vastmonumentalplateaulake",
         "comment": "vastmonumentalplateaulake",
         "hexcolor": "#333333",
-        "weight": 40,
+        "weight": 80,
         "minRain": 0,
         "maxRain": 175,
         "useClimateMap": true,
@@ -15611,7 +16259,7 @@
           0,
           1.15,
           1.15,
-          0,
+          1.15,
           0,
           0.6,
           0.2,
@@ -15622,7 +16270,7 @@
           0,
           0.08,
           0.08,
-          0,
+          0.08,
           0,
           0.02,
           0.02,
@@ -15690,28 +16338,28 @@
               0.412,
               0.419,
               0.427,
-              0.459,
-              0.52,
+              0.453,
+              0.48,
               0.639,
               0.649,
-              0.713,
-              0.815
+              0.691,
+              0.75
             ],
             "terrainYKeyThresholds": [
               1.0,
               1.0,
               0.964,
               0.865,
-              0.611,
-              0.484,
+              0.591,
+              0.531,
               0.355,
               0.246,
-              0.105,
-              0.002
+              0.108,
+              0.0
             ]
           },
           {
-            "chance": 0.32,
+            "chance": 0.1,
             "code": "vastmonumentalplateaulake",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -15810,7 +16458,7 @@
         "code": "vastmonstrousplateaulake",
         "comment": "vastmonstrousplateaulake",
         "hexcolor": "#333333",
-        "weight": 20,
+        "weight": 40,
         "minRain": 0,
         "maxRain": 175,
         "useClimateMap": true,
@@ -15819,7 +16467,7 @@
           0,
           1.15,
           1.15,
-          0,
+          1.15,
           0,
           0.6,
           0.2,
@@ -15830,7 +16478,7 @@
           0,
           0.08,
           0.08,
-          0,
+          0.08,
           0,
           0.02,
           0.02,
@@ -15898,28 +16546,28 @@
               0.412,
               0.419,
               0.427,
-              0.468,
-              0.535,
+              0.455,
+              0.487,
               0.668,
               0.682,
-              0.72,
-              0.789
+              0.715,
+              0.767
             ],
             "terrainYKeyThresholds": [
               1.0,
               1.0,
               0.964,
               0.865,
-              0.6,
-              0.459,
+              0.577,
+              0.506,
               0.337,
               0.215,
-              0.1,
+              0.098,
               0.0
             ]
           },
           {
-            "chance": 0.32,
+            "chance": 0.1,
             "code": "vastmonstrousplateaulake",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -16018,7 +16666,7 @@
         "code": "endlessmicrosheercliff",
         "comment": "endlessmicrosheercliff",
         "hexcolor": "#333333",
-        "weight": 320,
+        "weight": 640,
         "minRain": 0,
         "maxRain": 80,
         "useClimateMap": true,
@@ -16027,7 +16675,7 @@
           1.15,
           1.15,
           1.15,
-          0,
+          1.15,
           0,
           0.6,
           0.2,
@@ -16038,7 +16686,7 @@
           0.08,
           0.08,
           0.08,
-          0,
+          0.08,
           0,
           0.02,
           0.02,
@@ -16070,7 +16718,7 @@
         ],
         "mutations": [
           {
-            "chance": 0.85,
+            "chance": 0.66,
             "code": "endlessmicrosheercliff",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -16098,8 +16746,8 @@
             "terrainYKeyPositions": [
               0.0,
               0.431,
-              0.44,
-              0.448,
+              0.438,
+              0.443,
               0.492,
               0.5,
               0.524,
@@ -16108,8 +16756,8 @@
             "terrainYKeyThresholds": [
               1.0,
               1.0,
-              0.754,
-              0.701,
+              0.744,
+              0.718,
               0.588,
               0.458,
               0.285,
@@ -16117,7 +16765,7 @@
             ]
           },
           {
-            "chance": 0.24,
+            "chance": 0.1,
             "code": "endlessmicrosheercliff",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -16173,7 +16821,7 @@
         "code": "endlessminorsheercliff",
         "comment": "endlessminorsheercliff",
         "hexcolor": "#333333",
-        "weight": 320,
+        "weight": 640,
         "minRain": 0,
         "maxRain": 80,
         "useClimateMap": true,
@@ -16182,7 +16830,7 @@
           1.15,
           1.15,
           1.15,
-          0,
+          1.15,
           0,
           0.6,
           0.2,
@@ -16193,7 +16841,7 @@
           0.08,
           0.08,
           0.08,
-          0,
+          0.08,
           0,
           0.02,
           0.02,
@@ -16225,7 +16873,7 @@
         ],
         "mutations": [
           {
-            "chance": 0.85,
+            "chance": 0.66,
             "code": "endlessminorsheercliff",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -16254,7 +16902,7 @@
               0.0,
               0.432,
               0.441,
-              0.452,
+              0.445,
               0.511,
               0.518,
               0.548,
@@ -16263,8 +16911,8 @@
             "terrainYKeyThresholds": [
               1.0,
               1.0,
-              0.75,
-              0.691,
+              0.733,
+              0.706,
               0.588,
               0.477,
               0.26,
@@ -16272,7 +16920,7 @@
             ]
           },
           {
-            "chance": 0.24,
+            "chance": 0.1,
             "code": "endlessminorsheercliff",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -16328,7 +16976,7 @@
         "code": "endlessmajorsheercliff",
         "comment": "endlessmajorsheercliff",
         "hexcolor": "#333333",
-        "weight": 40,
+        "weight": 320,
         "minRain": 0,
         "maxRain": 80,
         "useClimateMap": true,
@@ -16337,7 +16985,7 @@
           1.15,
           1.15,
           1.15,
-          0,
+          1.15,
           0,
           0.6,
           0.2,
@@ -16348,7 +16996,7 @@
           0.08,
           0.08,
           0.08,
-          0,
+          0.08,
           0,
           0.02,
           0.02,
@@ -16380,7 +17028,7 @@
         ],
         "mutations": [
           {
-            "chance": 0.85,
+            "chance": 0.66,
             "code": "endlessmajorsheercliff",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -16408,8 +17056,8 @@
             "terrainYKeyPositions": [
               0.0,
               0.432,
-              0.447,
-              0.465,
+              0.444,
+              0.453,
               0.543,
               0.554,
               0.583,
@@ -16418,8 +17066,8 @@
             "terrainYKeyThresholds": [
               1.0,
               1.0,
-              0.744,
-              0.667,
+              0.717,
+              0.687,
               0.572,
               0.4,
               0.219,
@@ -16427,7 +17075,7 @@
             ]
           },
           {
-            "chance": 0.24,
+            "chance": 0.1,
             "code": "endlessmajorsheercliff",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -16483,7 +17131,7 @@
         "code": "endlessmagnificentsheercliff",
         "comment": "endlessmagnificentsheercliff",
         "hexcolor": "#333333",
-        "weight": 80,
+        "weight": 160,
         "minRain": 0,
         "maxRain": 80,
         "useClimateMap": true,
@@ -16492,7 +17140,7 @@
           1.15,
           1.15,
           1.15,
-          0,
+          1.15,
           0,
           0.6,
           0.2,
@@ -16503,7 +17151,7 @@
           0.08,
           0.08,
           0.08,
-          0,
+          0.08,
           0,
           0.02,
           0.02,
@@ -16535,7 +17183,7 @@
         ],
         "mutations": [
           {
-            "chance": 0.85,
+            "chance": 0.66,
             "code": "endlessmagnificentsheercliff",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -16563,8 +17211,8 @@
             "terrainYKeyPositions": [
               0.0,
               0.431,
-              0.449,
-              0.473,
+              0.442,
+              0.458,
               0.577,
               0.583,
               0.614,
@@ -16573,8 +17221,8 @@
             "terrainYKeyThresholds": [
               1.0,
               1.0,
-              0.753,
-              0.671,
+              0.736,
+              0.689,
               0.555,
               0.4,
               0.196,
@@ -16582,7 +17230,7 @@
             ]
           },
           {
-            "chance": 0.24,
+            "chance": 0.1,
             "code": "endlessmagnificentsheercliff",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -16638,7 +17286,7 @@
         "code": "endlessmonumentalsheercliff",
         "comment": "endlessmonumentalsheercliff",
         "hexcolor": "#333333",
-        "weight": 40,
+        "weight": 80,
         "minRain": 0,
         "maxRain": 80,
         "useClimateMap": true,
@@ -16647,7 +17295,7 @@
           1.15,
           1.15,
           1.15,
-          0,
+          1.15,
           0,
           0.6,
           0.2,
@@ -16658,7 +17306,7 @@
           0.08,
           0.08,
           0.08,
-          0,
+          0.08,
           0,
           0.02,
           0.02,
@@ -16718,8 +17366,8 @@
             "terrainYKeyPositions": [
               0.0,
               0.432,
-              0.451,
-              0.488,
+              0.444,
+              0.465,
               0.622,
               0.632,
               0.666,
@@ -16728,8 +17376,8 @@
             "terrainYKeyThresholds": [
               1.0,
               1.0,
-              0.763,
-              0.667,
+              0.74,
+              0.684,
               0.555,
               0.384,
               0.185,
@@ -16737,7 +17385,7 @@
             ]
           },
           {
-            "chance": 0.24,
+            "chance": 0.1,
             "code": "endlessmonumentalsheercliff",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -16793,7 +17441,7 @@
         "code": "endlessmonstroussheercliff",
         "comment": "endlessmonstroussheercliff",
         "hexcolor": "#333333",
-        "weight": 20,
+        "weight": 40,
         "minRain": 0,
         "maxRain": 80,
         "useClimateMap": true,
@@ -16802,7 +17450,7 @@
           1.15,
           1.15,
           1.15,
-          0,
+          1.15,
           0,
           0.6,
           0.2,
@@ -16813,7 +17461,7 @@
           0.08,
           0.08,
           0.08,
-          0,
+          0.08,
           0,
           0.02,
           0.02,
@@ -16873,8 +17521,8 @@
             "terrainYKeyPositions": [
               0.0,
               0.431,
-              0.451,
-              0.491,
+              0.446,
+              0.471,
               0.651,
               0.662,
               0.697,
@@ -16883,8 +17531,8 @@
             "terrainYKeyThresholds": [
               1.0,
               1.0,
-              0.776,
-              0.657,
+              0.753,
+              0.68,
               0.537,
               0.385,
               0.183,
@@ -16892,7 +17540,7 @@
             ]
           },
           {
-            "chance": 0.24,
+            "chance": 0.1,
             "code": "endlessmonstroussheercliff",
             "hexcolor": "#333333",
             "terrainOctaves": [
@@ -16959,9 +17607,9 @@
           1.15,
           1.15,
           0,
+          0.3,
           0.2,
-          0.2,
-          0.18
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -16975,22 +17623,22 @@
           0.042
         ],
         "terrainYKeyPositions": [
-          0.42,
-          0.52,
-          0.6,
-          0.607
+          0.423,
+          0.441,
+          0.495,
+          0.508
         ],
         "terrainYKeyThresholds": [
           1.0,
-          0.135,
-          0.056,
-          0.0
+          0.513,
+          0.499,
+          0.002
         ],
         "mutations": [
           {
             "code": "stairwaypancake",
             "comment": "stairwaypancake",
-            "chance": 0.24,
+            "chance": 0.32,
             "hexcolor": "#AAAA00",
             "terrainOctaves": [
               0,
@@ -16999,9 +17647,9 @@
               1,
               1,
               0,
+              0.3,
               0.2,
-              0.2,
-              0.18
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -17015,110 +17663,26 @@
               0.042
             ],
             "terrainYKeyPositions": [
-              0.42,
-              0.51,
-              0.584,
-              0.59
+              0.423,
+              0.438,
+              0.468,
+              0.477,
+              0.518,
+              0.527
             ],
             "terrainYKeyThresholds": [
               1.0,
-              0.135,
-              0.056,
+              0.738,
+              0.732,
+              0.343,
+              0.332,
               0.0
             ]
           },
           {
             "code": "stairwaypancake",
             "comment": "stairwaypancake",
-            "chance": 0.24,
-            "hexcolor": "#AAAA00",
-            "terrainOctaves": [
-              0,
-              0,
-              0,
-              1,
-              1,
-              0,
-              0.2,
-              0.2,
-              0.18
-            ],
-            "terrainOctaveThresholds": [
-              0,
-              0,
-              0,
-              0.02,
-              0.02,
-              0,
-              0.02,
-              0.02,
-              0.042
-            ],
-            "terrainYKeyPositions": [
-              0.413,
-              0.47,
-              0.506,
-              0.517,
-              0.559,
-              0.57
-            ],
-            "terrainYKeyThresholds": [
-              1.0,
-              0.473,
-              0.43,
-              0.242,
-              0.194,
-              0.0
-            ]
-          },
-          {
-            "code": "stairwaypancake",
-            "comment": "stairwaypancake",
-            "chance": 0.24,
-            "hexcolor": "#AAAA00",
-            "terrainOctaves": [
-              0,
-              0,
-              0,
-              1,
-              1,
-              0,
-              0.2,
-              0.2,
-              0.18
-            ],
-            "terrainOctaveThresholds": [
-              0,
-              0,
-              0,
-              0.02,
-              0.02,
-              0,
-              0.02,
-              0.02,
-              0.042
-            ],
-            "terrainYKeyPositions": [
-              0.413,
-              0.461,
-              0.494,
-              0.504,
-              0.543,
-              0.553
-            ],
-            "terrainYKeyThresholds": [
-              1.0,
-              0.473,
-              0.43,
-              0.242,
-              0.194,
-              0.0
-            ]
-          },
-          {
-            "code": "stairwaypancake",
-            "comment": "stairwaypancake",
-            "chance": 0.36,
+            "chance": 0.32,
             "hexcolor": "#AAAA00",
             "terrainOctaves": [
               0,
@@ -17127,9 +17691,9 @@
               1,
               0,
               0.2,
+              0.3,
               0.2,
-              0.2,
-              0.18
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -17145,7 +17709,7 @@
             "terrainYKeyPositions": [
               0.0,
               0.413,
-              0.616
+              0.53
             ],
             "terrainYKeyThresholds": [
               1.0,
@@ -17170,9 +17734,9 @@
           1.15,
           1.15,
           0,
+          0.3,
           0.2,
-          0.2,
-          0.18
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -17186,26 +17750,26 @@
           0.042
         ],
         "terrainYKeyPositions": [
-          0.42,
-          0.479,
-          0.526,
-          0.565,
-          0.662,
-          0.669
+          0.423,
+          0.443,
+          0.498,
+          0.51,
+          0.572,
+          0.583
         ],
         "terrainYKeyThresholds": [
           1.0,
-          0.631,
-          0.577,
-          0.14,
-          0.048,
+          0.776,
+          0.754,
+          0.349,
+          0.323,
           0.0
         ],
         "mutations": [
           {
             "code": "stairwaydoublestack",
             "comment": "stairwaydoublestack",
-            "chance": 0.24,
+            "chance": 0.32,
             "hexcolor": "#AAAA00",
             "terrainOctaves": [
               0,
@@ -17214,9 +17778,9 @@
               1,
               1,
               0,
+              0.3,
               0.2,
-              0.2,
-              0.18
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -17230,66 +17794,22 @@
               0.042
             ],
             "terrainYKeyPositions": [
-              0.42,
-              0.469,
-              0.513,
-              0.549,
-              0.638,
-              0.645
+              0.425,
+              0.444,
+              0.472,
+              0.484,
+              0.517,
+              0.528,
+              0.56,
+              0.567
             ],
             "terrainYKeyThresholds": [
               1.0,
-              0.631,
-              0.577,
-              0.14,
-              0.048,
-              0.0
-            ]
-          },
-          {
-            "code": "stairwaydoublestack",
-            "comment": "stairwaydoublestack",
-            "chance": 0.24,
-            "hexcolor": "#AAAA00",
-            "terrainOctaves": [
-              0,
-              0,
-              0,
-              1,
-              1,
-              0,
-              0.2,
-              0.2,
-              0.18
-            ],
-            "terrainOctaveThresholds": [
-              0,
-              0,
-              0,
-              0.02,
-              0.02,
-              0,
-              0.02,
-              0.02,
-              0.042
-            ],
-            "terrainYKeyPositions": [
-              0.411,
-              0.454,
-              0.486,
-              0.5,
-              0.541,
-              0.552,
-              0.594,
-              0.603
-            ],
-            "terrainYKeyThresholds": [
-              1.0,
-              0.724,
-              0.679,
-              0.44,
-              0.383,
-              0.21,
+              0.687,
+              0.669,
+              0.397,
+              0.376,
+              0.172,
               0.156,
               0.0
             ]
@@ -17297,55 +17817,7 @@
           {
             "code": "stairwaydoublestack",
             "comment": "stairwaydoublestack",
-            "chance": 0.24,
-            "hexcolor": "#AAAA00",
-            "terrainOctaves": [
-              0,
-              0,
-              0,
-              1,
-              1,
-              0,
-              0.2,
-              0.2,
-              0.18
-            ],
-            "terrainOctaveThresholds": [
-              0,
-              0,
-              0,
-              0.02,
-              0.02,
-              0,
-              0.02,
-              0.02,
-              0.042
-            ],
-            "terrainYKeyPositions": [
-              0.413,
-              0.446,
-              0.476,
-              0.489,
-              0.527,
-              0.537,
-              0.576,
-              0.584
-            ],
-            "terrainYKeyThresholds": [
-              1.0,
-              0.724,
-              0.679,
-              0.44,
-              0.383,
-              0.21,
-              0.156,
-              0.0
-            ]
-          },
-          {
-            "code": "stairwaydoublestack",
-            "comment": "stairwaydoublestack",
-            "chance": 0.36,
+            "chance": 0.32,
             "hexcolor": "#AAAA00",
             "terrainOctaves": [
               0,
@@ -17354,9 +17826,9 @@
               1,
               0,
               0.2,
+              0.3,
               0.2,
-              0.2,
-              0.18
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -17372,7 +17844,7 @@
             "terrainYKeyPositions": [
               0.0,
               0.413,
-              0.686
+              0.604
             ],
             "terrainYKeyThresholds": [
               1.0,
@@ -17397,9 +17869,9 @@
           1.15,
           1.15,
           0,
+          0.3,
           0.2,
-          0.2,
-          0.18
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -17413,28 +17885,30 @@
           0.042
         ],
         "terrainYKeyPositions": [
-          0.42,
-          0.469,
-          0.499,
-          0.504,
-          0.609,
-          0.727,
-          0.731
+          0.418,
+          0.452,
+          0.515,
+          0.538,
+          0.613,
+          0.625,
+          0.703,
+          0.714
         ],
         "terrainYKeyThresholds": [
           1.0,
-          0.716,
-          0.68,
-          0.592,
-          0.117,
-          0.04,
+          0.706,
+          0.636,
+          0.363,
+          0.298,
+          0.167,
+          0.128,
           0.0
         ],
         "mutations": [
           {
             "code": "stairwaytriplestack",
             "comment": "stairwaytriplestack",
-            "chance": 0.24,
+            "chance": 0.32,
             "hexcolor": "#AAAA00",
             "terrainOctaves": [
               0,
@@ -17443,55 +17917,9 @@
               1,
               1,
               0,
+              0.3,
               0.2,
-              0.2,
-              0.18
-            ],
-            "terrainOctaveThresholds": [
-              0,
-              0,
-              0,
-              0.02,
-              0.02,
-              0,
-              0.02,
-              0.02,
-              0.042
-            ],
-            "terrainYKeyPositions": [
-              0.42,
-              0.458,
-              0.488,
-              0.492,
-              0.589,
-              0.698,
-              0.703
-            ],
-            "terrainYKeyThresholds": [
-              1.0,
-              0.716,
-              0.68,
-              0.592,
-              0.117,
-              0.04,
-              0.0
-            ]
-          },
-          {
-            "code": "stairwaytriplestack",
-            "comment": "stairwaytriplestack",
-            "chance": 0.24,
-            "hexcolor": "#AAAA00",
-            "terrainOctaves": [
-              0,
-              0,
-              0,
-              1,
-              1,
-              0,
-              0.2,
-              0.2,
-              0.18
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -17518,13 +17946,13 @@
             ],
             "terrainYKeyThresholds": [
               1.0,
-              0.738,
+              0.728,
               0.699,
-              0.521,
+              0.505,
               0.476,
-              0.332,
+              0.316,
               0.285,
-              0.142,
+              0.127,
               0.096,
               0.0
             ]
@@ -17532,59 +17960,7 @@
           {
             "code": "stairwaytriplestack",
             "comment": "stairwaytriplestack",
-            "chance": 0.24,
-            "hexcolor": "#AAAA00",
-            "terrainOctaves": [
-              0,
-              0,
-              0,
-              1,
-              1,
-              0,
-              0.2,
-              0.2,
-              0.18
-            ],
-            "terrainOctaveThresholds": [
-              0,
-              0,
-              0,
-              0.02,
-              0.02,
-              0,
-              0.02,
-              0.02,
-              0.042
-            ],
-            "terrainYKeyPositions": [
-              0.412,
-              0.447,
-              0.474,
-              0.483,
-              0.51,
-              0.521,
-              0.552,
-              0.56,
-              0.593,
-              0.598
-            ],
-            "terrainYKeyThresholds": [
-              1.0,
-              0.738,
-              0.699,
-              0.521,
-              0.476,
-              0.332,
-              0.285,
-              0.142,
-              0.096,
-              0.0
-            ]
-          },
-          {
-            "code": "stairwaytriplestack",
-            "comment": "stairwaytriplestack",
-            "chance": 0.36,
+            "chance": 0.32,
             "hexcolor": "#AAAA00",
             "terrainOctaves": [
               0,
@@ -17593,9 +17969,9 @@
               1,
               0,
               0.2,
+              0.3,
               0.2,
-              0.2,
-              0.18
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -17636,9 +18012,9 @@
           1.15,
           1.15,
           0,
+          0.3,
           0.2,
-          0.2,
-          0.18
+          0.12
         ],
         "terrainOctaveThresholds": [
           0,
@@ -17652,28 +18028,38 @@
           0.042
         ],
         "terrainYKeyPositions": [
-          0.42,
-          0.466,
-          0.509,
-          0.515,
-          0.644,
-          0.788,
-          0.793
+          0.427,
+          0.441,
+          0.48,
+          0.489,
+          0.54,
+          0.555,
+          0.609,
+          0.625,
+          0.693,
+          0.7,
+          0.77,
+          0.779
         ],
         "terrainYKeyThresholds": [
           1.0,
-          0.718,
-          0.68,
-          0.592,
-          0.117,
-          0.04,
+          0.82,
+          0.787,
+          0.704,
+          0.667,
+          0.483,
+          0.45,
+          0.296,
+          0.243,
+          0.172,
+          0.128,
           0.0
         ],
         "mutations": [
           {
             "code": "stairwayfinalfermentation",
             "comment": "stairwayfinalfermentation",
-            "chance": 0.24,
+            "chance": 0.32,
             "hexcolor": "#AAAA00",
             "terrainOctaves": [
               0,
@@ -17682,9 +18068,9 @@
               1,
               1,
               0,
+              0.3,
               0.2,
-              0.2,
-              0.18
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -17698,132 +18084,38 @@
               0.042
             ],
             "terrainYKeyPositions": [
-              0.42,
-              0.457,
-              0.497,
-              0.503,
-              0.622,
-              0.754,
-              0.759
+              0.425,
+              0.444,
+              0.473,
+              0.485,
+              0.514,
+              0.53,
+              0.562,
+              0.575,
+              0.607,
+              0.619,
+              0.649,
+              0.654
             ],
             "terrainYKeyThresholds": [
               1.0,
-              0.718,
-              0.68,
-              0.592,
+              0.813,
+              0.796,
+              0.672,
+              0.654,
+              0.462,
+              0.438,
+              0.276,
+              0.253,
               0.117,
-              0.04,
+              0.096,
               0.0
             ]
           },
           {
             "code": "stairwayfinalfermentation",
             "comment": "stairwayfinalfermentation",
-            "chance": 0.24,
-            "hexcolor": "#AAAA00",
-            "terrainOctaves": [
-              0,
-              0,
-              0,
-              1,
-              1,
-              0,
-              0.2,
-              0.2,
-              0.18
-            ],
-            "terrainOctaveThresholds": [
-              0,
-              0,
-              0,
-              0.02,
-              0.02,
-              0,
-              0.02,
-              0.02,
-              0.042
-            ],
-            "terrainYKeyPositions": [
-              0.411,
-              0.461,
-              0.497,
-              0.504,
-              0.56,
-              0.57,
-              0.611,
-              0.622,
-              0.664,
-              0.67
-            ],
-            "terrainYKeyThresholds": [
-              1.0,
-              0.747,
-              0.68,
-              0.583,
-              0.482,
-              0.31,
-              0.238,
-              0.117,
-              0.058,
-              0.0
-            ]
-          },
-          {
-            "code": "stairwayfinalfermentation",
-            "comment": "stairwayfinalfermentation",
-            "chance": 0.24,
-            "hexcolor": "#AAAA00",
-            "terrainOctaves": [
-              0,
-              0,
-              0,
-              1,
-              1,
-              0,
-              0.2,
-              0.2,
-              0.18
-            ],
-            "terrainOctaveThresholds": [
-              0,
-              0,
-              0,
-              0.02,
-              0.02,
-              0,
-              0.02,
-              0.02,
-              0.042
-            ],
-            "terrainYKeyPositions": [
-              0.411,
-              0.453,
-              0.486,
-              0.493,
-              0.544,
-              0.553,
-              0.591,
-              0.601,
-              0.64,
-              0.646
-            ],
-            "terrainYKeyThresholds": [
-              1.0,
-              0.747,
-              0.68,
-              0.583,
-              0.482,
-              0.31,
-              0.238,
-              0.117,
-              0.058,
-              0.0
-            ]
-          },
-          {
-            "code": "stairwayfinalfermentation",
-            "comment": "stairwayfinalfermentation",
-            "chance": 0.36,
+            "chance": 0.32,
             "hexcolor": "#AAAA00",
             "terrainOctaves": [
               0,
@@ -17832,9 +18124,9 @@
               1,
               0,
               0.2,
+              0.3,
               0.2,
-              0.2,
-              0.18
+              0.12
             ],
             "terrainOctaveThresholds": [
               0,
@@ -17866,14 +18158,14 @@
         "hexcolor": "#333333",
         "weight": 1024,
         "minRain": 0,
-        "maxRain": 64,
+        "maxRain": 32,
         "useClimateMap": true,
         "terrainOctaves": [
           0,
           0,
           1.15,
           1.15,
-          0,
+          1.15,
           0,
           0.2,
           0.2,
@@ -17884,7 +18176,7 @@
           0,
           0.02,
           0.02,
-          0,
+          0.02,
           0,
           0.02,
           0.02,
@@ -17917,7 +18209,7 @@
               0,
               1,
               1,
-              0,
+              1,
               0,
               0.2,
               0.2,
@@ -17928,7 +18220,7 @@
               0,
               0.02,
               0.02,
-              0,
+              0.02,
               0,
               0.02,
               0.02,
@@ -17945,25 +18237,25 @@
             ],
             "terrainYKeyThresholds": [
               1.0,
-              0.784,
-              0.615,
-              0.538,
-              0.417,
-              0.358,
+              0.834,
+              0.665,
+              0.588,
+              0.467,
+              0.408,
               0.0
             ]
           },
           {
             "code": "minorcanyon",
             "comment": "minorcanyon",
-            "chance": 0.42,
+            "chance": 0.36,
             "hexcolor": "#AAAA00",
             "terrainOctaves": [
               0,
               0,
               1,
               1,
-              0,
+              1,
               0.2,
               0.2,
               0.2,
@@ -17974,7 +18266,7 @@
               0,
               0.02,
               0.02,
-              0,
+              0.02,
               0.02,
               0.02,
               0.02,
@@ -17999,14 +18291,14 @@
         "hexcolor": "#333333",
         "weight": 512,
         "minRain": 0,
-        "maxRain": 64,
+        "maxRain": 32,
         "useClimateMap": true,
         "terrainOctaves": [
           0,
           0,
           1.15,
           1.15,
-          0,
+          1.15,
           0,
           0.2,
           0.2,
@@ -18017,24 +18309,24 @@
           0,
           0.02,
           0.02,
-          0,
+          0.02,
           0,
           0.02,
           0.02,
           0.042
         ],
         "terrainYKeyPositions": [
-          0.411,
-          0.441,
-          0.533,
+          0.418,
+          0.438,
+          0.508,
           0.643,
           0.653,
           0.668
         ],
         "terrainYKeyThresholds": [
           1.0,
-          0.8,
-          0.385,
+          0.792,
+          0.383,
           0.275,
           0.257,
           0.0
@@ -18050,7 +18342,7 @@
               0,
               1,
               1,
-              0,
+              1,
               0,
               0.2,
               0.2,
@@ -18061,42 +18353,42 @@
               0,
               0.02,
               0.02,
-              0,
+              0.02,
               0,
               0.02,
               0.02,
               0.042
             ],
             "terrainYKeyPositions": [
-              0.412,
-              0.456,
-              0.467,
-              0.502,
-              0.511,
-              0.547,
-              0.568
+              0.422,
+              0.439,
+              0.45,
+              0.485,
+              0.494,
+              0.53,
+              0.551
             ],
             "terrainYKeyThresholds": [
               1.0,
-              0.777,
-              0.615,
-              0.538,
-              0.417,
-              0.358,
+              0.844,
+              0.682,
+              0.605,
+              0.484,
+              0.425,
               0.0
             ]
           },
           {
             "code": "majorcanyon",
             "comment": "majorcanyon",
-            "chance": 0.42,
+            "chance": 0.36,
             "hexcolor": "#AAAA00",
             "terrainOctaves": [
               0,
               0,
               1,
               1,
-              0,
+              1,
               0.2,
               0.2,
               0.2,
@@ -18107,7 +18399,7 @@
               0,
               0.02,
               0.02,
-              0,
+              0.02,
               0.02,
               0.02,
               0.02,
@@ -18132,14 +18424,14 @@
         "hexcolor": "#333333",
         "weight": 256,
         "minRain": 0,
-        "maxRain": 64,
+        "maxRain": 32,
         "useClimateMap": true,
         "terrainOctaves": [
           0,
           0,
           1.15,
           1.15,
-          0,
+          1.15,
           0,
           0.2,
           0.2,
@@ -18150,24 +18442,24 @@
           0,
           0.02,
           0.02,
-          0,
+          0.02,
           0,
           0.02,
           0.02,
           0.042
         ],
         "terrainYKeyPositions": [
-          0.411,
-          0.446,
-          0.6,
+          0.418,
+          0.441,
+          0.538,
           0.711,
           0.722,
           0.735
         ],
         "terrainYKeyThresholds": [
           1.0,
-          0.818,
-          0.383,
+          0.79,
+          0.385,
           0.273,
           0.256,
           0.0
@@ -18183,7 +18475,7 @@
               0,
               1,
               1,
-              0,
+              1,
               0,
               0.2,
               0.2,
@@ -18194,46 +18486,46 @@
               0,
               0.02,
               0.02,
-              0,
+              0.02,
               0,
               0.02,
               0.02,
               0.042
             ],
             "terrainYKeyPositions": [
-              0.412,
-              0.472,
-              0.478,
-              0.526,
-              0.534,
-              0.569,
-              0.578,
-              0.614,
-              0.633
+              0.414,
+              0.455,
+              0.466,
+              0.504,
+              0.517,
+              0.552,
+              0.563,
+              0.596,
+              0.616
             ],
             "terrainYKeyThresholds": [
               1.0,
-              0.908,
-              0.823,
-              0.715,
-              0.548,
-              0.471,
-              0.35,
-              0.291,
+              0.926,
+              0.771,
+              0.71,
+              0.571,
+              0.514,
+              0.415,
+              0.361,
               0.0
             ]
           },
           {
             "code": "magnificentcanyon",
             "comment": "magnificentcanyon",
-            "chance": 0.42,
+            "chance": 0.36,
             "hexcolor": "#AAAA00",
             "terrainOctaves": [
               0,
               0,
               1,
               1,
-              0,
+              1,
               0.2,
               0.2,
               0.2,
@@ -18244,7 +18536,7 @@
               0,
               0.02,
               0.02,
-              0,
+              0.02,
               0.02,
               0.02,
               0.02,
@@ -18269,14 +18561,14 @@
         "hexcolor": "#333333",
         "weight": 128,
         "minRain": 0,
-        "maxRain": 64,
+        "maxRain": 32,
         "useClimateMap": true,
         "terrainOctaves": [
           0,
           0,
           1.15,
           1.15,
-          0,
+          1.15,
           0,
           0.2,
           0.2,
@@ -18287,24 +18579,24 @@
           0,
           0.02,
           0.02,
-          0,
+          0.02,
           0,
           0.02,
           0.02,
           0.042
         ],
         "terrainYKeyPositions": [
-          0.412,
-          0.448,
-          0.655,
+          0.417,
+          0.443,
+          0.58,
           0.77,
           0.782,
           0.796
         ],
         "terrainYKeyThresholds": [
           1.0,
-          0.818,
-          0.393,
+          0.803,
+          0.416,
           0.277,
           0.258,
           0.0
@@ -18320,7 +18612,7 @@
               0,
               1,
               1,
-              0,
+              1,
               0,
               0.2,
               0.2,
@@ -18331,46 +18623,46 @@
               0,
               0.02,
               0.02,
-              0,
+              0.02,
               0,
               0.02,
               0.02,
               0.042
             ],
             "terrainYKeyPositions": [
-              0.411,
-              0.497,
-              0.507,
-              0.566,
-              0.575,
-              0.614,
-              0.624,
-              0.665,
-              0.688
+              0.419,
+              0.46,
+              0.467,
+              0.518,
+              0.53,
+              0.569,
+              0.581,
+              0.632,
+              0.655
             ],
             "terrainYKeyThresholds": [
               1.0,
-              0.888,
-              0.798,
-              0.702,
+              0.933,
+              0.846,
+              0.767,
+              0.648,
               0.581,
-              0.504,
-              0.383,
-              0.324,
+              0.456,
+              0.391,
               0.0
             ]
           },
           {
             "code": "monumentalcanyon",
             "comment": "monumentalcanyon",
-            "chance": 0.42,
+            "chance": 0.36,
             "hexcolor": "#AAAA00",
             "terrainOctaves": [
               0,
               0,
               1,
               1,
-              0,
+              1,
               0.2,
               0.2,
               0.2,
@@ -18381,7 +18673,7 @@
               0,
               0.02,
               0.02,
-              0,
+              0.02,
               0.02,
               0.02,
               0.02,
@@ -19773,8 +20065,90 @@
         ]
       },
       {
-        "code": "granularwetlands",
-        "comment": "granularwetlands",
+        "code": "atomicbogs",
+        "comment": "atomicbogs",
+        "hexcolor": "#333333",
+        "weight": 512,
+        "minRain": 64,
+        "maxRain": 255,
+        "useClimateMap": true,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0.6
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.6,
+          0
+        ],
+        "terrainYKeyPositions": [
+          0.33,
+          0.423,
+          0.436
+        ],
+        "terrainYKeyThresholds": [
+          1.0,
+          0.813,
+          0.0
+        ]
+      },
+      {
+        "code": "fracturedbogs",
+        "comment": "fracturedbogs",
+        "hexcolor": "#333333",
+        "weight": 512,
+        "minRain": 64,
+        "maxRain": 255,
+        "useClimateMap": true,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0.6,
+          0.6
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.06,
+          0.06,
+          0
+        ],
+        "terrainYKeyPositions": [
+          0.33,
+          0.423,
+          0.436
+        ],
+        "terrainYKeyThresholds": [
+          1.0,
+          0.813,
+          0.0
+        ]
+      },
+      {
+        "code": "coagulatedwetlands",
+        "comment": "coagulatedwetlands",
         "hexcolor": "#79E02E",
         "weight": 512,
         "minRain": 96,
@@ -19929,8 +20303,8 @@
         ]
       },
       {
-        "code": "atomicpondpatches",
-        "comment": "atomicpondpatches",
+        "code": "fracturedpondpatches",
+        "comment": "fracturedpondpatches",
         "hexcolor": "#333333",
         "weight": 512,
         "minRain": 64,
@@ -19968,8 +20342,8 @@
         ]
       },
       {
-        "code": "granularpondpatches",
-        "comment": "granularpondpatches",
+        "code": "coagulatedpondpatches",
+        "comment": "coagulatedpondpatches",
         "hexcolor": "#333333",
         "weight": 512,
         "minRain": 64,
@@ -20082,6 +20456,1338 @@
         "terrainYKeyThresholds": [
           1.0,
           0.0
+        ]
+      },
+      {
+        "code": "fracturedflattopspeak",
+        "comment": "fracturedflattopspeak",
+        "hexcolor": "#333333",
+        "weight": 160,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0.3,
+          0.3
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.06,
+          0.06,
+          0.06
+        ],
+        "terrainYKeyPositions": [
+          0.43,
+          0.44,
+          0.445,
+          0.474,
+          0.48,
+          0.518,
+          0.528,
+          0.591,
+          0.596
+        ],
+        "terrainYKeyThresholds": [
+          1.0,
+          0.491,
+          0.432,
+          0.386,
+          0.334,
+          0.283,
+          0.223,
+          0.144,
+          0.0
+        ],
+        "mutations": [
+          {
+            "code": "fracturedflattopspeak",
+            "comment": "fracturedflattopspeak",
+            "chance": 0.25,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0.3,
+              0.3
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.44,
+              0.445,
+              0.47,
+              0.478,
+              0.507,
+              0.516,
+              0.591,
+              0.596
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.489,
+              0.432,
+              0.386,
+              0.334,
+              0.283,
+              0.223,
+              0.144,
+              0.0
+            ]
+          },
+          {
+            "code": "fracturedflattopspeak",
+            "comment": "fracturedflattopspeak",
+            "chance": 0.5,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0.3,
+              0.3
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.44,
+              0.445,
+              0.483,
+              0.503,
+              0.574,
+              0.584
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.619,
+              0.55,
+              0.511,
+              0.414,
+              0.344,
+              0.0
+            ]
+          }
+        ]
+      },
+      {
+        "code": "fracturedflattopsmid",
+        "comment": "fracturedflattopsmid",
+        "hexcolor": "#333333",
+        "weight": 160,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0.3,
+          0.3
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.06,
+          0.06,
+          0.06
+        ],
+        "terrainYKeyPositions": [
+          0.43,
+          0.442,
+          0.448,
+          0.469,
+          0.474,
+          0.501,
+          0.508,
+          0.554,
+          0.558
+        ],
+        "terrainYKeyThresholds": [
+          1.0,
+          0.491,
+          0.432,
+          0.386,
+          0.334,
+          0.283,
+          0.223,
+          0.144,
+          0.0
+        ],
+        "mutations": [
+          {
+            "code": "fracturedflattopsmid",
+            "comment": "fracturedflattopsmid",
+            "chance": 0.25,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0.3,
+              0.3
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.442,
+              0.448,
+              0.466,
+              0.471,
+              0.491,
+              0.498,
+              0.548,
+              0.552
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.489,
+              0.432,
+              0.386,
+              0.334,
+              0.283,
+              0.223,
+              0.144,
+              0.0
+            ]
+          },
+          {
+            "code": "fracturedflattopsmid",
+            "comment": "fracturedflattopsmid",
+            "chance": 0.5,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0.3,
+              0.3
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.442,
+              0.448,
+              0.475,
+              0.488,
+              0.537,
+              0.544
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.619,
+              0.55,
+              0.511,
+              0.414,
+              0.344,
+              0.0
+            ]
+          }
+        ]
+      },
+      {
+        "code": "fracturedflattopslow",
+        "comment": "fracturedflattopslow",
+        "hexcolor": "#333333",
+        "weight": 160,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0.3,
+          0.3
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.06,
+          0.06,
+          0.06
+        ],
+        "terrainYKeyPositions": [
+          0.43,
+          0.44,
+          0.448,
+          0.466,
+          0.469,
+          0.489,
+          0.494,
+          0.527,
+          0.53
+        ],
+        "terrainYKeyThresholds": [
+          1.0,
+          0.491,
+          0.432,
+          0.386,
+          0.334,
+          0.283,
+          0.223,
+          0.144,
+          0.0
+        ],
+        "mutations": [
+          {
+            "code": "fracturedflattopslow",
+            "comment": "fracturedflattopslow",
+            "chance": 0.25,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0.3,
+              0.3
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.44,
+              0.448,
+              0.463,
+              0.467,
+              0.482,
+              0.487,
+              0.523,
+              0.526
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.489,
+              0.432,
+              0.386,
+              0.334,
+              0.283,
+              0.223,
+              0.144,
+              0.0
+            ]
+          },
+          {
+            "code": "fracturedflattopslow",
+            "comment": "fracturedflattopslow",
+            "chance": 0.5,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0.3,
+              0.3
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.44,
+              0.448,
+              0.47,
+              0.479,
+              0.515,
+              0.52
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.619,
+              0.55,
+              0.511,
+              0.414,
+              0.344,
+              0.0
+            ]
+          }
+        ]
+      },
+      {
+        "code": "coagulatedflattopspeak",
+        "comment": "coagulatedflattopspeak",
+        "hexcolor": "#333333",
+        "weight": 160,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0.2,
+          0.4,
+          0.2
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.06,
+          0.06,
+          0.06,
+          0.06
+        ],
+        "terrainYKeyPositions": [
+          0.43,
+          0.44,
+          0.445,
+          0.486,
+          0.495,
+          0.545,
+          0.556,
+          0.636,
+          0.644
+        ],
+        "terrainYKeyThresholds": [
+          1.0,
+          0.474,
+          0.413,
+          0.369,
+          0.317,
+          0.266,
+          0.206,
+          0.127,
+          0.0
+        ],
+        "mutations": [
+          {
+            "code": "coagulatedflattopspeak",
+            "comment": "coagulatedflattopspeak",
+            "chance": 0.25,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0.2,
+              0.4,
+              0.2
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.44,
+              0.448,
+              0.481,
+              0.492,
+              0.528,
+              0.54,
+              0.636,
+              0.644
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.474,
+              0.413,
+              0.369,
+              0.317,
+              0.266,
+              0.206,
+              0.127,
+              0.0
+            ]
+          },
+          {
+            "code": "coagulatedflattopspeak",
+            "comment": "coagulatedflattopspeak",
+            "chance": 0.5,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0.2,
+              0.4,
+              0.2
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.44,
+              0.448,
+              0.499,
+              0.524,
+              0.615,
+              0.631
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.635,
+              0.564,
+              0.527,
+              0.43,
+              0.36,
+              0.0
+            ]
+          }
+        ]
+      },
+      {
+        "code": "coagulatedflattopsmid",
+        "comment": "coagulatedflattopsmid",
+        "hexcolor": "#333333",
+        "weight": 160,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0.2,
+          0.4,
+          0.2
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.06,
+          0.06,
+          0.06,
+          0.06
+        ],
+        "terrainYKeyPositions": [
+          0.43,
+          0.442,
+          0.448,
+          0.478,
+          0.484,
+          0.521,
+          0.529,
+          0.587,
+          0.592
+        ],
+        "terrainYKeyThresholds": [
+          1.0,
+          0.474,
+          0.413,
+          0.369,
+          0.317,
+          0.266,
+          0.206,
+          0.127,
+          0.0
+        ],
+        "mutations": [
+          {
+            "code": "coagulatedflattopsmid",
+            "comment": "coagulatedflattopsmid",
+            "chance": 0.25,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0.2,
+              0.4,
+              0.2
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.442,
+              0.448,
+              0.474,
+              0.482,
+              0.508,
+              0.517,
+              0.587,
+              0.592
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.474,
+              0.413,
+              0.369,
+              0.317,
+              0.266,
+              0.206,
+              0.127,
+              0.0
+            ]
+          },
+          {
+            "code": "coagulatedflattopsmid",
+            "comment": "coagulatedflattopsmid",
+            "chance": 0.5,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0.2,
+              0.4,
+              0.2
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.442,
+              0.448,
+              0.487,
+              0.505,
+              0.571,
+              0.583
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.635,
+              0.564,
+              0.527,
+              0.43,
+              0.36,
+              0.0
+            ]
+          }
+        ]
+      },
+      {
+        "code": "coagulatedflattopslow",
+        "comment": "coagulatedflattopslow",
+        "hexcolor": "#333333",
+        "weight": 160,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0.2,
+          0.4,
+          0.2
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.06,
+          0.06,
+          0.06,
+          0.06
+        ],
+        "terrainYKeyPositions": [
+          0.43,
+          0.442,
+          0.448,
+          0.472,
+          0.477,
+          0.503,
+          0.509,
+          0.551,
+          0.555
+        ],
+        "terrainYKeyThresholds": [
+          1.0,
+          0.474,
+          0.413,
+          0.369,
+          0.317,
+          0.266,
+          0.206,
+          0.127,
+          0.0
+        ],
+        "mutations": [
+          {
+            "code": "coagulatedflattopslow",
+            "comment": "coagulatedflattopslow",
+            "chance": 0.25,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0.2,
+              0.4,
+              0.2
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.442,
+              0.448,
+              0.469,
+              0.475,
+              0.494,
+              0.5,
+              0.551,
+              0.555
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.474,
+              0.413,
+              0.369,
+              0.317,
+              0.266,
+              0.206,
+              0.127,
+              0.0
+            ]
+          },
+          {
+            "code": "coagulatedflattopslow",
+            "comment": "coagulatedflattopslow",
+            "chance": 0.5,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0.2,
+              0.4,
+              0.2
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.442,
+              0.448,
+              0.479,
+              0.492,
+              0.539,
+              0.548
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.635,
+              0.564,
+              0.527,
+              0.43,
+              0.36,
+              0.0
+            ]
+          }
+        ]
+      },
+      {
+        "code": "abridgedflattopspeak",
+        "comment": "abridgedflattopspeak",
+        "hexcolor": "#333333",
+        "weight": 160,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0,
+          0.25,
+          1,
+          0.2,
+          0.4,
+          0.2
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0,
+          0.06,
+          0.06,
+          0.06,
+          0.06,
+          0.06
+        ],
+        "terrainYKeyPositions": [
+          0.43,
+          0.442,
+          0.448,
+          0.493,
+          0.502,
+          0.556,
+          0.568,
+          0.656,
+          0.664
+        ],
+        "terrainYKeyThresholds": [
+          1.0,
+          0.458,
+          0.399,
+          0.353,
+          0.301,
+          0.25,
+          0.19,
+          0.111,
+          0.0
+        ],
+        "mutations": [
+          {
+            "code": "abridgedflattopspeak",
+            "comment": "abridgedflattopspeak",
+            "chance": 0.25,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0.25,
+              1,
+              0.2,
+              0.4,
+              0.2
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.442,
+              0.448,
+              0.487,
+              0.498,
+              0.538,
+              0.551,
+              0.656,
+              0.664
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.458,
+              0.399,
+              0.353,
+              0.301,
+              0.25,
+              0.19,
+              0.111,
+              0.0
+            ]
+          },
+          {
+            "code": "abridgedflattopspeak",
+            "comment": "abridgedflattopspeak",
+            "chance": 0.5,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0.25,
+              1,
+              0.2,
+              0.4,
+              0.2
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.44,
+              0.448,
+              0.507,
+              0.532,
+              0.631,
+              0.647
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.586,
+              0.515,
+              0.478,
+              0.381,
+              0.311,
+              0.0
+            ]
+          }
+        ]
+      },
+      {
+        "code": "abridgedflattopsmid",
+        "comment": "abridgedflattopsmid",
+        "hexcolor": "#333333",
+        "weight": 160,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0,
+          0.25,
+          1,
+          0.2,
+          0.4,
+          0.2
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0,
+          0.06,
+          0.06,
+          0.06,
+          0.06,
+          0.06
+        ],
+        "terrainYKeyPositions": [
+          0.43,
+          0.44,
+          0.445,
+          0.482,
+          0.49,
+          0.536,
+          0.546,
+          0.621,
+          0.628
+        ],
+        "terrainYKeyThresholds": [
+          1.0,
+          0.458,
+          0.399,
+          0.353,
+          0.301,
+          0.25,
+          0.19,
+          0.111,
+          0.0
+        ],
+        "mutations": [
+          {
+            "code": "abridgedflattopsmid",
+            "comment": "abridgedflattopsmid",
+            "chance": 0.25,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0.25,
+              1,
+              0.2,
+              0.4,
+              0.2
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.44,
+              0.448,
+              0.477,
+              0.487,
+              0.521,
+              0.532,
+              0.621,
+              0.628
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.458,
+              0.399,
+              0.353,
+              0.301,
+              0.25,
+              0.19,
+              0.111,
+              0.0
+            ]
+          },
+          {
+            "code": "abridgedflattopsmid",
+            "comment": "abridgedflattopsmid",
+            "chance": 0.5,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0.25,
+              1,
+              0.2,
+              0.4,
+              0.2
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.44,
+              0.448,
+              0.494,
+              0.516,
+              0.6,
+              0.614
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.586,
+              0.515,
+              0.478,
+              0.381,
+              0.311,
+              0.0
+            ]
+          }
+        ]
+      },
+      {
+        "code": "abridgedflattopslow",
+        "comment": "abridgedflattopslow",
+        "hexcolor": "#333333",
+        "weight": 160,
+        "terrainOctaves": [
+          0,
+          0,
+          0,
+          0,
+          0.25,
+          1,
+          0.2,
+          0.4,
+          0.2
+        ],
+        "terrainOctaveThresholds": [
+          0,
+          0,
+          0,
+          0,
+          0.06,
+          0.06,
+          0.06,
+          0.06,
+          0.06
+        ],
+        "terrainYKeyPositions": [
+          0.43,
+          0.442,
+          0.448,
+          0.475,
+          0.481,
+          0.514,
+          0.521,
+          0.576,
+          0.581
+        ],
+        "terrainYKeyThresholds": [
+          1.0,
+          0.458,
+          0.399,
+          0.353,
+          0.301,
+          0.25,
+          0.19,
+          0.111,
+          0.0
+        ],
+        "mutations": [
+          {
+            "code": "abridgedflattopslow",
+            "comment": "abridgedflattopslow",
+            "chance": 0.25,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0.25,
+              1,
+              0.2,
+              0.4,
+              0.2
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.442,
+              0.448,
+              0.473,
+              0.479,
+              0.501,
+              0.508,
+              0.565,
+              0.57
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.458,
+              0.399,
+              0.353,
+              0.301,
+              0.25,
+              0.19,
+              0.111,
+              0.0
+            ]
+          },
+          {
+            "code": "abridgedflattopslow",
+            "comment": "abridgedflattopslow",
+            "chance": 0.5,
+            "hexcolor": "#AAAA00",
+            "terrainOctaves": [
+              0,
+              0,
+              0,
+              0,
+              0.25,
+              1,
+              0.2,
+              0.4,
+              0.2
+            ],
+            "terrainOctaveThresholds": [
+              0,
+              0,
+              0,
+              0,
+              0.06,
+              0.06,
+              0.06,
+              0.06,
+              0.06
+            ],
+            "terrainYKeyPositions": [
+              0.43,
+              0.442,
+              0.448,
+              0.484,
+              0.498,
+              0.552,
+              0.561
+            ],
+            "terrainYKeyThresholds": [
+              1.0,
+              0.586,
+              0.515,
+              0.478,
+              0.381,
+              0.311,
+              0.0
+            ]
+          }
         ]
       },
       {

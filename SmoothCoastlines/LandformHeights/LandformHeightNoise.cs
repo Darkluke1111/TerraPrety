@@ -182,11 +182,22 @@ namespace SmoothCoastlines.LandformHeights {
         }
 
         public int GetLandformIndexAt(int unscaledXpos, int unscaledZpos, int temp, int rain) {
+            int noiseSizeLandform = sapi.ModLoader.GetModSystem<GenMaps>().noiseSizeLandform;
+
+            int regionX = unscaledXpos / (noiseSizeLandform - TerraGenConfig.landformMapPadding);
+            int regionZ = unscaledZpos / (noiseSizeLandform - TerraGenConfig.landformMapPadding);
+
+            var region = sapi.WorldManager.GetMapRegion(regionX, regionZ);
+
             float xpos = unscaledXpos / scale;
             float zpos = unscaledZpos / scale;
 
             int xposInt = (int)xpos;
             int zposInt = (int)zpos;
+
+            //TerraGenConfig.landFormSmoothingRadius = 0;
+            //TerraGenConfig.landformMapPadding = 1;
+            //TerraGenConfig.terrainNoiseVerticalScale = 2;
 
             int parentIndex = GetParentLandformIndexAt(xposInt, zposInt, unscaledXpos, unscaledZpos, temp, rain);
 
