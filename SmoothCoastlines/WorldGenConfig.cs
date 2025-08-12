@@ -25,7 +25,7 @@ namespace SmoothCoastlines
 
         public double[] midHeightKeys = { 0.0, 0.05, 0.33333, 1.0 };
         public double[] midHeightValues = { 1.0, 0.9, 0.0, 0.0 };
-        public float chanceForMidZone = 0.2f;
+        public float chanceForMidZone = 0.8f;
         public float targetMidLevel = 0.5f;
         public float lowThreshForMidZone = 0.35f;
 
