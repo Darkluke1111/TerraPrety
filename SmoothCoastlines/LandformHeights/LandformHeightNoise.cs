@@ -1,4 +1,5 @@
 ﻿using MapLayer;
+using SmoothCoastlines.Rivers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,10 +57,6 @@ namespace SmoothCoastlines.LandformHeights {
         protected int heightMapRegionZSize;
         public static int[] heightMapValues;
 
-        private float[] threshForOceanicityComp;
-        private float[] oceanicityCompMults;
-        private float[] oceanicityCompFlats;
-
         public LandformHeightNoise(long seed, ICoreServerAPI api, float scale, WorldGenConfig config) : base(seed) {
             this.scale = scale;
             this.config = config;
@@ -71,10 +68,6 @@ namespace SmoothCoastlines.LandformHeights {
             float hScale = this.config.heightMapNoiseScale;
             float hPersistance = this.config.heightMapPersistance;
             heightNoise = new WeightedNormalizedSimplexNoise(hOctaves, 1 / hScale, hPersistance, seed + 53247, this.config.radiusMultOutwardsForSmoothing, scale, config.chanceForMidZone, config.midHeightKeys, config.midHeightValues, config.targetMidLevel, config.lowThreshForMidZone);
-
-            threshForOceanicityComp = config.heightThresholdsForOceanicityComp;
-            oceanicityCompMults = config.heightMultsAtThresholdsForOceanicityComp;
-            oceanicityCompFlats = config.heightFlatsAtThresholdsForOceanicityComp;
 
             LoadLandforms(api);
         }
@@ -261,35 +254,6 @@ namespace SmoothCoastlines.LandformHeights {
             }
 
             return landforms.Variants[i].index;
-        }
-
-        public float GetCompValueForOceanicity(int worldX, int worldZ, float oceanicity) { //This is a mess I'll clean up later. Oof.
-            if (oceanicity <= 16.6663f) {
-                return 16.6664f;
-            }
-
-            var heightAtX = worldX / TerraGenConfig.landformMapScale;
-            var heightAtZ = worldZ / TerraGenConfig.landformMapScale;
-            var height = heightNoise.Height((int)heightAtX, (int)heightAtZ);
-
-            var thresholdIndex = GetHeightThresholdIndex(height);
-            var compValue = (float)(height * oceanicityCompMults[thresholdIndex]) * oceanicityFactor;
-            return (compValue + oceanicityCompFlats[thresholdIndex]);
-        }
-
-        public int GetHeightThresholdIndex(double height) { //This will find a valid threshold or simply return the last one.
-            var thresholds = threshForOceanicityComp;
-            var prevThreshold = 0.0f;
-            int i;
-
-            for (i = 0; i < thresholds.Length; i++) {
-                if (height > prevThreshold && height <= thresholds[i]) {
-                    return i;
-                }
-                prevThreshold = thresholds[i];
-            }
-
-            return 0;
         }
 
         public void PrepareForNewHeightmap(int xCoord, int zCoord, int sizeX, int sizeZ) {

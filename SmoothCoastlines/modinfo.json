@@ -5,11 +5,11 @@
     "authors": [
         "Nephelangelo",
         "Darkluke1111",
-	      "JonR"
+	    "JonR"
     ],
     "description": "A redesign of worldgen to feel more natural, beautiful and enjoyable to traverse.",
     "Website": "https://mods.vintagestory.at/terraprety",
-    "version": "8.0.0-dev.2",
+    "version": "7.0.6",
     "dependencies": {
         "game": ""
     }

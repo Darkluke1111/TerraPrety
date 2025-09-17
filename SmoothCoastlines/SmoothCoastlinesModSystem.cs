@@ -36,8 +36,8 @@ public class SmoothCoastlinesModSystem : ModSystem
 
         TryToLoadConfig(api);
 
-        TerraGenConfig.landFormSmoothingRadius = config.landformSmoothingRadius;
-        TerraGenConfig.landformMapPadding = config.landformMapPadding;
+        //TerraGenConfig.landFormSmoothingRadius = config.landformSmoothingRadius;
+        //TerraGenConfig.landformMapPadding = config.landformMapPadding;
 
         api.ChatCommands
             .Create("adjustLandformSmoothing")

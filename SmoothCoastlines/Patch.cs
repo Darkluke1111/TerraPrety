@@ -89,25 +89,25 @@ namespace SmoothCoastlines
                 }
             }
 
-            var addHeightmapToRegionMethod = AccessTools.Method(typeof(Patch), "AddHeightmapToRegionData", new Type[1] { typeof(IMapRegion) });
-            //var sendCallToUpheavalHandler = AccessTools.Method(typeof(ContinentalUpheavalHandler), "HandleGenMapsForAddedMaps", new Type[3] { typeof(IMapRegion), typeof(int), typeof(int) });
+            //var addHeightmapToRegionMethod = AccessTools.Method(typeof(Patch), "AddHeightmapToRegionData", new Type[1] { typeof(IMapRegion) });
+            var injectionForPostGenMapsOnMapRegionGen = AccessTools.Method(typeof(ContinentalUpheavalHandler), "PostGenMapsOnMapRegionGen", new Type[3] { typeof(IMapRegion), typeof(int), typeof(int) });
 
-            var addHeightmapToRegionData = new List<CodeInstruction> {
+            /*var addHeightmapToRegionData = new List<CodeInstruction> {
                 CodeInstruction.LoadArgument(1),
                 new CodeInstruction(OpCodes.Call, addHeightmapToRegionMethod)
-            };
+            };*/
 
-           /* var callToAdditionalMapData = new List<CodeInstruction> {
+            var injectAdditionalMapData = new List<CodeInstruction> {
                 CodeInstruction.LoadArgument(1),
                 CodeInstruction.LoadArgument(2),
                 CodeInstruction.LoadArgument(3),
-                new CodeInstruction(OpCodes.Call, sendCallToUpheavalHandler)
-            };*/
+                new CodeInstruction(OpCodes.Call, injectionForPostGenMapsOnMapRegionGen)
+            };
 
             if (indexOfUpPad > -1 && indexOfHeightMapInjectPoint > -1) {
-                codes[indexOfUpPad].opcode = OpCodes.Ldc_I4_5;
-                //codes.InsertRange(indexOfHeightMapInjectPoint, callToAdditionalMapData);
-                codes.InsertRange(indexOfHeightMapInjectPoint, addHeightmapToRegionData);
+                codes[indexOfUpPad].opcode = OpCodes.Ldc_I4_5; //This is changing 'upPad' for the upheaval padding in GenMaps to equal that of the OceanMap.
+                codes.InsertRange(indexOfHeightMapInjectPoint, injectAdditionalMapData); //Send all the argument data to this method to add additional modded map data to the Region.
+                //codes.InsertRange(indexOfHeightMapInjectPoint, addHeightmapToRegionData); //Heightmap map data added to the above call as well!
             } else {
                 SmoothCoastlinesModSystem.Logger.Warning("GenMaps.OnMapRegionGen transpiler has failed. Will not be able to save the Heightmap to Region Data, and upheaval padding is incorrect.");
             }
@@ -115,8 +115,8 @@ namespace SmoothCoastlines
             return codes.AsEnumerable();
         }
 
-        private static void AddHeightmapToRegionData(IMapRegion region) {
+        /*private static void AddHeightmapToRegionData(IMapRegion region) {
             ((MapLayerLandformsSmooth)SmoothCoastlinesModSystem.Sapi.ModLoader.GetModSystem<GenMaps>().landformsGen)?.AddHeightmapToRegion(region);
-        }
+        }*/
     }
 }

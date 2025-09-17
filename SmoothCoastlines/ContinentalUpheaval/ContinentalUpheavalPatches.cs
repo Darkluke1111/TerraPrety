@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using SmoothCoastlines.LandformHeights;
+using SmoothCoastlines.Rivers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -52,6 +53,7 @@ namespace SmoothCoastlines.ContinentalUpheaval {
             }
 
             var getTerraPretyUpheavalMap = AccessTools.Method(typeof(ContinentalUpheavalHandler), "GetTerraPretyUpheavalMap", new Type[3] { typeof(long), typeof(int), typeof(List<XZ>) });
+            var postGenMapsInitCall = AccessTools.Method(typeof(ContinentalUpheavalHandler), "PostGenMapsInitWorldGen", new Type[1] { typeof(ICoreServerAPI) });
 
             if (oceanScaleField != null && indexOfUpheavalMapScale > -1 && indexOfGetGeoUpheaval > -1) {
                 var addRequiredLandAtArg = new List<CodeInstruction> {
@@ -59,6 +61,13 @@ namespace SmoothCoastlines.ContinentalUpheaval {
                     new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(GenMaps), "requireLandAt"))
                 };
 
+                var addPostGenMapsInitCall = new List<CodeInstruction> {
+                    CodeInstruction.LoadArgument(0),
+                    new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(GenMaps), "sapi")),
+                    new CodeInstruction(OpCodes.Call, postGenMapsInitCall)
+                };
+
+                codes.InsertRange(codes.Count - 1, addPostGenMapsInitCall);
                 codes[indexOfUpheavalMapScale].operand = oceanScaleField;
                 codes[indexOfGetGeoUpheaval - 4].operand = 1873;
                 codes[indexOfGetGeoUpheaval].operand = getTerraPretyUpheavalMap;
@@ -85,8 +94,8 @@ namespace SmoothCoastlines.ContinentalUpheaval {
         }
 
         //A series of patches to attempt sinking the overall world-level downwards by one step while keeping the blocks free above it up to world level.
-        [HarmonyTranspiler]
-        [HarmonyPatch(typeof(GenTerra), "generate")]
+        //[HarmonyTranspiler]
+        //[HarmonyPatch(typeof(GenTerra), "generate")]
         public static IEnumerable<CodeInstruction> GenTerraGenerateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator) {
             var codes = new List<CodeInstruction>(instructions);
 
@@ -149,8 +158,8 @@ namespace SmoothCoastlines.ContinentalUpheaval {
             return codes.AsEnumerable();
         }
 
-        [HarmonyTranspiler]
-        [HarmonyPatch(typeof(GenTerra), nameof(GenTerra.initWorldGen))]
+        //[HarmonyTranspiler]
+        //[HarmonyPatch(typeof(GenTerra), nameof(GenTerra.initWorldGen))]
         public static IEnumerable<CodeInstruction> GenTerraInitWorldGenTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator) {
             var codes = new List<CodeInstruction>(instructions);
 
@@ -186,8 +195,8 @@ namespace SmoothCoastlines.ContinentalUpheaval {
             return SmoothCoastlinesModSystem.config.terrainNoisePersistance;
         }
 
-        [HarmonyTranspiler]
-        [HarmonyPatch(typeof(GenTerra), nameof(GenTerra.AssetsFinalize))] //This patch drops the SeaLevel down by 64 blocks, which is 1 step on the World Size scale.
+        //[HarmonyTranspiler]
+        //[HarmonyPatch(typeof(GenTerra), nameof(GenTerra.AssetsFinalize))] //This patch drops the SeaLevel down by 64 blocks, which is 1 step on the World Size scale.
         public static IEnumerable<CodeInstruction> GenTerraAssetsFinalizeTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator) {
             var codes = new List<CodeInstruction>(instructions);
 
@@ -291,7 +300,7 @@ namespace SmoothCoastlines.ContinentalUpheaval {
         }
     }
 
-    [HarmonyPatch]
+    /*[HarmonyPatch]
     public class MoreContinentalUpheavalPatches {
 
         public static MethodBase TargetMethod() {
@@ -439,7 +448,7 @@ namespace SmoothCoastlines.ContinentalUpheaval {
 
             return total;
         }
-    }
+    }*/
 
     [HarmonyPatch]
     public class AttemptSmoothingPatch {
@@ -539,6 +548,20 @@ namespace SmoothCoastlines.ContinentalUpheaval {
                 }
 
                 if (isEdge) {
+                    /*if (minx > 0) {
+                        minx -= 1;
+                    }
+                    if (minz > 0) {
+                        minz -= 1;
+                    }
+                    if (maxx < sizeX - 1) {
+                        maxx += 1;
+                    }
+                    if (maxz < sizeX - 1) {
+                        maxz += 1;
+                    }
+                    LerpConstructorForNormalChunk(rawScalarValues, groups, indices, sizeX, x, z, minx, minz, maxx, maxz, weightFrac);*/
+
                     LerpConstructorForEdgeChunk(rawScalarValues, groups, indices, sizeX, x, z, minx, minz, maxx, maxz, weightFrac, chunkThreshold, curLandform);
                 } else {
                     LerpConstructorForNormalChunk(rawScalarValues, groups, indices, sizeX, x, z, minx, minz, maxx, maxz, weightFrac);
