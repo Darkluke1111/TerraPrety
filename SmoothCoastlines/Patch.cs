@@ -3,6 +3,7 @@ using HarmonyLib;
 using MapLayer;
 using SmoothCoastlines.ContinentalUpheaval;
 using SmoothCoastlines.LandformHeights;
+using SmoothCoastlines.Rivers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -158,7 +158,7 @@ namespace SmoothCoastlines.ContinentalUpheaval {
             return codes.AsEnumerable();
         }
 
-        //[HarmonyTranspiler]
+        //[HarmonyTranspiler] //Commented out cause it has been implemented in GenTerraPrety
         //[HarmonyPatch(typeof(GenTerra), nameof(GenTerra.initWorldGen))]
         public static IEnumerable<CodeInstruction> GenTerraInitWorldGenTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator) {
             var codes = new List<CodeInstruction>(instructions);
@@ -177,25 +177,25 @@ namespace SmoothCoastlines.ContinentalUpheaval {
                 new CodeInstruction(OpCodes.Sub)
             };
 
-            codes[indexOfLoad256F + 14].opcode = OpCodes.Call;
-            codes[indexOfLoad256F + 14].operand = AccessTools.Method(typeof(ContinentalUpheavalPatches), "GetConfigurableFrequency");
-            codes[indexOfLoad256F + 19].opcode = OpCodes.Call;
-            codes[indexOfLoad256F + 19].operand = AccessTools.Method(typeof(ContinentalUpheavalPatches), "GetConfigurablePersistance");
+            //codes[indexOfLoad256F + 14].opcode = OpCodes.Call;
+            //codes[indexOfLoad256F + 14].operand = AccessTools.Method(typeof(ContinentalUpheavalPatches), "GetConfigurableFrequency");
+            //codes[indexOfLoad256F + 19].opcode = OpCodes.Call;
+            //codes[indexOfLoad256F + 19].operand = AccessTools.Method(typeof(ContinentalUpheavalPatches), "GetConfigurablePersistance");
             codes.InsertRange(indexOfLoad256F + 9, sub64FromWorldHeight); //Sets the WorldHeight sent to TerrainOctaves to WorldHeight - 64
             codes.InsertRange(indexOfLoad256F - 1, sub64FromWorldHeight); //Sets the NoiseScale to WorldHeight - 64
 
             return codes.AsEnumerable();
         }
 
-        public static double GetConfigurableFrequency() {
+        /*public static double GetConfigurableFrequency() {
             return (0.00030618621784789723 * SmoothCoastlinesModSystem.config.terrainNoiseFrequencyMult);
-        }
+        }*/
 
-        public static double GetConfigurablePersistance() {
+        /*public static double GetConfigurablePersistance() {
             return SmoothCoastlinesModSystem.config.terrainNoisePersistance;
-        }
+        }*/
 
-        //[HarmonyTranspiler]
+        //[HarmonyTranspiler] //Commented out cause it has been implemented in GenTerraPrety
         //[HarmonyPatch(typeof(GenTerra), nameof(GenTerra.AssetsFinalize))] //This patch drops the SeaLevel down by 64 blocks, which is 1 step on the World Size scale.
         public static IEnumerable<CodeInstruction> GenTerraAssetsFinalizeTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator) {
             var codes = new List<CodeInstruction>(instructions);
@@ -450,15 +450,15 @@ namespace SmoothCoastlines.ContinentalUpheaval {
         }
     }*/
 
-    [HarmonyPatch]
+    //[HarmonyPatch]
     public class AttemptSmoothingPatch {
 
-        public static MethodBase TargetMethod() {
+        /*public static MethodBase TargetMethod() {
             var method = AccessTools.Constructor(typeof(LerpedWeightedIndex2DMap), new Type[] { typeof(int[]), typeof(int), typeof(int), typeof(int), typeof(int) });
             return method;
-        }
+        }*/
 
-        [HarmonyTranspiler]
+        /*[HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> LerpedWeightedIndex2DMapConstructorTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator) {
             var codes = new List<CodeInstruction>(instructions);
 
@@ -516,9 +516,9 @@ namespace SmoothCoastlines.ContinentalUpheaval {
             }
 
             return codes.AsEnumerable();
-        }
+        }*/
 
-        public static void LerpMapConstructorInjection(int[] rawScalarValues, WeightedIndex[][] groups, Dictionary<int, float> indices, int sizeX, int x, int z, int minx, int minz, int maxx, int maxz, float weightFrac) {
+        /*public static void LerpMapConstructorInjection(int[] rawScalarValues, WeightedIndex[][] groups, Dictionary<int, float> indices, int sizeX, int x, int z, int minx, int minz, int maxx, int maxz, float weightFrac) {
             if (SmoothCoastlinesModSystem.config.enableEdgeLandformSmoothing) {
                 bool isEdge = false;
                 var curLandform = rawScalarValues[z * sizeX + x];
@@ -562,13 +562,13 @@ namespace SmoothCoastlines.ContinentalUpheaval {
                     }
                     LerpConstructorForNormalChunk(rawScalarValues, groups, indices, sizeX, x, z, minx, minz, maxx, maxz, weightFrac);*/
 
-                    LerpConstructorForEdgeChunk(rawScalarValues, groups, indices, sizeX, x, z, minx, minz, maxx, maxz, weightFrac, chunkThreshold, curLandform);
+                    /*LerpConstructorForEdgeChunk(rawScalarValues, groups, indices, sizeX, x, z, minx, minz, maxx, maxz, weightFrac, chunkThreshold, curLandform);
                 } else {
                     LerpConstructorForNormalChunk(rawScalarValues, groups, indices, sizeX, x, z, minx, minz, maxx, maxz, weightFrac);
                 }
             } else {
                 LerpConstructorForNormalChunk(rawScalarValues, groups, indices, sizeX, x, z, minx, minz, maxx, maxz, weightFrac);
-            }
+            }*/
 
             /*if (isEdge && indices.Count > 1) {
                 KeyValuePair<int, float> dominantPair = indices.First();
@@ -589,9 +589,9 @@ namespace SmoothCoastlines.ContinentalUpheaval {
                     indices[secondaryPair.Key] += lostWeight;
                 }
             }*/
-        }
+        //}
 
-        public static void LerpConstructorForNormalChunk(int[] rawScalarValues, WeightedIndex[][] groups, Dictionary<int, float> indices, int sizeX, int x, int z, int minx, int minz, int maxx, int maxz, float weightFrac) {
+        /*public static void LerpConstructorForNormalChunk(int[] rawScalarValues, WeightedIndex[][] groups, Dictionary<int, float> indices, int sizeX, int x, int z, int minx, int minz, int maxx, int maxz, float weightFrac) {
             for (int bx = minx; bx <= maxx; bx++) {
                 for (int bz = minz; bz <= maxz; bz++) {
                     int index = rawScalarValues[bz * sizeX + bx];
@@ -609,9 +609,9 @@ namespace SmoothCoastlines.ContinentalUpheaval {
             foreach (var val in indices) {
                 groups[z * sizeX + x][i++] = new WeightedIndex() { Index = val.Key, Weight = val.Value };
             }
-        }
+        }*/
 
-        public static void LerpConstructorForEdgeChunk(int[] rawScalarValues, WeightedIndex[][] groups, Dictionary<int, float> indices, int sizeX, int x, int z, int minx, int minz, int maxx, int maxz, float weightFrac, int chunkThreshold, int curLandform) {
+        /*public static void LerpConstructorForEdgeChunk(int[] rawScalarValues, WeightedIndex[][] groups, Dictionary<int, float> indices, int sizeX, int x, int z, int minx, int minz, int maxx, int maxz, float weightFrac, int chunkThreshold, int curLandform) {
             Dictionary<int, int> counts = new Dictionary<int, int>();
             float remainder = 1f;
 
@@ -646,7 +646,7 @@ namespace SmoothCoastlines.ContinentalUpheaval {
                 groups[z * sizeX + x][i++] = new WeightedIndex() { Index = val.Key, Weight = val.Value + remainder };
             }*/
 
-            groups[z * sizeX + x] = new WeightedIndex[indices.Count];
+            /*groups[z * sizeX + x] = new WeightedIndex[indices.Count];
             int i = 0;
             foreach (var val in indices) {
                 if (val.Key == curLandform) {
@@ -655,6 +655,6 @@ namespace SmoothCoastlines.ContinentalUpheaval {
                     groups[z * sizeX + x][i++] = new WeightedIndex() { Index = val.Key, Weight = val.Value };
                 }
             }
-        }
+        }*/
     }
 }

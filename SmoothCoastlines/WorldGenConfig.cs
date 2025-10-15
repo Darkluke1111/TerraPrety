@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Vintagestory.API.MathTools;
-
-namespace SmoothCoastlines
+﻿namespace SmoothCoastlines
 {
     public class WorldGenConfig
     {
@@ -31,18 +24,28 @@ namespace SmoothCoastlines
 
         public float radiusMultOutwardsForSmoothing = 6.0f;
 
-        public int hardMinimumOceanicity = 1;
-        public int softMinimumOceanicity = 30;
-        public int maximumOceanicity = 256;
+        public int hardMinimumCoastalOceanicity = 1;
+        public int softMinimumCoastalOceanicity = 30;
+        public int maximumCoastalOceanicity = 256;
 
-        public float[] heightThresholdsForOceanicityComp = { 0.2f, 0.5f, 0.7f, 0.8f, 1.0f };
+        public float chanceForRiver = 0.33f; //The chance for each valid region found, should it contain the start of a river?
+        public int minimumRiverOceanicity = 5;
+        public int maximumRiverOceanicity = 100;
+        public float minimumRiverFlowStrength = 0.25f;
+        public float maximumRiverFlowStrength = 1.5f;
+        public float unscaledFlowLossPerRegion = 0.15f;
+        public int riverRegionDirectionRepetitionAllowance = 3; //This controls the weighting against repeated steps in the same direction - to encourage the river to bend and everything.
+        public int riverRegionCloseToCardinalWidth = 2;
+        public float riverWeirdnessChance = 0.075f;
+
+        /*public float[] heightThresholdsForOceanicityComp = { 0.2f, 0.5f, 0.7f, 0.8f, 1.0f };
         public float[] heightMultsAtThresholdsForOceanicityComp = { 0.0f, 70.0f, 70.0f, 115.0f, 115.0f };
-        public float[] heightFlatsAtThresholdsForOceanicityComp = { 4.2f, 2f, 2f, 4f, 4f };
+        public float[] heightFlatsAtThresholdsForOceanicityComp = { 4.2f, 2f, 2f, 4f, 4f };*/
 
-        public double terrainNoiseFrequencyMult = 1.0;
+        /*public double terrainNoiseFrequencyMult = 1.0;
         public double terrainNoisePersistance = 0.9;
         public bool enableEdgeLandformSmoothing = false;
         public int landformSmoothingRadius = 3;
-        public int landformMapPadding = 4;
+        public int landformMapPadding = 4;*/
     }
 }

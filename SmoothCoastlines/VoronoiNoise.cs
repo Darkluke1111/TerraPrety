@@ -37,7 +37,7 @@ namespace SmoothCoastLines.Noise {
             //Fractional part is the location relative to the voronoi square
             double xFrac = xpos_full - xCell;
             double zFrac = zpos_full - zCell;
-            XZ cellXZ = new XZ(xCell, zCell);
+            //XZ cellXZ = new XZ(xCell, zCell);
 
             double min_distance = Double.MaxValue;
 

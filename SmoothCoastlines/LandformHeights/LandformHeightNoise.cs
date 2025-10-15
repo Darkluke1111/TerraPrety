@@ -174,13 +174,17 @@ namespace SmoothCoastlines.LandformHeights {
             fallbackParentLandformID = 0; //This will at least ensure it is set to _something_ and it will just take the first entry. In the case of a typo or the like.
         }
 
-        public int GetLandformIndexAt(int unscaledXpos, int unscaledZpos, int temp, int rain) {
-            int noiseSizeLandform = sapi.ModLoader.GetModSystem<GenMaps>().noiseSizeLandform;
+        public void BorrowHeightMapReference(ref WeightedNormalizedSimplexNoise sharedHeightNoise) {
+            sharedHeightNoise = heightNoise;
+        }
 
-            int regionX = unscaledXpos / (noiseSizeLandform - TerraGenConfig.landformMapPadding);
+        public int GetLandformIndexAt(int unscaledXpos, int unscaledZpos, int temp, int rain) {
+            /*int noiseSizeLandform = sapi.ModLoader.GetModSystem<GenMaps>().noiseSizeLandform;
+
+            int regionX = unscaledXpos / (noiseSizeLandform - TerraGenConfig.landformMapPadding); //Why did I have this again...? Huh.
             int regionZ = unscaledZpos / (noiseSizeLandform - TerraGenConfig.landformMapPadding);
 
-            var region = sapi.WorldManager.GetMapRegion(regionX, regionZ);
+            var region = sapi.WorldManager.GetMapRegion(regionX, regionZ);*/
 
             float xpos = unscaledXpos / scale;
             float zpos = unscaledZpos / scale;

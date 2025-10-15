@@ -19,9 +19,9 @@ namespace SmoothCoastlines.Rivers {
         int regionSize;
 
         public int NoiseSizeRivers;
-        public int noiseSizeCoast;
+        public int NoiseSizeCoast;
         public MapLayerBase CoastMap;
-        public MapLayerBase RiverGen;
+        public RiverMap RiverMap;
 
         protected override int chunkRange { get { return 2; } } //5 by 5 chunks
 
@@ -70,8 +70,12 @@ namespace SmoothCoastlines.Rivers {
         }
 
         public void InitWorldGenPostGenMaps(ICoreServerAPI sapi) {
-            noiseSizeCoast = Sapi.WorldManager.RegionSize / TerraGenConfig.landformMapScale;
-            CoastMap = new CoastMap(sapi.WorldManager.Seed + 1873, noiseSizeCoast, Sapi); //Seed probably doesn't matter for this.
+            NoiseSizeCoast = sapi.WorldManager.RegionSize / TerraGenConfig.landformMapScale;
+            NoiseSizeRivers = sapi.WorldManager.RegionSize / TerraGenConfig.landformMapScale;
+            var genMaps = sapi.ModLoader.GetModSystem<GenMaps>();
+
+            CoastMap = new CoastMap(sapi.WorldManager.Seed + 1873, NoiseSizeCoast, sapi); //Seed probably doesn't matter for this.
+            RiverMap = new RiverMap(sapi.WorldManager.Seed + 1873, NoiseSizeRivers, sapi, genMaps.requireLandAt);
 
             var genTerraPrety = api.ModLoader.GetModSystem<GenTerraPrety>();
             genTerraPrety.InitGenTerraPretyLandforms();
@@ -79,22 +83,35 @@ namespace SmoothCoastlines.Rivers {
 
         public void OnMapRegionGenPostGenMaps(IMapRegion mapRegion, int regionX, int regionZ) {
             var coastPad = 1;
+            var riverPad = 1;
             var oceanMap = mapRegion.OceanMap;
+            var oceanPad = oceanMap.BottomRightPadding;
             var landformMap = mapRegion.LandformMap;
             var genTerraPrety = Sapi.ModLoader.GetModSystem<GenTerraPrety>();
             var landLerpMap = genTerraPrety.GetOrLoadLerpedLandformMapFromRegion(mapRegion, regionX, regionZ);
+            var heightMap = mapRegion.ModMaps["LandformHeightMap"];
 
             var CoastalRegion = new IntDataMap2D { //It seems any map with a pad of 1 just doesn't set the TopLeft padding in GenMaps. Sticking with that?
                 //Data = coastData,
-                Size = noiseSizeCoast + 1,
+                Size = NoiseSizeCoast + 1,
                 //TopLeftPadding = coastPad,
                 BottomRightPadding = coastPad
             };
             ((CoastMap)CoastMap).SetCoastAndLandformMaps(oceanMap, landLerpMap, landformMap.InnerSize, CoastalRegion.InnerSize);
-            var coastData = CoastMap.GenLayer(regionX * noiseSizeCoast - coastPad, regionZ * noiseSizeCoast - coastPad, noiseSizeCoast + coastPad, noiseSizeCoast + coastPad);
+            var coastData = CoastMap.GenLayer(regionX * NoiseSizeCoast - coastPad, regionZ * NoiseSizeCoast - coastPad, NoiseSizeCoast + coastPad, NoiseSizeCoast + coastPad);
             CoastalRegion.Data = coastData;
 
             mapRegion.ModMaps["TerraPretyCoastMap"] = CoastalRegion;
+
+            var RiverRegion = new IntDataMap2D {
+                Size = NoiseSizeRivers + 1,
+                BottomRightPadding = riverPad
+            };
+            RiverMap.SetMapsAndSizesFromRegion(CoastalRegion, heightMap, RiverRegion.InnerSize, oceanPad, new XZ(regionX, regionZ));
+            var riverData = RiverMap.GenLayer(regionX * NoiseSizeRivers - riverPad, regionZ * NoiseSizeRivers - riverPad, NoiseSizeRivers + riverPad, NoiseSizeRivers + riverPad);
+            RiverRegion.Data = riverData;
+
+            mapRegion.ModMaps["TerraPretyRiverMap"] = RiverRegion;
         }
 
         /*

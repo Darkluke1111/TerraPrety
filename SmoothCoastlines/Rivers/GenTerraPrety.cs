@@ -136,7 +136,7 @@ namespace SmoothCoastlines.Rivers {
             terrainGenOctaves = TerraGenConfig.GetTerrainOctaveCount(api.WorldManager.MapSizeY - 64);
 
             terrainNoise = NewNormalizedSimplexFractalNoise.FromDefaultOctaves(
-                terrainGenOctaves, ContinentalUpheavalPatches.GetConfigurableFrequency() / noiseScale, ContinentalUpheavalPatches.GetConfigurablePersistance(), api.WorldManager.Seed //0.0005 * NewSimplexNoiseLayer.OldToNewFrequency   <- This was replaced by the Configurable Version, just in case. But probably not needed anymore. Default Persistence is 0.9.
+                terrainGenOctaves, 0.0005 * NewSimplexNoiseLayer.OldToNewFrequency / noiseScale, 0.9, api.WorldManager.Seed //0.0005 * NewSimplexNoiseLayer.OldToNewFrequency   <- This was replaced by the Configurable Version, just in case. But probably not needed anymore. Default Persistence is 0.9.
             );
             distort2dx = new SimplexNoise(
                 new double[] { 55, 40, 30, 10 },
@@ -196,7 +196,7 @@ namespace SmoothCoastlines.Rivers {
 
             var genRivers = api.ModLoader.GetModSystem<GenRivers>();
             var riversTerrainNoise = NewNormalizedSimplexFractalNoise.FromDefaultOctaves(
-                terrainGenOctaves, ContinentalUpheavalPatches.GetConfigurableFrequency() / noiseScale, ContinentalUpheavalPatches.GetConfigurablePersistance(), api.WorldManager.Seed //0.0005 * NewSimplexNoiseLayer.OldToNewFrequency   <- This was replaced by the Configurable Version, just in case. But probably not needed anymore. Default Persistence is 0.9.
+                terrainGenOctaves, 0.0005 * NewSimplexNoiseLayer.OldToNewFrequency / noiseScale, 0.9, api.WorldManager.Seed
             );
             genRivers.PassCoastMapTheLandforms(terrainYThresholds, riversTerrainNoise);
         }

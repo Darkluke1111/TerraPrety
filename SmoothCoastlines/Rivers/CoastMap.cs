@@ -47,9 +47,9 @@ namespace SmoothCoastlines.Rivers {
             this.scale = scale;
             this.sapi = sapi;
 
-            this.hardMinimumOceanicity = SmoothCoastlinesModSystem.config.hardMinimumOceanicity;
-            this.softMinimumOceanicity = SmoothCoastlinesModSystem.config.softMinimumOceanicity;
-            this.maximumOceanicity = SmoothCoastlinesModSystem.config.maximumOceanicity;
+            this.hardMinimumOceanicity = SmoothCoastlinesModSystem.config.hardMinimumCoastalOceanicity;
+            this.softMinimumOceanicity = SmoothCoastlinesModSystem.config.softMinimumCoastalOceanicity;
+            this.maximumOceanicity = SmoothCoastlinesModSystem.config.maximumCoastalOceanicity;
             noiseScale = Math.Max(1, (sapi.WorldManager.MapSizeY - 64) / 256f);
             distort2dx = new SimplexNoise(
                 new double[] { 55, 40, 30, 10 },
@@ -98,8 +98,8 @@ namespace SmoothCoastlines.Rivers {
             double[] lerpedAmps = new double[terrainGenOctaves];
             double[] lerpedTh = new double[terrainGenOctaves];
             float[] landformWeights = new float[landformLength];
-            int regionX = xCoord / coastalInnerSize;
-            int regionZ = zCoord / coastalInnerSize;
+            //int regionX = xCoord / coastalInnerSize;
+            //int regionZ = zCoord / coastalInnerSize;
 
             const int chunksize = GlobalConstants.ChunkSize; //Number of Blocks in a Chunk.
             const float chunkBlockDelta = 1.0f / chunksize;

@@ -53,7 +53,7 @@ namespace SmoothCoastlines.LandformHeights {
             int[] result = new int[sizeX * sizeZ];
             for (int x = 0; x < sizeX; x++) {
                 for (int z = 0; z < sizeZ; z++) {
-                    int offsetX = (int)(wobbleIntensity * noisegenX.Noise(xCoord + x, zCoord + z) * 1.2f);
+                    int offsetX = (int)(wobbleIntensity * noisegenX.Noise(xCoord + x, zCoord + z) * 1.2f); //Respective Coord + the offset value from the loops is the 
                     int offsetY = (int)(wobbleIntensity * noisegenY.Noise(xCoord + x, zCoord + z) * 1.2f);
 
                     int finalX = xCoord + x + offsetX;
@@ -82,6 +82,12 @@ namespace SmoothCoastlines.LandformHeights {
         public void AddHeightmapToRegion(IMapRegion region) {
             var heightMap = noiseLandforms.GetHeightData();
             region.ModMaps["LandformHeightMap"] = heightMap;
+        }
+
+        public void BorrowHeightMapReference(ref WeightedNormalizedSimplexNoise heightNoise, ref NormalizedSimplexNoise landformNoiseGenX, ref NormalizedSimplexNoise landformNoiseGenY) {
+            noiseLandforms.BorrowHeightMapReference(ref heightNoise);
+            landformNoiseGenX = noisegenX;
+            landformNoiseGenY = noisegenY;
         }
     }
 }
