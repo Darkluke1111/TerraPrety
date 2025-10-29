@@ -260,6 +260,10 @@ namespace SmoothCoastlines.LandformHeights {
             return landforms.Variants[i].index;
         }
 
+        public float GetHeightMapAt(int xCoord, int zCoord) {
+            return (float)heightNoise.Height(xCoord, zCoord);
+        }
+
         public void PrepareForNewHeightmap(int xCoord, int zCoord, int sizeX, int sizeZ) {
             heightMapValues = null;
             heightMapValues = new int[sizeX * sizeZ];

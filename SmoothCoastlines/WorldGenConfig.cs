@@ -31,12 +31,15 @@
         public float chanceForRiver = 0.33f; //The chance for each valid region found, should it contain the start of a river?
         public int minimumRiverOceanicity = 5;
         public int maximumRiverOceanicity = 100;
+        public float maxHeightForRiverSink = 0.4f;
         public float minimumRiverFlowStrength = 0.25f;
         public float maximumRiverFlowStrength = 1.5f;
         public float unscaledFlowLossPerRegion = 0.15f;
         public int riverRegionDirectionRepetitionAllowance = 3; //This controls the weighting against repeated steps in the same direction - to encourage the river to bend and everything.
         public int riverRegionCloseToCardinalWidth = 2;
-        public float riverWeirdnessChance = 0.075f;
+        public float riverWeirdnessChanceMult = 0.2f; //This is the chance of the river taking the 'off' direction that would not go to the center of the continent
+        public float riverRegionCanEnterFlexibility = 0.15f; //The flexibility range where a river can still consider a region 'enterable' to keep moving on, or if it might have to end in this region.
+        public float chanceToFork = 0.3f;
 
         /*public float[] heightThresholdsForOceanicityComp = { 0.2f, 0.5f, 0.7f, 0.8f, 1.0f };
         public float[] heightMultsAtThresholdsForOceanicityComp = { 0.0f, 70.0f, 70.0f, 115.0f, 115.0f };

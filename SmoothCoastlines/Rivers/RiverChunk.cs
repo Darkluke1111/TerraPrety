@@ -14,6 +14,7 @@ namespace SmoothCoastlines.Rivers {
 
         public bool fullyGenerated = false; //Potentially rework this to account for RiverChunks that span over multiple chunks - will need to record each chunk's generated state potentially? To know exactly when this data can be cleared from RAM
         public float flowStrength; //This helps to determine the overall depth and width of the chunk of the river.
+        public float height;
         public RiverRegion riverRegion;
         public RiverChunk upstream;
         public RiverChunk downstream;

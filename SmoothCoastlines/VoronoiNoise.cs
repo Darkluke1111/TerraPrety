@@ -85,5 +85,72 @@ namespace SmoothCoastLines.Noise {
             // Normalize to [0,1] and return
             return min_distance / maxDistanceConstant;
         }
+
+        public XZ GetContinentalCenter(int x, int z) {
+            XZ centerRegion = new XZ();
+
+            double xpos_full = x / scale;
+            double zpos_full = z / scale;
+
+            //Integer part of the position is the voronoi square coordinate
+            int xCell = (int)xpos_full;
+            int zCell = (int)zpos_full;
+
+            //Fractional part is the location relative to the voronoi square
+            double xFrac = xpos_full - xCell;
+            double zFrac = zpos_full - zCell;
+            //XZ cellXZ = new XZ(xCell, zCell);
+
+            double min_distance = Double.MaxValue;
+            double centerX = 0;
+            double centerZ = 0;
+
+            // Iterate over the voronoi square and its 8 nighbours
+            for (int dx = 0; dx < 3; dx++) {
+                for (int dz = 0; dz < 3; dz++) {
+                    double pointPosX;
+                    double pointPosZ;
+
+                    //First check whether we have forced voronoi points in this cell
+                    bool forced = false;
+                    for (int i = 0; i < forcedPoints.Count; i++) {
+                        double forcedX = forcedPoints[i].X / scale;
+                        double forcedY = forcedPoints[i].Z / scale;
+                        if (xCell - 1 + dx < forcedX && xCell - 1 + dx + 1 >= forcedX
+                            && zCell - 1 + dz < forcedY && zCell - 1 + dz + 1 >= forcedY) {
+                            pointPosX = forcedX - xCell;
+                            pointPosZ = forcedY - zCell;
+                            forced = true;
+
+                            var distance = GameMath.Sqrt((xFrac - pointPosX) * (xFrac - pointPosX) + (zFrac - pointPosZ) * (zFrac - pointPosZ));
+                            if (min_distance > distance) {
+                                min_distance = distance;
+                                centerX = pointPosX;
+                                centerZ = pointPosZ;
+                            }
+                        }
+                    }
+                    // Generate a random voronoi point for the cell if none is forced
+                    if (!forced) {
+                        InitPositionSeed(xCell - 1 + dx, zCell - 1 + dz);
+                        pointPosX = (NextInt(10000) / 10000.0) - 1 + dx;
+                        pointPosZ = (NextInt(10000) / 10000.0) - 1 + dz;
+
+                        var distance = GameMath.Sqrt((xFrac - pointPosX) * (xFrac - pointPosX) + (zFrac - pointPosZ) * (zFrac - pointPosZ));
+                        if (min_distance > distance) {
+                            min_distance = distance;
+                            centerX = pointPosX;
+                            centerZ = pointPosZ;
+                        }
+                    }
+                }
+            }
+
+            centerX += xCell;
+            centerZ += zCell;
+            centerRegion.X = (int)(centerX * scale);
+            centerRegion.Z = (int)(centerZ * scale);
+            return centerRegion;
+        }
     }
 }

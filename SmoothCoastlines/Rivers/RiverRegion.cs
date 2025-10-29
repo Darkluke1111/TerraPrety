@@ -12,10 +12,11 @@ namespace SmoothCoastlines.Rivers {
     public class RiverRegion {
 
         public bool fullyGenerated = false;
-        public float upstreamFlowStrength;
+        public float upstreamFlowStrength = -1f;
         public float downstreamFlowStrength; //For either of these, if it is negative, it means the river ends in this region. Recorded here to ensure that each chunk relatively syncs up with one another, and it gradually tapers down as it gets to the source.
+        public float averageHeight; //This region's average Heightmap Height. A very rough estimate for simplicity sake.
         public RiverData river;
-        public List<RiverChunk> chunks;
+        public Dictionary<XZ, RiverChunk> chunks;
         public RiverRegion upstreamRegion; //Either of these can be null if there is nothing more in that direction.
         public RiverRegion downstreamRegion;
         public RiverRegion secondaryUpstreamRegion; //These are potential connection points for possible forks in the river.
@@ -27,16 +28,17 @@ namespace SmoothCoastlines.Rivers {
         public XZ tertiaryUpstreamWorldPos = new XZ(-1, -1);
         public List<string> regionSpecialConditions; //Tags to add a flag here for use later during generation steps.
 
-        public RiverRegion(RiverData river, XZ regionCoords, float downstreamFlow, float upstreamFlow, RiverRegion downRegion = null) { //A fork will send a Null downRegion here and handle setting the downRegion in the 'attachForkRegion' call below
+        public RiverRegion(RiverData river, XZ regionCoords, float avgHeight, float downstreamFlow, RiverRegion downRegion = null) { //A fork will send a Null downRegion here and handle setting the downRegion in the 'attachForkRegion' call below
             this.river = river;
-            chunks = new List<RiverChunk>();
+            chunks = new Dictionary<XZ, RiverChunk>();
             regionSpecialConditions = new List<string>();
             this.regionCoords = regionCoords;
+            averageHeight = avgHeight;
             downstreamFlowStrength = downstreamFlow;
-            upstreamFlowStrength = upstreamFlow;
             downstreamRegion = downRegion;
             if (downstreamRegion != null) {
                 downstreamRegion.upstreamRegion = this;
+                downstreamRegion.upstreamFlowStrength = downstreamFlow;
                 downstreamWorldPos = downstreamRegion.upstreamWorldPos;
             }
 
@@ -45,6 +47,7 @@ namespace SmoothCoastlines.Rivers {
             tertiaryUpstreamRegion = null;
         }
 
+        //To be called on the Downstream Region, and provided the Forked Region Upstream from it.
         public void AttachForkRegion(RiverRegion upstream, XZ upstreamPos) {
             if (secondaryUpstreamRegion == null) {
                 secondaryUpstreamRegion = upstream;
@@ -70,6 +73,54 @@ namespace SmoothCoastlines.Rivers {
             direction.X = desiredRegion.X - regionCoords.X;
             direction.Z = desiredRegion.Z - regionCoords.Z;
             return direction;
+        }
+    }
+
+    public struct RegionStepDirectionChances {
+        public bool NorthFree = true;
+        public bool WestFree = true;
+        public bool EastFree = true;
+        public bool SouthFree = true;
+
+        public float NorthHeight = 0;
+        public float WestHeight = 0;
+        public float EastHeight = 0;
+        public float SouthHeight = 0;
+
+        public int NorthChance;
+        public int WestChance;
+        public int EastChance;
+        public int SouthChance;
+
+        public RegionStepDirectionChances(int baseChance) {
+            NorthChance = baseChance;
+            WestChance = baseChance;
+            EastChance = baseChance;
+            SouthChance = baseChance;
+        }
+
+        public void PreventDirectionChoice(XZ dir) {
+            if (dir.X != 0) {
+                if (dir.X < 0) {
+                    WestFree = false;
+                    WestChance = 0;
+                } else {
+                    EastFree = false;
+                    EastChance = 0;
+                }
+            } else {
+                if (dir.Z < 0) {
+                    NorthFree = false;
+                    NorthChance = 0;
+                } else {
+                    SouthFree = false;
+                    SouthChance = 0;
+                }
+            }
+        }
+
+        public int GetFullChance() {
+            return NorthChance + WestChance + EastChance + SouthChance;
         }
     }
 }

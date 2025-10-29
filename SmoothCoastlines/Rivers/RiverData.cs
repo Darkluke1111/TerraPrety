@@ -16,21 +16,47 @@ namespace SmoothCoastlines.Rivers {
 
         public bool fullyGenerated = false;
         public float waterMaxFlow;
-        public List<RiverRegion> river; //Always will start with the Sink of the river at list entry 0, all the way to the (primary) Source at the last entry. Null if the River is fully generated.
-        public XZ continentalCoords; //The coordinates of the Continental Voronoi Point that this River exists on. Null if the river is fully generated.
-        public XZ regionMins;
-        public XZ regionMaxs; //This and the mins are just a bundled way of storing the minimum-most (and similarly maximum-most) X and Z values of the regions that this River passes through
+        public Dictionary<XZ, RiverRegion> river; //Null if the River is fully generated.
+        public XZ continentalCenterCoords; //The coordinates of the region that is at the "center" of this Veronoi point. Null if the river is fully generated.
+        public XZ regionMin;
+        public XZ regionMax; //This and the mins are just a bundled way of storing the minimum-most (and similarly maximum-most) X and Z values of the regions that this River passes through
                               //Helpful to compare against these min and max values to even see if a region being tested or generated needs to care about this river at all.
         public TreeAttribute specialRiverAttributes; //Potentially used to compound and reference back to if the river has any special conditions anywhere on it's line. Attributes to come as needed!
 
-        public RiverData(XZ contCoords, XZ sinkRegion, float maxFlow) {
-            river = new List<RiverRegion>();
-            continentalCoords = contCoords;
-            regionMins = new XZ();
-            regionMaxs = new XZ();
-            regionMins.X = regionMaxs.X = sinkRegion.X;
-            regionMins.Z = regionMaxs.Z = sinkRegion.Z;
+        public RiverData(XZ centerCoords, XZ sinkRegion, float maxFlow) {
+            river = new Dictionary<XZ, RiverRegion>();
+            continentalCenterCoords = centerCoords;
+            regionMin = new XZ();
+            regionMax = new XZ();
+            regionMin.X = regionMax.X = sinkRegion.X;
+            regionMin.Z = regionMax.Z = sinkRegion.Z;
             waterMaxFlow = maxFlow;
+            specialRiverAttributes = new TreeAttribute();
+        }
+
+        public void AddRegionToRiver(XZ regionCoords, RiverRegion region) {
+            /*if (regionCoords.X < regionMin.X) {
+                regionMin.X = regionCoords.X;
+            }
+            if (regionCoords.Z < regionMin.Z) {
+                regionMin.Z = regionCoords.Z;
+            }
+            if (regionCoords.X > regionMax.X) {
+                regionMax.X = regionCoords.X;
+            }
+            if (regionCoords.Z > regionMax.Z) {
+                regionMax.Z = regionCoords.Z;
+            }*/
+
+            river.Add(regionCoords, region);
+        }
+
+        public bool DoesRiverPassThroughRegion(XZ regionCoords) {
+            return river.ContainsKey(regionCoords);
+        }
+
+        public RiverRegion GetRegionAt(XZ regionCoords) {
+            return river[regionCoords];
         }
     }
 

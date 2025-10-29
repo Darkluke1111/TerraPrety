@@ -59,5 +59,26 @@ namespace MapLayer
 
             return result;
         }
+
+        //Send this the coords of a single tile of the OceanMap to recieve the Oceanicity for that tile. Intended for use with far-reaching generation steps where this part of the map has not been generated yet, but the value is still needed. Use sparingly as this fully calculates it, if possible always just try accessing the saved region maps directly. (Used in River Gen currently)
+        public int GetOceanicityAt(int xCoord, int zCoord) {
+            var undestortedNoise = voronoiNoise.getValueAt(xCoord, zCoord); ;
+            var offsetX = (int)(wobbleIntensity * noisegenX.Noise(xCoord, zCoord) * undestortedNoise);
+            var offsetZ = (int)(wobbleIntensity * noisegenY.Noise(xCoord, zCoord) * undestortedNoise);
+            var unscaledXpos = xCoord + offsetX;
+            var unscaledZpos = zCoord + offsetZ;
+
+            return (int)(oceanNoise.getValueAt(unscaledXpos, unscaledZpos) * 255);
+        }
+
+        public XZ GetContinentalCenter(int xCoord, int zCoord) {
+            var undestortedNoise = voronoiNoise.getValueAt(xCoord, zCoord); ;
+            var offsetX = (int)(wobbleIntensity * noisegenX.Noise(xCoord, zCoord) * undestortedNoise);
+            var offsetZ = (int)(wobbleIntensity * noisegenY.Noise(xCoord, zCoord) * undestortedNoise);
+            var unscaledXpos = xCoord + offsetX;
+            var unscaledZpos = zCoord + offsetZ;
+
+            return voronoiNoise.GetContinentalCenter(unscaledXpos, unscaledZpos);
+        }
     }
 }

@@ -75,6 +75,23 @@ namespace SmoothCoastlines.LandformHeights {
             return result;
         }
 
+        //Send this the coords of a single tile of the LandformMap to recieve the heightmap value at that tile. Intended for use with far-reaching generation steps where this part of the map has not been generated yet, but the value is still needed. Use sparingly as this fully calculates it, if possible always just try accessing the saved region maps directly. (Used in River Gen currently)
+        public float GetHeightMapAt(int xCoord, int zCoord) {
+            if (!forcedPointsInit) {
+                forcedPointsInit = true;
+                noiseLandforms.SetForcedHeightPoints();
+                noiseLandforms.FindForcedLandformID();
+            }
+
+            int offsetX = (int)(wobbleIntensity * noisegenX.Noise(xCoord, zCoord) * 1.2f); //Respective Coord + the offset value from the loops is the 
+            int offsetY = (int)(wobbleIntensity * noisegenY.Noise(xCoord, zCoord) * 1.2f);
+
+            int finalX = xCoord + offsetX;
+            int finalZ = zCoord + offsetY;
+
+            return noiseLandforms.GetHeightMapAt(finalX, finalZ);
+        }
+
         public void AddForcedLandform(ForceLandform forced) {
             noiseLandforms.AddForcedLandform(forced);
         }
