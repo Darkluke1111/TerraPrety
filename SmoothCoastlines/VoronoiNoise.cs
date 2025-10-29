@@ -102,6 +102,8 @@ namespace SmoothCoastLines.Noise {
             //XZ cellXZ = new XZ(xCell, zCell);
 
             double min_distance = Double.MaxValue;
+            int centerCellX = 0;
+            int centerCellZ = 0;
             double centerX = 0;
             double centerZ = 0;
 
@@ -125,6 +127,8 @@ namespace SmoothCoastLines.Noise {
                             var distance = GameMath.Sqrt((xFrac - pointPosX) * (xFrac - pointPosX) + (zFrac - pointPosZ) * (zFrac - pointPosZ));
                             if (min_distance > distance) {
                                 min_distance = distance;
+                                centerCellX = (int)forcedX;
+                                centerCellZ = (int)forcedY;
                                 centerX = pointPosX;
                                 centerZ = pointPosZ;
                             }
@@ -139,6 +143,8 @@ namespace SmoothCoastLines.Noise {
                         var distance = GameMath.Sqrt((xFrac - pointPosX) * (xFrac - pointPosX) + (zFrac - pointPosZ) * (zFrac - pointPosZ));
                         if (min_distance > distance) {
                             min_distance = distance;
+                            centerCellX = xCell - 1 + dx;
+                            centerCellZ = zCell - 1 + dz;
                             centerX = pointPosX;
                             centerZ = pointPosZ;
                         }
@@ -146,8 +152,8 @@ namespace SmoothCoastLines.Noise {
                 }
             }
 
-            centerX += xCell;
-            centerZ += zCell;
+            centerX += centerCellX;
+            centerZ += centerCellZ;
             centerRegion.X = (int)(centerX * scale);
             centerRegion.Z = (int)(centerZ * scale);
             return centerRegion;
