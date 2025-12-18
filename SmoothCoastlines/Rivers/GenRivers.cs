@@ -21,7 +21,7 @@ namespace SmoothCoastlines.Rivers {
         public int NoiseSizeRivers;
         public int NoiseSizeCoast;
         public MapLayerBase CoastMap;
-        public RiverMap RiverMap;
+        public MapLayerBase RiverMap;
 
         protected override int chunkRange { get { return 2; } } //5 by 5 chunks
 
@@ -98,7 +98,7 @@ namespace SmoothCoastlines.Rivers {
                 BottomRightPadding = coastPad
             };
             ((CoastMap)CoastMap).SetCoastAndLandformMaps(oceanMap, landLerpMap, landformMap.InnerSize, CoastalRegion.InnerSize);
-            var coastData = CoastMap.GenLayer(regionX * NoiseSizeCoast - coastPad, regionZ * NoiseSizeCoast - coastPad, NoiseSizeCoast + coastPad, NoiseSizeCoast + coastPad);
+            var coastData = CoastMap.GenLayer(regionX * NoiseSizeCoast, regionZ * NoiseSizeCoast, NoiseSizeCoast + coastPad, NoiseSizeCoast + coastPad);
             CoastalRegion.Data = coastData;
 
             mapRegion.ModMaps["TerraPretyCoastMap"] = CoastalRegion;
@@ -107,8 +107,8 @@ namespace SmoothCoastlines.Rivers {
                 Size = NoiseSizeRivers + 1,
                 BottomRightPadding = riverPad
             };
-            RiverMap.SetMapsAndSizesFromRegion(CoastalRegion, heightMap, RiverRegion.InnerSize, oceanPad, new XZ(regionX, regionZ));
-            var riverData = RiverMap.GenLayer(regionX * NoiseSizeRivers - riverPad, regionZ * NoiseSizeRivers - riverPad, NoiseSizeRivers + riverPad, NoiseSizeRivers + riverPad);
+            ((RiverMap)RiverMap).SetMapsAndSizesFromRegion(CoastalRegion, heightMap, RiverRegion.InnerSize, oceanPad, new XZ(regionX, regionZ));
+            var riverData = RiverMap.GenLayer(regionX * NoiseSizeRivers, regionZ * NoiseSizeRivers, NoiseSizeRivers + riverPad, NoiseSizeRivers + riverPad);
             RiverRegion.Data = riverData;
 
             mapRegion.ModMaps["TerraPretyRiverMap"] = RiverRegion;

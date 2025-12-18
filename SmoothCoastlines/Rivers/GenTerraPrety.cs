@@ -591,6 +591,20 @@ namespace SmoothCoastlines.Rivers {
             return map;
         }
 
+        //This will put it in the LandformMap Cache, but requires being supplied the Landform Map itself.
+        public LerpedWeightedIndex2DMap GetOrCreateLerpedLandformMap(IntDataMap2D landformMap, int regionX, int regionZ) {
+            // 1. Load?
+            LandformMapByRegion.TryGetValue(regionZ * regionMapSize + regionX, out LerpedWeightedIndex2DMap map);
+            if (map != null) return map;
+
+            //IntDataMap2D lmap = mapregion.LandformMap;
+            // 2. Create
+            map = LandformMapByRegion[regionZ * regionMapSize + regionX]
+                = new LerpedWeightedIndex2DMap(landformMap.Data, landformMap.Size, TerraGenConfig.landFormSmoothingRadius, landformMap.TopLeftPadding, landformMap.BottomRightPadding);
+
+            return map;
+        }
+
         public void GetInterpolatedOctaves(float[] indices, out double[] amps, out double[] thresholds) {
             amps = new double[terrainGenOctaves];
             thresholds = new double[terrainGenOctaves];

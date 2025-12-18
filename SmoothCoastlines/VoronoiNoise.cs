@@ -104,8 +104,8 @@ namespace SmoothCoastLines.Noise {
             double min_distance = Double.MaxValue;
             int centerCellX = 0;
             int centerCellZ = 0;
-            double centerX = 0;
-            double centerZ = 0;
+            double centerFracX = 0;
+            double centerFracZ = 0;
 
             // Iterate over the voronoi square and its 8 nighbours
             for (int dx = 0; dx < 3; dx++) {
@@ -129,8 +129,9 @@ namespace SmoothCoastLines.Noise {
                                 min_distance = distance;
                                 centerCellX = (int)forcedX;
                                 centerCellZ = (int)forcedY;
-                                centerX = pointPosX;
-                                centerZ = pointPosZ;
+                                centerFracX = pointPosX;
+                                centerFracZ = pointPosZ;
+                                break;
                             }
                         }
                     }
@@ -145,17 +146,15 @@ namespace SmoothCoastLines.Noise {
                             min_distance = distance;
                             centerCellX = xCell - 1 + dx;
                             centerCellZ = zCell - 1 + dz;
-                            centerX = pointPosX;
-                            centerZ = pointPosZ;
+                            centerFracX = pointPosX;
+                            centerFracZ = pointPosZ;
                         }
                     }
                 }
             }
 
-            centerX += centerCellX;
-            centerZ += centerCellZ;
-            centerRegion.X = (int)(centerX * scale);
-            centerRegion.Z = (int)(centerZ * scale);
+            centerRegion.X = (int)((centerCellX + centerFracX) * scale);
+            centerRegion.Z = (int)((centerCellZ + centerFracZ) * scale);
             return centerRegion;
         }
     }

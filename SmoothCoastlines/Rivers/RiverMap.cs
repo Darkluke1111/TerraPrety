@@ -1,4 +1,5 @@
-﻿using MapLayer;
+﻿using Cairo;
+using MapLayer;
 using SmoothCoastlines.LandformHeights;
 using SmoothCoastLines.Noise;
 using System;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
@@ -21,14 +23,20 @@ namespace SmoothCoastlines.Rivers {
     public class RiverMap : MapLayerBase {
 
         public Dictionary<XZ, List<RiverData>> riversByContinent; //Stores the RiverData lists by the Continent's Regional Center XZ
+        internal Dictionary<XZ, int[]> heightEstimatesByRegion;
 
+        public static readonly XZ NorthWest = new XZ(-1, -1);
         public static readonly XZ North = new XZ(0, -1);
+        public static readonly XZ NorthEast = new XZ(1, -1);
         public static readonly XZ West = new XZ(-1, 0);
         public static readonly XZ East = new XZ(1, 0);
+        public static readonly XZ SouthWest = new XZ(-1, 1);
         public static readonly XZ South = new XZ(0, 1);
+        public static readonly XZ SouthEast = new XZ(1, 1);
+        public const float blocksPerFlowHundreth = 0.5f; //Comes out to the max and min 'flow' values equate to 75 blocks wide at maximum, and then 12.5 blocks wide at minimum (round down always?)... Potentially works? Maybe tone it down later?
 
         internal ICoreServerAPI Sapi;
-        internal IntDataMap2D coastMap;
+        internal IntDataMap2D regionalCoastMap;
         internal IntDataMap2D landformHeightMap;
         internal XZ currentRegion;
         internal int maxRegionSteps = 31; //Height + Width of the maximum search area in regions around the center of the continent, should always be kept odd to give a proper 'center' point
@@ -41,21 +49,25 @@ namespace SmoothCoastlines.Rivers {
         Noise2D oceanNoise;*/
         MapLayerOceansSmooth oceanMap;
         MapLayerLandformsSmooth landformMap;
+        CoastMap coastMap;
 
         /*WeightedNormalizedSimplexNoise heightMapNoise;
         NormalizedSimplexNoise heightmapNoisegenX;
         NormalizedSimplexNoise heightmapNoisegenY;*/
 
-        int regionSize;
-        int regionChunkSize;
+        int regionSize; //Size, in blocks, of a Region
+        int regionChunkSize; //Number of Chunks in a Region
+        int sealevelY;
 
         int noiseSizeOcean;
         int oceanPad;
         int oceanSize;
         float oceanScale;
+        int numBlocksInOceanMapTile;
         int noiseSizeLandform;
         int landformPad;
         int landformSize;
+        int numBlocksInLandformMapTile;
 
         int scale;
         int riverInnerSize;
@@ -65,11 +77,11 @@ namespace SmoothCoastlines.Rivers {
         float maxHeightForSink;
         float minRiverFlow;
         float maxRiverFlow;
-        float unscaledFlowLoss;
-        int riverRegionEdgeDeviation;
-        int riverRegionCloseToCardinal;
-        float riverWeirdnessMult;
-        float riverCanEnterFlexibility;
+        float flowLoss;
+        //int riverRegionEdgeDeviation;
+        //int riverRegionCloseToCardinal;
+        //float riverWeirdnessMult;
+        //float riverCanEnterFlexibility;
         float chanceToFork;
 
         public RiverMap(long seed, int scale, ICoreServerAPI sapi, List<XZ> requireLandAt) : base(seed) {
@@ -81,9 +93,12 @@ namespace SmoothCoastlines.Rivers {
             regionChunkSize = sapi.WorldManager.RegionSize / GlobalConstants.ChunkSize;
             oceanScale = config.noiseScale;
             noiseSizeOcean = sapi.WorldManager.RegionSize / TerraGenConfig.oceanMapScale;
+            numBlocksInOceanMapTile = TerraGenConfig.oceanMapScale;
             landformPad = TerraGenConfig.landformMapPadding;
             noiseSizeLandform = sapi.WorldManager.RegionSize / TerraGenConfig.landformMapScale;
             landformSize = noiseSizeLandform + 2 * landformPad;
+            numBlocksInLandformMapTile = TerraGenConfig.landformMapScale;
+            sealevelY = sapi.World.SeaLevel;
 
             minRiverOceanicity = config.minimumRiverOceanicity;
             maxRiverOceanicity = config.maximumRiverOceanicity;
@@ -91,15 +106,16 @@ namespace SmoothCoastlines.Rivers {
 
             minRiverFlow = config.minimumRiverFlowStrength;
             maxRiverFlow = config.maximumRiverFlowStrength;
-            unscaledFlowLoss = config.unscaledFlowLossPerRegion;
+            flowLoss = config.flowLossPerRiverSegment;
             maxHeightForSink = config.maxHeightForRiverSink;
-            riverRegionEdgeDeviation = config.riverRegionDirectionRepetitionAllowance;
-            riverRegionCloseToCardinal = config.riverRegionCloseToCardinalWidth;
-            riverWeirdnessMult = config.riverWeirdnessChanceMult;
-            riverCanEnterFlexibility = config.riverRegionCanEnterFlexibility;
+            //riverRegionEdgeDeviation = config.riverRegionDirectionRepetitionAllowance;
+            //riverRegionCloseToCardinal = config.riverRegionCloseToCardinalWidth;
+            //riverWeirdnessMult = config.riverWeirdnessChanceMult;
+            //riverCanEnterFlexibility = config.riverRegionCanEnterFlexibility;
             chanceToFork = config.chanceToFork;
 
             riversByContinent = new Dictionary<XZ, List<RiverData>>();
+            heightEstimatesByRegion = new Dictionary<XZ, int[]>(10);
             /*voronoiNoise = new VoronoiNoise(seed + 2, oceanScale, requireLandAt);
             oceanNoise = new NoiseRemapper(voronoiNoise, config.remappingKeys, config.remappingValues);
 
@@ -113,10 +129,13 @@ namespace SmoothCoastlines.Rivers {
             var genMaps = sapi.ModLoader.GetModSystem<GenMaps>();
             oceanMap = (MapLayerOceansSmooth)genMaps.oceanGen;
             landformMap = (MapLayerLandformsSmooth)genMaps.landformsGen;
+
+            var genRivers = sapi.ModLoader.GetModSystem<GenRivers>();
+            coastMap = (CoastMap)genRivers.CoastMap;
         }
 
         public void SetMapsAndSizesFromRegion(IntDataMap2D coastMap, IntDataMap2D landformHeightMap, int riverInnerSize, int opad, XZ regionCoords) {
-            this.coastMap = coastMap;
+            this.regionalCoastMap = coastMap;
             this.landformHeightMap = landformHeightMap;
             this.riverInnerSize = riverInnerSize;
             currentRegion = regionCoords;
@@ -130,28 +149,51 @@ namespace SmoothCoastlines.Rivers {
             List<XZ> continentsInfluencingRegion = new List<XZ>();
 
             PrepareRiversAtContinentalLevel(xCoord, zCoord, sizeX, sizeZ, ref continentsInfluencingRegion);
-            //Generate this Region's required Chunk-Level parts of the rivers here!
 
             var conts = GetContinentsWithRiversEnteringRegion(continentsInfluencingRegion, currentRegion);
+            List<RiverData> riverList = null;
 
-            for (int i = 0; i < result.Length; i++) {
-                if (conts.Count > 0) {
-                    result[i] = 1;
-                } else {
-                    result[i] = 0;
+            if (conts.Count > 0) {
+                var cont = conts.First();
+                riverList = riversByContinent[cont];
+            }
+
+            var worldX = ConvertLandformMapToWorldCoords(xCoord);
+            var worldZ = ConvertLandformMapToWorldCoords(zCoord);
+            var halfTile = numBlocksInLandformMapTile / 2;
+            for (int x = 0; x < sizeX; x++) {
+                for (int z = 0; z < sizeZ; z++) {
+                    if (riversByContinent.ContainsKey(currentRegion)) { //This checks for and marks the Regional Center of this Continent
+                        result[z * sizeX + x] = 1;
+                        continue;
+                    }
+
+                    bool noRivers = true;
+                    if (riverList != null) {
+                        foreach (var river in riverList) {
+                            if (river.DoesRiverPassThroughMapTile(currentRegion, new XZ(worldX + (x * numBlocksInLandformMapTile) + halfTile, worldZ + (z * numBlocksInLandformMapTile) + halfTile))) {
+                                noRivers = false;
+                                result[z * sizeX + x] = 4;
+                            }
+                        }
+                    }
+
+                    if (noRivers) {
+                        result[z * sizeX + x] = 0;
+                    }
                 }
             }
 
             return result;
         }
 
-        //This will check to see where this Region lies in relation to the nearest continent, in all four corners, as each corner could lie closer to one continent over another.
+        //This will check to see where this Region lies in relation to the nearest continent, using the center-most tile as a polling point.
         //To allow for multiple River sinks starting in both directions, the full four-way check must be done.
         //This handles figuring out which continents are part of this region, then if they need to have rivers initialized at the Region-Level.
         //Afterwards, it will return back to the GenLayer, and then for this specific Region, it's time to generate the map-chunk-level chunks of the rivers that pass through this Region.
         private void PrepareRiversAtContinentalLevel(int xCoord, int zCoord, int sizeX, int sizeZ, ref List<XZ> continentsInfluencingRegion) {
-            int oceanX = currentRegion.X * noiseSizeOcean - oceanPad;
-            int oceanZ = currentRegion.Z * noiseSizeOcean - oceanPad;
+            int oceanX = ConvertRegionToOceanMapCoords(currentRegion.X); //currentRegion.X * noiseSizeOcean - oceanPad;
+            int oceanZ = ConvertRegionToOceanMapCoords(currentRegion.Z); //currentRegion.Z * noiseSizeOcean - oceanPad;
 
             XZ centerOfRegion = new(oceanX + (oceanSize / 2), oceanZ + (oceanSize / 2));
             XZ centerRegionOfCont = oceanMap.GetContinentalCenter(centerOfRegion.X, centerOfRegion.Z);
@@ -183,11 +225,11 @@ namespace SmoothCoastlines.Rivers {
                 center.regionCoords.Z = contCoord.Z;
                 center.visitedCoords.X = (maxRegionSteps - 1) / 2;
                 center.visitedCoords.Z = (maxRegionSteps - 1) / 2;
-                List<XZ> riverStarts = new List<XZ>(); //Regional Coordinates
-                List<float> riverHeightEstimates = new List<float>();
+                List<(RiverPoint, RiverPlottingLogic)> riverStarts = new List<(RiverPoint, RiverPlottingLogic)>(); //Actual World Coordinates - will be the center of the RiverMap Tile XZ.
+                //List<float> riverHeightEstimates = new List<float>();
 
                 InitPositionSeed(contCoord.X, contCoord.Z); //Init with the current Continent's X and Z probably? Can reuse this later but on the more defined coordinates for Region and Chunk ect
-                RecursivelyIntializeContinents(center, ref visitedRegions, ref riverStarts, ref riverHeightEstimates);
+                RecursivelyIntializeContinents(center, ref visitedRegions, ref riverStarts);
 
                 if (riverStarts.Count <= 0) {
                     continue;
@@ -195,256 +237,238 @@ namespace SmoothCoastlines.Rivers {
 
                 //Later on, when parts of the River is actually generated, this means we can potentially store data in the save and restore it to expedite the river gen process any time a world or server reboots.
                 for (int i = 0; i < riverStarts.Count; i++) { //Might be able to get away with not fully mapping out the chunks for EVERY river all at once... And only go as refined as the chunk level when we are attempting to build that map? Hmm...
-                    var startRegion = riverStarts[i];
-                    var startHeight = riverHeightEstimates[i];
+                    var sinkPoint = riverStarts[i].Item1;
+                    var sinkLogic = riverStarts[i].Item2;
+                    //var startRegion = riverStarts[i];
+
+                    //var coastData = coastMap.GenLayer(startRegion.X * riverInnerSize - 1, startRegion.Z * riverInnerSize - 1, riverInnerSize + 1, riverInnerSize + 1);
+
+                    //var startHeight = riverHeightEstimates[i];
+                    InitPositionSeed(sinkPoint.worldX, sinkPoint.worldZ); //Lets just init this based on the sink's World Coords and go from there.
+                    //var regionX = ConvertLandformMapToRegionCoords(ConvertWorldCoordsToLandformMap(sinkPoint.worldX));
+                    //var regionZ = ConvertLandformMapToRegionCoords(ConvertWorldCoordsToLandformMap(sinkPoint.worldZ));
+                    var oceanicityForPoint = oceanMap.GetOceanicityAt(ConvertWorldCoordsToOceanMap(sinkPoint.worldX), ConvertWorldCoordsToOceanMap(sinkPoint.worldZ));
                     var percentStrength = NextInt(100) / 100f;
                     var waterFlow = GameMath.Lerp(minRiverFlow, maxRiverFlow, percentStrength);
-                    RiverData workingRiver = new RiverData(contCoord, startRegion, waterFlow);
-                    int repeatedDirectionCount = 0; //TODO -- ACTUALLY IMPLEMENT THIS LOL <---
+                    RiverData activeRiverData = new RiverData(contCoord, waterFlow);
 
-                    //Set up and enqueue the first region.
-                    Queue<RiverRegion> activeRegionPoints = new Queue<RiverRegion>();
-                    RiverRegion sinkRegion = new RiverRegion(workingRiver, startRegion, startHeight, -1);
-                    workingRiver.AddRegionToRiver(startRegion, sinkRegion);
-                    activeRegionPoints.Enqueue(sinkRegion);
+                    //Set up and push the first point.
+                    Stack<(RiverPoint, RiverPlottingLogic)> activePoints = new Stack<(RiverPoint, RiverPlottingLogic)>();
+                    //RiverRegion sinkRegion = new RiverRegion(workingContinentalRivers, new XZ(regionX, regionZ));
+                    //RiverSegment sinkSegment = new RiverSegment(sinkRegion);
+                    //RiverPoint sinkPoint = new RiverPoint(sinkPoint.X, sinkPoint.Y, sinkPoint.Z, oceanicityForPoint, waterFlow, sinkSegment);
+                    //sinkPoint.UpdateParentSegment(sinkSegment);
+                    sinkPoint.UpdateFlow(waterFlow);
+                    sinkPoint.UpdateOceanicity(oceanicityForPoint);
+                    //sinkSegment.AddPointToSegment(sinkPoint);
+                    //sinkRegion.AddPrimarySegment(sinkSegment);
+                    //workingContinentalRivers.AddRegionToRiver(sinkRegion);
+                    //PrimaryRiverLogic sinkLogic = new PrimaryRiverLogic(baseChanceAmount);
+                    activePoints.Push((sinkPoint, sinkLogic));
+                    RiverPoint curPoint = null;
+                    RiverPlottingLogic curLogic = null;
+                    RiverSegment curSegment = null;
+                    RiverRegion curRegion = null;
+
+                    //XZ centerOffset = GetRegionDirectionTo(center.regionCoords, sinkRegion.regionCoords); //This is the number of region steps in each direction to get to the center. Rivers should ideally try to head in this direction? Maybe not, honestly.
 
                     //Each River needs a starting strength value, which will decrement for each region added on. Configurable range for maximum and minimum loss?
                     //For each added Region on the river, need to compute the strength loss from Downstream to Upstream, any possible forks or other special things that change the direction, and the exact world coordinates along the edge it needs to line up at. Y doesn't matter until the Chunk level, since the blocks won't actually exist until then.
-                    while (activeRegionPoints.Count > 0) {
-                        var curRegion = activeRegionPoints.Dequeue();
-                        waterFlow -= unscaledFlowLoss;
+                    while (activePoints.Count > 0) {
+                        var curTuple = activePoints.Pop();
+                        curPoint = curTuple.Item1;
+                        curLogic = curTuple.Item2;
+                        /*waterFlow -= unscaledFlowLoss;
                         if (waterFlow < 0) {
                             continue;
+                        }*/
+                        if (curPoint.flowStrength <= 0) {
+                            continue;
                         }
-                        XZ centerOffset = GetRegionDirectionTo(center.regionCoords, curRegion.regionCoords); //This is the number of region steps in each direction to get to the center, kinda used as a counter for both and to help determine region weighting.
 
-                        //Every Region added needs to calculate the flow loss for each step, then append all initializing data needed.
-                        //But for all regions after the first, we need to first pick a direction to travel in towards the center...
-                        // Following the same pattern of DesiredCoords - CurrentCoords, this will give the number of regions in the 2 cardinals to move to get there
-                        // -Z = N, +Z = S, -X = W, +X = E
-                        // This gives a relative direction and a 'slice' to kinda constrain the river inside while focusing on heading towards the center?
+                        //curRegion will need to see if this point's region exists already in this RiverData, and just grab that one, or if it needs to create a new RiverRegion.
+                        TryGetOrCreateRiverRegion(ref activeRiverData, ref curRegion, ref curPoint);
 
-                        bool closeToCenter = false;
-                        XZ downDir; //This direction is the direction it last came from - we do not want to backtrack, so this direction is always off limits.
-                        if (curRegion.downstreamRegion != null) {
-                            downDir = curRegion.GetDirectionTo(curRegion.downstreamRegion.regionCoords);
-                            var downAvgHeight = GetAverageHeightMapValuesOfCardinal(curRegion.regionCoords, downDir);
-                            if (downAvgHeight > curRegion.averageHeight && (downAvgHeight - curRegion.averageHeight) > riverCanEnterFlexibility) {
-                                continue; //This step is to actually compare the average of this Region's core heights with the 'down' region to see if it's within specifications to attempt to process into another region, or if it should possibly end here somehow as it started to go back 'downhill' as it went to the center of this region.
+                        //curSegment will always need to be created here, and add the first point.
+                        if (curPoint.HasDownstream()) { //This catches all points except for the Sink!
+                            if (curPoint.pointAfterConfluence) { //If it is the start of a fork, this will be true.
+                                curSegment = new RiverSegment(curRegion);
+                                curPoint.GetDownstream().parentSegment.AddForkSegment(curSegment, curPoint.GetDownstream());
+                            } else { //Otherwise, it is a normal point, just link up the segments and we are good!
+                                curSegment = new RiverSegment(curRegion, curPoint.GetDownstream().parentSegment); //Links the segments in the constructor
                             }
-                        } else {
-                            downDir = SpoofPrevDir(centerOffset, ref closeToCenter);
+                        } else { //The point is a Sink! Just create the segment.
+                            curSegment = new RiverSegment(curRegion);
                         }
+                        curSegment.AddPointToSegment(curPoint);
 
                         //Potentionally refine things later on:
-                        // Currently it does not factor in overlaps or already 'populated' regions
-                        //  Could be a problem due to the weighting as is, will encourage forks to follow similar logic to the main river path and likely to overlap?
-                        //  Maybe not an issue? Could have it split into two and reform but, is that realistic?
-                        // Similarly does not account for collisions, but, MIGHT lead to avoiding them naturally? If spread out at least
-                        // Adjust handling based on if it is a Fork or not? End it quicker?
+                        // Does not account for collisions with other Rivers, but, MIGHT lead to avoiding them naturally? If spread out enough at least
 
-                        RegionStepDirectionChances rngStep = new RegionStepDirectionChances(baseChanceAmount); //This initializes all chances to this baseChance value, which then gets adjusted below based on multipliers.
-                        rngStep.PreventDirectionChoice(downDir); //Set the Downstream Direction as off-limits!
+                        //Wanting to rework how these are plotted.
+                        // Instead of point by point, lets work on a full segment of points at a time.
+                        // Should be helpful in making this cleaner. Go until the segment ends through hitting the max points per segment, or it cannot find any valid points.
+                        // Then add all points to the segment, and add the segment to the Region.
 
-                        float dominantToSecondaryRatio;
-                        bool XDominant; //Is the X-Offset the larger value? If so, true. If not, false.
-                        if (Math.Abs(centerOffset.X) > Math.Abs(centerOffset.Z)) {
-                            dominantToSecondaryRatio = (float)Math.Abs(centerOffset.X) / (float)(Math.Abs(centerOffset.X) + Math.Abs(centerOffset.Z));
-                            XDominant = true;
+                        RiverPoint primaryPoint;
+                        bool iterateSegment = true;
+                        List<RiverPoint> generatedForkedPoints = new List<RiverPoint>();
+                        while (iterateSegment) {
+                            //Important to remember for all direction-related XZ pairs: -Z = N, +Z = S, -X = W, +X = E
+                            //This direction is the direction it last came from - we do not want to backtrack, so this direction is always off limits.
+                            if (curPoint.HasDownstream()) { //If it has no Downstream, the sinkLogic provided by the Sink Choice method already has accounted for 'Sea' tiles on the Coastmap.
+                                var downDir = curPoint.GetDirectionTo(curPoint.GetDownstream());
+                                curLogic.PreventDoubleBack(downDir);
+                            }
+
+                            //Instantiate the next step data, then account for any possible prior-direction to avoid doubling back
+                            //Don't allow the river to re-enter the same tile after it's passed through it once.
+                            PreventReenterTiles(curPoint, ref curLogic);
+
+                            //Calculate and figure out the Oceanicities for any still-valid direction!
+                            ProcessOceanicityPossibilities(curPoint, ref curLogic);
+
+                            //Then figure out the estimated y-heights in the center of each tile.
+                            ProcessHeightMapPossibilities(curPoint, ref curLogic);
+                            
+                            var fullChance = curLogic.GetFullChance();
+                            if (fullChance <= 0) {
+                                //If the chance is zero (or less), the Primary River has concluded here. There's no more valid places for it to go without it being weird - Time to shift it into a Tributary logic.
+                                //Perhaps this might be a way to add in some special River effects to let it continue on regardless?
+                                curLogic = curLogic.ShiftLogic(baseChanceAmount);
+
+                                if (curLogic == null) {
+                                    iterateSegment = false; //Stops the loop if this is the case!
+                                }
+                                continue; //This will only break out of this loop when the river is at a complete end at this point. Otherwise it just swaps the logic and continues.
+                            }
+
+                            var rngPrimaryChance = NextInt(fullChance);
+                            primaryPoint = curLogic.ChooseNextPointDirection(curPoint, numBlocksInLandformMapTile, rngPrimaryChance);
+                            curPoint.AddUpstreamPoint(primaryPoint);
+
+                            //Where would be best to handle a possible Fork? Should be queued BEFORE the main route is queued to ensure it is added in the right order.
+                            fullChance = curLogic.GetFullChance();
+                            if (fullChance > 0) {
+                                var doFork = NextInt(100);
+                                if (doFork <= (chanceToFork * 100)) {
+                                    var rngForkChance = NextInt(fullChance);
+                                    RiverPoint forkPoint = curLogic.ChooseNextPointDirection(curPoint, numBlocksInLandformMapTile, rngForkChance);
+                                    curPoint.AddConfluenceUpstream(forkPoint); //Always the start of a new Segment! This marks it as the point after a confluence, the fork's first point.
+                                    generatedForkedPoints.Add(forkPoint);
+
+                                    TributaryRiverLogic forkLogic = new TributaryRiverLogic(baseChanceAmount);
+                                    activePoints.Push((forkPoint, forkLogic));
+                                }
+                            }
+
+                            //Done with this current point, time to shift to the next one and refresh the logic.
+                            curLogic = curLogic.ChainLogic(baseChanceAmount);
+                            curPoint = primaryPoint;
+
+                            if (curSegment.NumPointsInSegment() < RiverSegment.maxPointsPerSegment) {
+                                var primaryX = ConvertLandformMapToRegionCoords(ConvertWorldCoordsToLandformMap(curPoint.worldX));
+                                var primaryZ = ConvertLandformMapToRegionCoords(ConvertWorldCoordsToLandformMap(curPoint.worldZ));
+                                if (curSegment.PointValidForSegmentsRegion(new XZ(primaryX, primaryZ))) { //If the point is valid for this segment's region, it can be added to it.
+                                    curSegment.AddPointToSegment(curPoint);
+                                } else {
+                                    iterateSegment = false;
+                                }
+                            } else {
+                                iterateSegment = false;
+                            }
+                        }
+
+                        //After this point, the segment is completed. All points should be added to it that should be, and all linked up.
+                        //Run the Segment's point averaging and post-processing passes here. Then also account for curPoint, and all possible forked points.
+                        //First just equalize the flow value through the whole Segment, and then copy the downstream flow to the next curPoint and all possible forkedPoints
+                        curSegment.AverageOutFlows(flowLoss);
+                        curPoint.UpdateFlow(curPoint.GetDownstream().flowStrength);
+                        for (int f = 0; f < generatedForkedPoints.Count; f++) {
+                            generatedForkedPoints[f].UpdateFlow(generatedForkedPoints[f].GetDownstream().flowStrength);
+                        }
+
+                        //Then ensure each point has a valid Y-Coordinate set. This is likely also where we will want to detect for Waterfalls and other special situations
+                        int startY;
+                        if (curSegment.downstream != null) {
+                            startY = curSegment.downPoint.GetDownstream().worldY;
                         } else {
-                            dominantToSecondaryRatio = (float)Math.Abs(centerOffset.Z) / (float)(Math.Abs(centerOffset.X) + Math.Abs(centerOffset.Z));
-                            XDominant = false;
+                            startY = sealevelY;
                         }
 
-                        if (rngStep.NorthFree) { //-Z - Is North still possible?
-                            if (workingRiver.DoesRiverPassThroughRegion(new XZ(curRegion.regionCoords.X + North.X, curRegion.regionCoords.Z + North.Z))) {
-                                rngStep.PreventDirectionChoice(North);
-                            } else {
-                                rngStep.NorthHeight = GetAverageHeightMapValuesOfCardinal(curRegion.regionCoords, North);
-                                if (curRegion.averageHeight < rngStep.NorthHeight) {
-                                    if (centerOffset.Z < 0) { //If the Center Offset is negative in the Z coordinate then it is towards the North. This means it is heading towards the center.
-                                        if (!XDominant) { //Is the Z coord the larger one?
-                                            rngStep.NorthChance = (int)(rngStep.NorthChance * dominantToSecondaryRatio);
-                                        } else {
-                                            rngStep.NorthChance = (int)(rngStep.NorthChance * (1 - dominantToSecondaryRatio));
-                                        }
-                                    } else { //Otherwise it would be a 'weird' step! Augment the chance accordingly.
-                                        rngStep.NorthChance = (int)(rngStep.NorthChance * riverWeirdnessMult);
-                                    }
-                                    rngStep.NorthChance = (int)(rngStep.NorthChance * (1 - rngStep.NorthHeight));
-                                } else {
-                                    rngStep.PreventDirectionChoice(North);
-                                }
-                            }
+                        var pointCount = curSegment.NumPointsInSegment();
+                        for (int p = 0; p < pointCount; p++) {
+
                         }
 
-                        if (rngStep.WestFree) { //-X - Is West ... ect
-                            if (workingRiver.DoesRiverPassThroughRegion(new XZ(curRegion.regionCoords.X + West.X, curRegion.regionCoords.Z + West.Z))) {
-                                rngStep.PreventDirectionChoice(West);
-                            } else {
-                                rngStep.WestHeight = GetAverageHeightMapValuesOfCardinal(curRegion.regionCoords, West);
-                                if (curRegion.averageHeight < rngStep.WestHeight) {
-                                    if (centerOffset.X < 0) {
-                                        if (!XDominant) {
-                                            rngStep.WestChance = (int)(rngStep.WestChance * dominantToSecondaryRatio);
-                                        } else {
-                                            rngStep.WestChance = (int)(rngStep.WestChance * (1 - dominantToSecondaryRatio));
-                                        }
-                                    } else {
-                                        rngStep.WestChance = (int)(rngStep.WestChance * riverWeirdnessMult);
-                                    }
-                                    rngStep.WestChance = (int)(rngStep.WestChance * (1 - rngStep.WestHeight));
-                                } else {
-                                    rngStep.PreventDirectionChoice(West);
-                                }
-                            }
-                        }
-
-                        if (rngStep.EastFree) { //+X
-                            if (workingRiver.DoesRiverPassThroughRegion(new XZ(curRegion.regionCoords.X + East.X, curRegion.regionCoords.Z + East.Z))) {
-                                rngStep.PreventDirectionChoice(East);
-                            } else {
-                                rngStep.EastHeight = GetAverageHeightMapValuesOfCardinal(curRegion.regionCoords, East);
-                                if (curRegion.averageHeight < rngStep.EastHeight) {
-                                    if (centerOffset.X > 0) {
-                                        if (!XDominant) {
-                                            rngStep.EastChance = (int)(rngStep.EastChance * dominantToSecondaryRatio);
-                                        } else {
-                                            rngStep.EastChance = (int)(rngStep.EastChance * (1 - dominantToSecondaryRatio));
-                                        }
-                                    } else {
-                                        rngStep.EastChance = (int)(rngStep.EastChance * riverWeirdnessMult);
-                                    }
-                                    rngStep.EastChance = (int)(rngStep.EastChance * (1 - rngStep.EastHeight));
-                                } else {
-                                    rngStep.PreventDirectionChoice(East);
-                                }
-                            }
-                        }
-
-                        if (rngStep.SouthFree) { //+Z
-                            if (workingRiver.DoesRiverPassThroughRegion(new XZ(curRegion.regionCoords.X + South.X, curRegion.regionCoords.Z + South.Z))) {
-                                rngStep.PreventDirectionChoice(South);
-                            } else {
-                                rngStep.SouthHeight = GetAverageHeightMapValuesOfCardinal(curRegion.regionCoords, South);
-                                if (curRegion.averageHeight < rngStep.SouthHeight) {
-                                    if (centerOffset.Z > 0) {
-                                        if (!XDominant) {
-                                            rngStep.SouthChance = (int)(rngStep.SouthChance * dominantToSecondaryRatio);
-                                        } else {
-                                            rngStep.SouthChance = (int)(rngStep.SouthChance * (1 - dominantToSecondaryRatio));
-                                        }
-                                    } else {
-                                        rngStep.SouthChance = (int)(rngStep.SouthChance * riverWeirdnessMult);
-                                    }
-                                    rngStep.SouthChance = (int)(rngStep.SouthChance * (1 - rngStep.SouthHeight));
-                                } else {
-                                    rngStep.PreventDirectionChoice(South);
-                                }
-                            }
-                        }
-
-                        //Thought process behind this is to try and combine all of the factors effecting the River's possible direction...
-                        //  The tendency to always head towards the center of the continent is the primary factor
-                        //  Then also factor in the height - as long as that direction is higher then the current region's average
-                        //  Sum this all together and it should give us a value to get the nextInt from 0 to this number, and similar to how Landform Weighting works, this weights and chooses the direction.
-
-                        var fullChance = rngStep.GetFullChance();
-                        if (fullChance <= 0) {
-                            //If it's zero (or somehow less), the River has concluded here. There's no more valid places for it to go without it being weird - No need to add on anything else. Perhaps this might be a way to add in some special River effects to let it continue on regardless?
-                            continue;
-                        }
-
-                        XZ primaryChoiceDir = new XZ(-1, -1);
-                        float primaryChoiceHeight = 0f;
-                        var rngPrimaryChance = NextInt(fullChance);
-
-                        if (rngStep.NorthFree && rngPrimaryChance < rngStep.NorthChance) {
-                            rngStep.PreventDirectionChoice(North);
-                            primaryChoiceDir = North;
-                        } else if (rngStep.EastFree && rngPrimaryChance < (rngStep.NorthChance + rngStep.EastChance)) {
-                            rngStep.PreventDirectionChoice(East);
-                            primaryChoiceDir = East;
-                        } else if (rngStep.SouthFree && rngPrimaryChance < (rngStep.NorthChance + rngStep.EastChance + rngStep.SouthChance)) {
-                            rngStep.PreventDirectionChoice(South);
-                            primaryChoiceDir = South;
-                        } else if (rngStep.WestFree) {
-                            rngStep.PreventDirectionChoice(West);
-                            primaryChoiceDir = West;
+                        //Finally, add this segment to the region.
+                        if (!curSegment.forkedSegment) {
+                            curRegion.AddPrimarySegment(curSegment);
                         } else {
-                            continue;
+                            curRegion.AddForkSegment(curSegment);
                         }
-                        primaryChoiceHeight = GetAverageHeightForRegion(new XZ(curRegion.regionCoords.X + primaryChoiceDir.X, curRegion.regionCoords.Z + primaryChoiceDir.Z));
 
-                        //Where would be best to handle a possible Fork? Should be queued BEFORE the main route is queued to ensure it is added in the right order.
-                        fullChance = rngStep.GetFullChance();
-                        if (fullChance > 0) {
-                            var doFork = NextInt(100);
-                            if (doFork < (chanceToFork * 100)) {
-                                XZ forkDir = new XZ(-2, -2);
-                                float forkHeight = 0f;
-                                var rngForkChance = NextInt(fullChance);
+                        //Now queue up the Primary River continuation here (if the river continues, logic will be null if it does not.) - Forks have been queued already in the loop. When it comes their time to run, they will be processed the same as the Primary, only after it has concluded entirely.
+                        if (curLogic != null) {
+                            activePoints.Push((curPoint, curLogic));
+                        }
 
-                                if (rngStep.NorthFree && rngForkChance < rngStep.NorthChance) {
-                                    rngStep.PreventDirectionChoice(North);
-                                    forkDir = North;
-                                } else if (rngStep.EastFree && rngForkChance < (rngStep.NorthChance + rngStep.EastChance)) {
-                                    rngStep.PreventDirectionChoice(East);
-                                    forkDir = East;
-                                } else if (rngStep.SouthFree && rngForkChance < (rngStep.NorthChance + rngStep.EastChance + rngStep.SouthChance)) {
-                                    rngStep.PreventDirectionChoice(South);
-                                    forkDir = South;
-                                } else if (rngStep.WestFree) {
-                                    rngStep.PreventDirectionChoice(West);
-                                    forkDir = West;
-                                }
+                        /*RiverRegion forkRegion = GetOrCreateRiverRegion(ref forkPoint, ref curPoint, ref activeRiverData);
+                        RiverSegment forkSegment = new RiverSegment(forkRegion, curPoint.parentSegment);
+                        forkPoint.UpdateParentSegment(forkSegment);
+                        forkSegment.AddPointToSegment(forkPoint);
 
-                                if (forkDir.X != -2) {
-                                    forkHeight = GetAverageHeightForRegion(new XZ(curRegion.regionCoords.X + forkDir.X, curRegion.regionCoords.Z + forkDir.Z));
-                                    
-                                    //To initialize a Fork, do not send it a DownRegion on creation, instead just call the AttachForkRegion on the Downstream end afterwards.
-                                    RiverRegion forkedRegion = new RiverRegion(workingRiver, new XZ(curRegion.regionCoords.X + forkDir.X, curRegion.regionCoords.Z + forkDir.Z), forkHeight, waterFlow);
-                                    XZ forkConnectionPos = PickConnectingWorldCoords(curRegion, forkDir);
-                                    if (forkConnectionPos.X == -1) {
-                                        SmoothCoastlinesModSystem.Logger.Warning("Failed to find a RiverMap Tile that fits for passing upstream into this fork region. Canceling the Fork! If this is commonplace, perhaps consider some method of continuing it here, somehow?");
-                                    } else {
-                                        curRegion.AttachForkRegion(forkedRegion, forkConnectionPos);
-                                        workingRiver.AddRegionToRiver(forkedRegion.regionCoords, forkedRegion);
-                                        activeRegionPoints.Enqueue(forkedRegion);
-                                    }
-                                    //Perhaps consider adding Tags to the fork region to mark it as a Fork? For refining later the generation perhaps.
-                                }
+                        var forkSuccess = curPoint.parentSegment.AddForkSegment(forkSegment, curPoint);
+                        if (forkSuccess) {
+                            forkRegion.AddForkSegment(forkSegment);
+
+                            TributaryRiverLogic forkLogic = new TributaryRiverLogic(baseChanceAmount);
+                            activePoints.Enqueue((forkPoint, forkLogic));
+                        } else {
+                            if (!(forkRegion.primarySegments.Count > 0 || forkRegion.forkedSegments.Count > 0)) {
+                                activeRiverData.RemoveRegionFromRiver(forkRegion);
                             }
+                            curPoint.parentSegment.RemoveForkSegment(curPoint);
+                            curPoint.CancelConfluence(forkPoint);
                         }
 
-                        //And now handle the primary Upstream portion of the River here!
-                        curRegion.upstreamWorldPos = PickConnectingWorldCoords(curRegion, primaryChoiceDir);
-                        if (curRegion.upstreamWorldPos.X == -1) {
-                            SmoothCoastlinesModSystem.Logger.Warning("Failed to find a RiverMap Tile that fits for passing upstream into this next region. Ending the river in this current region instead. If this is commonplace, perhaps consider some method of continuing it here, somehow?");
-                            continue;
+                        RiverRegion primaryRegion = GetOrCreateRiverRegion(ref primaryPoint, ref curPoint, ref activeRiverData);
+
+                        RiverSegment primarySegment;
+                        bool primarySuccess = curPoint.parentSegment.PointValidForSegmentsRegion(primaryRegion.regionCoords);
+                        if (primarySuccess) {
+                            primarySuccess = curPoint.parentSegment.AddPointToSegment(primaryPoint);
                         }
-                        RiverRegion upstreamRegion = new RiverRegion(workingRiver, new XZ(curRegion.regionCoords.X + primaryChoiceDir.X, curRegion.regionCoords.Z + primaryChoiceDir.Z), primaryChoiceHeight, waterFlow, curRegion);
-                        workingRiver.AddRegionToRiver(upstreamRegion.regionCoords, upstreamRegion);
-                        activeRegionPoints.Enqueue(upstreamRegion);
+
+                        if (primarySuccess) {
+                            primarySegment = curPoint.parentSegment;
+                        } else {
+                            primarySegment = new RiverSegment(primaryRegion, curPoint.parentSegment);
+                            primarySegment.AddPointToSegment(primaryPoint);
+                            primaryRegion.AddPrimarySegment(primarySegment);
+                        }
+                        primaryPoint.UpdateParentSegment(primarySegment);
+
+                        RiverPlottingLogic newLogic = curLogic.ChainLogic(baseChanceAmount);
+                        activePoints.Enqueue((primaryPoint, newLogic));*/
                     }
 
-                    continentalRivers.Add(workingRiver);
+                    continentalRivers.Add(activeRiverData);
                 }
             }
         }
 
-        private void RecursivelyIntializeContinents(RiverRegionStep curRegion, ref BitArray visitedRegions, ref List<XZ> riverStarts, ref List<float> riverHeightEstimates) { //Lets try to just poll the center of the region for it's Oceanicity and see if that's sufficient
+        private void RecursivelyIntializeContinents(RiverRegionStep curRegion, ref BitArray visitedRegions, ref List<(RiverPoint, RiverPlottingLogic)> riverStarts) { //Lets try to just poll the center of the region for it's Oceanicity and see if that's sufficient
             visitedRegions[curRegion.visitedCoords.Z * maxRegionSteps + curRegion.visitedCoords.X] = true;
-            int centerOceanRegionX = (curRegion.regionCoords.X * noiseSizeOcean - oceanPad) + (oceanSize / 2); //Will this need to be a few checks? Like 4 points or something maybe for a finer detail.
-            int centerOceanRegionZ = (curRegion.regionCoords.Z * noiseSizeOcean - oceanPad) + (oceanSize / 2);
+            int centerOceanRegionX = ConvertRegionToOceanMapCoords(curRegion.regionCoords.X, oceanSize / 2); //(curRegion.regionCoords.X * noiseSizeOcean - oceanPad) + (oceanSize / 2); //Will this need to be a few checks? Like 4 points or something maybe for a finer detail.
+            int centerOceanRegionZ = ConvertRegionToOceanMapCoords(curRegion.regionCoords.Z, oceanSize / 2); //(curRegion.regionCoords.Z * noiseSizeOcean - oceanPad) + (oceanSize / 2);
 
             var oceanicity = oceanMap.GetOceanicityAt(centerOceanRegionX, centerOceanRegionZ);
 
             if (oceanicity >= minRiverOceanicity && oceanicity <= maxRiverOceanicity) {
-                var avgHeight = GetAverageHeightForRegion(curRegion.regionCoords);
-                if (avgHeight <= maxHeightForSink && NextInt(1000) < riverChance) {
-                    riverStarts.Add(curRegion.regionCoords);
-                    riverHeightEstimates.Add((float)avgHeight);
+                if (NextInt(1000) < riverChance) {
+                    ProcessAndPickSinkTile(curRegion, ref riverStarts);
+                    return;
                 }
             } else if (oceanicity > maxRiverOceanicity || oceanicity < curRegion.prevOceanicity) {
                 return; //If it's over the max or it goes below the previous examined Oceanicity, just return since it's either going into the deep ocean where we don't want rivers, or it's a place where two continents are close enough together that it's going back away from the ocean
@@ -457,7 +481,7 @@ namespace SmoothCoastlines.Rivers {
                     regionCoords = new XZ(curRegion.regionCoords.X, curRegion.regionCoords.Z - 1),
                     visitedCoords = new XZ(curRegion.visitedCoords.X, curRegion.visitedCoords.Z - 1)
                 };
-                RecursivelyIntializeContinents(upStep, ref visitedRegions, ref riverStarts, ref riverHeightEstimates);
+                RecursivelyIntializeContinents(upStep, ref visitedRegions, ref riverStarts);
             }
 
             //Right +X
@@ -467,7 +491,7 @@ namespace SmoothCoastlines.Rivers {
                     regionCoords = new XZ(curRegion.regionCoords.X + 1, curRegion.regionCoords.Z),
                     visitedCoords = new XZ(curRegion.visitedCoords.X + 1, curRegion.visitedCoords.Z)
                 };
-                RecursivelyIntializeContinents(rightStep, ref visitedRegions, ref riverStarts, ref riverHeightEstimates);
+                RecursivelyIntializeContinents(rightStep, ref visitedRegions, ref riverStarts);
             }
 
             //Down +Z
@@ -477,7 +501,7 @@ namespace SmoothCoastlines.Rivers {
                     regionCoords = new XZ(curRegion.regionCoords.X, curRegion.regionCoords.Z + 1),
                     visitedCoords = new XZ(curRegion.visitedCoords.X, curRegion.visitedCoords.Z + 1)
                 };
-                RecursivelyIntializeContinents(downStep, ref visitedRegions, ref riverStarts, ref riverHeightEstimates);
+                RecursivelyIntializeContinents(downStep, ref visitedRegions, ref riverStarts);
             }
 
             //Left -X
@@ -487,58 +511,261 @@ namespace SmoothCoastlines.Rivers {
                     regionCoords = new XZ(curRegion.regionCoords.X - 1, curRegion.regionCoords.Z),
                     visitedCoords = new XZ(curRegion.visitedCoords.X - 1, curRegion.visitedCoords.Z)
                 };
-                RecursivelyIntializeContinents(leftStep, ref visitedRegions, ref riverStarts, ref riverHeightEstimates);
+                RecursivelyIntializeContinents(leftStep, ref visitedRegions, ref riverStarts);
             }
         }
 
-        //If this is the second step after the sinkRegion, it won't have a downstream region. Need to just 'spoof' the downDir to be whichever way would be the worst to go.
-        private XZ SpoofPrevDir(XZ centerOffset, ref bool closeToCenter) {
-            XZ downDir = new XZ();
-            int dirX = 0; //If this direction is perfectly in line with the center, it will remain 0.
-            if (centerOffset.X < 0) { //West
-                dirX = -1;
-            } else if (centerOffset.X > 0) { //East
-                dirX = 1;
-            }
+        private void ProcessAndPickSinkTile(RiverRegionStep curRegion, ref List<(RiverPoint, RiverPlottingLogic)> riverStarts) {
+            var landformX = ConvertRegionToLandformMapCoords(curRegion.regionCoords.X);
+            var landformZ = ConvertRegionToLandformMapCoords(curRegion.regionCoords.Z);
+            float[] heights = new float[noiseSizeLandform * noiseSizeLandform];
 
-            int dirZ = 0; //Same as above for Z! Only time both will be 0 is when it is the Center region.
-            if (centerOffset.Z < 0) { //North
-                dirZ = -1;
-            } else if (centerOffset.Z > 0) { //South
-                dirZ = 1;
-            }
-
-            bool smallX = false;
-            if (centerOffset.X < riverRegionCloseToCardinal && centerOffset.X > -riverRegionCloseToCardinal) {
-                smallX = true;
-            }
-
-            bool smallZ = false;
-            if (centerOffset.Z < riverRegionCloseToCardinal && centerOffset.Z > -riverRegionCloseToCardinal) {
-                smallZ = true;
-            }
-
-            if (smallX && smallZ) {
-                closeToCenter = true;
-                downDir.X = -2;
-                downDir.Z = -2; //Set something just in case so it isn't null, but a -2 should be checked for in this case and handled like a 'nothing' value.
-            } else {
-                if (centerOffset.X < centerOffset.Z) { //Technically weighted towards X because it's looking for less than, and not equal, but eeeh. It's the first step is all.
-                    downDir.X = 0;
-                    downDir.Z = -dirZ;
-                } else {
-                    downDir.X = -dirX;
-                    downDir.Z = 0;
+            for (int x = 0; x < noiseSizeLandform; x++) {
+                for (int z = 0; z < noiseSizeLandform; z++) {
+                    var height = this.landformMap.GetHeightMapAt(landformX + x, landformZ + z);
+                    if (height > maxHeightForSink) {
+                        height = -1;
+                    }
+                    heights[z * noiseSizeLandform + x] = height;
                 }
             }
 
-            return downDir;
+            bool[] coasts = new bool[noiseSizeLandform * noiseSizeLandform]; //Since the Coastmap and Rivermap are on the same scale as the Landforms, these are interchangable cause they are the same. landformSize factors in the padding as well, so it is NOT.
+
+            IntDataMap2D oceanMap = new IntDataMap2D {
+                Data = this.oceanMap.GenLayer(curRegion.regionCoords.X * noiseSizeOcean - oceanPad, curRegion.regionCoords.Z * noiseSizeOcean - oceanPad, oceanSize, oceanSize),
+                Size = oceanSize,
+                TopLeftPadding = oceanPad,
+                BottomRightPadding = oceanPad
+            };
+            IntDataMap2D landformMap = new IntDataMap2D {
+                Data = this.landformMap.GenLayer(curRegion.regionCoords.X * noiseSizeLandform - landformPad, curRegion.regionCoords.Z * noiseSizeLandform - landformPad, landformSize, landformSize),
+                Size = landformSize,
+                TopLeftPadding = landformPad,
+                BottomRightPadding = landformPad
+            };
+            var genTerraPrety = Sapi.ModLoader.GetModSystem<GenTerraPrety>();
+            var landLerpMap = genTerraPrety.GetOrCreateLerpedLandformMap(landformMap, curRegion.regionCoords.X, curRegion.regionCoords.Z);
+            coastMap.SetCoastAndLandformMaps(oceanMap, landLerpMap, landformMap.InnerSize, landformMap.InnerSize);
+            var coastMapForRegion = coastMap.GenLayerAndAddToCache(curRegion.regionCoords.X * noiseSizeLandform, curRegion.regionCoords.Z * noiseSizeLandform, noiseSizeLandform + 1, noiseSizeLandform + 1);
+            
+            int possibleCoastTiles = 0;
+            for (int x = 0; x < noiseSizeLandform; x++) {
+                for (int z = 0; z < noiseSizeLandform; z++) {
+                    if ((x > 0 && x < noiseSizeLandform - 1) && (z > 0 && z < noiseSizeLandform - 1) && heights[z * noiseSizeLandform + x] > -1 && coastMapForRegion[z * noiseSizeLandform + x] == (int)EnumCoasts.Coast) {
+                        coasts[z * noiseSizeLandform + x] = true; //Lets only ever use points that are not on the Regional Border
+                        possibleCoastTiles++;
+                    } else {
+                        coasts[z * noiseSizeLandform + x] = false; //But it still initializes the outer border as false to avoid null problems just in case.
+                    }
+                }
+            }
+
+            if (possibleCoastTiles != 0) {
+                var sinkChoice = NextInt(possibleCoastTiles);
+                for (int x = 1; x < noiseSizeLandform - 1; x++) {
+                    for (int z = 1; z < noiseSizeLandform - 1; z++) {
+                        if (!coasts[z * noiseSizeLandform + x]) {
+                            continue;
+                        }
+
+                        sinkChoice--;
+                        if (sinkChoice <= 0) {
+                            var pointX = ConvertLandformMapToWorldCoords(landformX + x, (numBlocksInLandformMapTile / 2));
+                            var pointZ = ConvertLandformMapToWorldCoords(landformZ + z, (numBlocksInLandformMapTile / 2));
+                            RiverPoint sinkPoint = new RiverPoint(pointX, sealevelY, pointZ);
+
+                            RiverPlottingLogic sinkLogic = new PrimaryRiverLogic(baseChanceAmount);
+                            for (int i = -1; i < 2; i++) { //X offset
+                                for (int j = -1; j < 2; j++) { //Z offset - This pass will ensure that any Ocean tiles are marked as 'do not traverse' in the logic.
+                                    if (i == 0 && j == 0) {
+                                        continue;
+                                    }
+
+                                    if (coastMapForRegion[(z + j) * noiseSizeLandform + (x + i)] == (int)EnumCoasts.Sea) {
+                                        sinkLogic.PreventDirectionChoice(new XZ(i, j));
+                                    }
+                                }
+                            }
+
+                            if (sinkLogic.GetFullChance() > 0) {
+                                riverStarts.Add((sinkPoint, sinkLogic));
+                                break;
+                            } else {
+                                sinkChoice++;
+                            }
+                        }
+                    }
+
+                    if (sinkChoice <= 0) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void PreventReenterTiles(RiverPoint curPoint, ref RiverPlottingLogic logic) {
+            for (int x = -1; x < 2; x++) {
+                for (int z = -1; z < 2; z++) {
+                    if (x == 0 && z == 0) {
+                        continue;
+                    }
+
+                    var potentialWorldX = curPoint.worldX + (numBlocksInLandformMapTile * x);
+                    var potentialWorldZ = curPoint.worldZ + (numBlocksInLandformMapTile * z);
+
+                    var potentialRegionX = ConvertLandformMapToRegionCoords(ConvertWorldCoordsToLandformMap(potentialWorldX));
+                    var potentialRegionZ = ConvertLandformMapToRegionCoords(ConvertWorldCoordsToLandformMap(potentialWorldZ));
+
+                    if (curPoint.parentSegment.riverRegion.river.DoesRiverPassThroughMapTile(new XZ(potentialRegionX, potentialRegionZ), new XZ(potentialWorldX, potentialWorldZ))) {
+                        logic.PreventDirectionChoice(new XZ(x, z));
+                    }
+                }
+            }
+        }
+
+        private void ProcessOceanicityPossibilities(RiverPoint curPoint, ref RiverPlottingLogic logic) {
+            for (int x = -1; x < 2; x++) {
+                for (int z = -1; z < 2; z++) {
+                    if (x == 0 && z == 0) {
+                        continue;
+                    }
+
+                    var potentialX = curPoint.worldX + (numBlocksInLandformMapTile * x);
+                    var potentialZ = curPoint.worldZ + (numBlocksInLandformMapTile * z);
+
+                    var oceanX = ConvertWorldCoordsToOceanMap(potentialX);
+                    var oceanZ = ConvertWorldCoordsToOceanMap(potentialZ);
+
+                    var oceanicity = oceanMap.GetOceanicityAt(oceanX, oceanZ);
+                    logic.SetOceanicityOfDir(new XZ(x, z), oceanicity, curPoint.oceanicity);
+                }
+            }
+        }
+
+        private void ProcessHeightMapPossibilities(RiverPoint curPoint, ref RiverPlottingLogic logic) {
+            for (int x = -1; x < 2; x++) {
+                for (int z = -1; z < 2; z++) {
+                    if (x == 0 && z == 0) {
+                        continue;
+                    }
+
+                    var potentialX = curPoint.worldX + (numBlocksInLandformMapTile * x);
+                    var potentialZ = curPoint.worldZ + (numBlocksInLandformMapTile * z);
+
+                    var landformX = ConvertWorldCoordsToLandformMap(potentialX);
+                    var landformZ = ConvertWorldCoordsToLandformMap(potentialZ);
+
+                    var heightmap = landformMap.GetHeightMapAt(landformX, landformZ);
+                    logic.SetHeightOfDir(new XZ(x, z), heightmap, curPoint.landformHMHeight);
+                }
+            }
+        }
+
+        //This may be insanely taxing on processing power - but a way to optimize it might be generate the whole region's estimated y-block height, then cache it.
+        //If cached by Region Coordinate pair, then it can be accessed similarly to the LandformLerpMap! This will help a lot actually.
+        private void ProcessHeightPossibilities(RiverPoint curPoint, ref RiverPlottingLogic rngChances) {
+            var regionCoords = curPoint.parentSegment.riverRegion.regionCoords;
+            var regionalX = ConvertRegionToLandformMapCoords(regionCoords.X);
+            var regionalZ = ConvertRegionToLandformMapCoords(regionCoords.Z);
+            int[] heightEstimates = GetOrLoadHeightEstimatesForRegion(regionCoords);
+            IntDataMap2D heightEstimatesMap = new IntDataMap2D {
+                Data = heightEstimates,
+                Size = noiseSizeLandform + 2 * 2,
+                TopLeftPadding = 2,
+                BottomRightPadding = 2
+            };
+
+            for (int x = -1; x < 2; x++) {
+                for (int z = -1; z < 2; z++) {
+                    if (x == 0 && z == 0) {
+                        continue;
+                    }
+
+                    var potentialX = curPoint.worldX + (numBlocksInLandformMapTile * x);
+                    var potentialZ = curPoint.worldZ + (numBlocksInLandformMapTile * z);
+
+                    var landformX = ConvertWorldCoordsToLandformMap(potentialX);
+                    var landformZ = ConvertWorldCoordsToLandformMap(potentialZ);
+
+                    //SmoothCoastlinesModSystem.Logger.Warning("X: " + (landformX - regionalX) + " Z: " + (landformZ - regionalZ));
+                    var height = heightEstimatesMap.GetUnpaddedInt((landformX - regionalX), (landformZ - regionalZ)); //heightEstimates[(landformZ - regionalZ) * noiseSizeLandform + (landformX - regionalX)];
+                    rngChances.SetHeightOfDir(new XZ(x, z), height, curPoint.worldY);
+                }
+            }
+        }
+
+        private int[] GetOrLoadHeightEstimatesForRegion(XZ regionCoords) {
+            if (heightEstimatesByRegion.TryGetValue(regionCoords, out var height)) {
+                return height;
+            }
+
+            IntDataMap2D oceanMap = new IntDataMap2D {
+                Data = this.oceanMap.GenLayer(regionCoords.X * noiseSizeOcean - oceanPad, regionCoords.Z * noiseSizeOcean - oceanPad, oceanSize, oceanSize),
+                Size = oceanSize,
+                TopLeftPadding = oceanPad,
+                BottomRightPadding = oceanPad
+            };
+            IntDataMap2D landformMap = new IntDataMap2D {
+                Data = this.landformMap.GenLayer(regionCoords.X * noiseSizeLandform - landformPad, regionCoords.Z * noiseSizeLandform - landformPad, landformSize, landformSize),
+                Size = landformSize,
+                TopLeftPadding = landformPad,
+                BottomRightPadding = landformPad
+            };
+            var genTerraPrety = Sapi.ModLoader.GetModSystem<GenTerraPrety>();
+            var landLerpMap = genTerraPrety.GetOrCreateLerpedLandformMap(landformMap, regionCoords.X, regionCoords.Z);
+            coastMap.SetCoastAndLandformMaps(oceanMap, landLerpMap, landformMap.InnerSize, landformMap.InnerSize);
+            var heights = coastMap.GetEstimatedYHeights(regionCoords.X * noiseSizeLandform - 2, regionCoords.Z * noiseSizeLandform - 2, noiseSizeLandform + 2 * 2, noiseSizeLandform + 2 * 2);
+            heightEstimatesByRegion.Add(regionCoords, heights);
+
+            return heights;
+        }
+
+        /*private RiverRegion GetOrCreateRiverRegion(ref RiverPoint newPoint, ref RiverPoint curPoint, ref RiverData workingContRivers) {
+            RiverRegion rivRegion;
+            var pointRegionX = ConvertLandformMapToRegionCoords(ConvertWorldCoordsToLandformMap(newPoint.worldX));
+            var pointRegionZ = ConvertLandformMapToRegionCoords(ConvertWorldCoordsToLandformMap(newPoint.worldZ));
+            XZ pointRegionXZ = new XZ(pointRegionX, pointRegionZ);
+
+            if (curPoint.parentSegment.PointValidForSegmentsRegion(pointRegionXZ)) { //If this point is still within curPoint's region, then we can just add a new forked segment to it.
+                rivRegion = curPoint.parentSegment.riverRegion;
+            } else { //If it is not, we will have to make a new RiverRegion as well and add it to the RiverData, along with forking the segment proper!
+                if (workingContRivers.DoesRiverPassThroughRegion(pointRegionXZ)) {
+                    rivRegion = workingContRivers.GetRegionAt(pointRegionXZ);
+                } else {
+                    rivRegion = new RiverRegion(workingContRivers, pointRegionXZ);
+                    curPoint.parentSegment.riverRegion.ConnectRegion(rivRegion);
+                    workingContRivers.AddRegionToRiver(rivRegion);
+                }
+            }
+
+            return rivRegion;
+        }*/
+
+        private void TryGetOrCreateRiverRegion(ref RiverData workingRiver, ref RiverRegion region, ref RiverPoint curPoint) {
+            var pointRegionX = ConvertLandformMapToRegionCoords(ConvertWorldCoordsToLandformMap(curPoint.worldX));
+            var pointRegionZ = ConvertLandformMapToRegionCoords(ConvertWorldCoordsToLandformMap(curPoint.worldZ));
+            XZ pointRegionXZ = new XZ(pointRegionX, pointRegionZ);
+
+            if (region != null) { //If it is not null, check if this region is already valid for this point. If so, no need to do anything!
+                if (region.regionCoords.X == pointRegionX && region.regionCoords.Z == pointRegionZ) {
+                    return;
+                }
+            }
+
+            //Otherwise, either the region has not been found yet, or it isn't valid anymore, so we need to update it.
+            if (workingRiver.DoesRiverPassThroughRegion(pointRegionXZ)) {
+                region = workingRiver.GetRegionAt(pointRegionXZ);
+            } else {
+                region = new RiverRegion(workingRiver, pointRegionXZ);
+                workingRiver.AddRegionToRiver(region);
+            }
         }
 
         private float GetAverageHeightForRegion(XZ regionCoords) {
             int landformSizeFourth = landformSize / 4;
-            int upLeftHeightX = (regionCoords.X * noiseSizeLandform - landformPad) + landformSizeFourth; //The upper left quadrant's centermost tile, this plus the other 3 divided by 4 can be the quick heightmap estimate?
-            int upLeftHeightZ = (regionCoords.Z * noiseSizeLandform - landformPad) + landformSizeFourth;
+            int upLeftHeightX = ConvertRegionToLandformMapCoords(regionCoords.X, landformSizeFourth); //(regionCoords.X * noiseSizeLandform - landformPad) + landformSizeFourth; //The upper left quadrant's centermost tile, this plus the other 3 divided by 4 can be the quick heightmap estimate?
+            int upLeftHeightZ = ConvertRegionToLandformMapCoords(regionCoords.Z, landformSizeFourth); //(regionCoords.Z * noiseSizeLandform - landformPad) + landformSizeFourth;
 
             var avgHeight = landformMap.GetHeightMapAt(upLeftHeightX, upLeftHeightZ);
             avgHeight += landformMap.GetHeightMapAt(upLeftHeightX + (2 * landformSizeFourth), upLeftHeightZ);
@@ -551,8 +778,8 @@ namespace SmoothCoastlines.Rivers {
 
         //For reference: North -Z, South +Z, West -X, and East +X
         private float GetAverageHeightMapValuesOfCardinal(XZ regionCoords, XZ cardinalDir) {
-            var landformOriginRegionX = regionCoords.X * noiseSizeLandform - landformPad;
-            var landformOriginRegionZ = regionCoords.Z * noiseSizeLandform - landformPad;
+            var landformOriginRegionX = ConvertRegionToLandformMapCoords(regionCoords.X); //regionCoords.X * noiseSizeLandform - landformPad;
+            var landformOriginRegionZ = ConvertRegionToLandformMapCoords(regionCoords.Z); //regionCoords.Z * noiseSizeLandform - landformPad;
             float averageHeight = 0f;
             //XZ coordsStep = new XZ(landformOriginRegionX, landformOriginRegionZ);
             bool XorZ; //False is X, True is Z! For which needs to be adjusted to ensure we are taking points along that cardinal edge.
@@ -584,9 +811,9 @@ namespace SmoothCoastlines.Rivers {
 
         //Very similar to the above, except this is to first check each tile on the RiverMap for this region and compare it's heightmap values to eliminate any that are lower then the average, and then weight towards a smoother incline.
         private XZ PickConnectingWorldCoords(RiverRegion downRegion, XZ cardinalDir) {
-            var regionAvgHeight = downRegion.averageHeight;
-            var landformOriginRegionX = downRegion.regionCoords.X * noiseSizeLandform - landformPad;
-            var landformOriginRegionZ = downRegion.regionCoords.Z * noiseSizeLandform - landformPad;
+            //var regionAvgHeight = downRegion.averageHeight;
+            var landformOriginRegionX = ConvertRegionToLandformMapCoords(downRegion.regionCoords.X); //downRegion.regionCoords.X * noiseSizeLandform - landformPad;
+            var landformOriginRegionZ = ConvertRegionToLandformMapCoords(downRegion.regionCoords.Z); //downRegion.regionCoords.Z * noiseSizeLandform - landformPad;
             bool XorZ; //False is X, True is Z! For which needs to be adjusted to ensure we are taking points along that cardinal edge.
 
             if (cardinalDir.X != 0) {
@@ -612,11 +839,11 @@ namespace SmoothCoastlines.Rivers {
                 }
 
                 var height = landformMap.GetHeightMapAt(landformOriginRegionX, landformOriginRegionZ);
-                if (height >= downRegion.averageHeight) {
+                /*if (height >= downRegion.averageHeight) {
                     int weight = (int)(height * maxTileWeight);
                     tileWeights[new XZ(landformOriginRegionX, landformOriginRegionZ)] = weight;
                     totalWeight += weight;
-                }
+                }*/
             }
 
             int rngFactor = NextInt(totalWeight);
@@ -625,8 +852,8 @@ namespace SmoothCoastlines.Rivers {
                 if (rngFactor < 0) {
                     XZ chosenTile = tile.Key;
 
-                    float tileRegionX = (chosenTile.X + landformPad) / (float)noiseSizeLandform;
-                    float tileRegionZ = (chosenTile.Z + landformPad) / (float)noiseSizeLandform;
+                    float tileRegionX = ConvertLandformMapToRegionCoords(chosenTile.X); //(chosenTile.X + landformPad) / (float)noiseSizeLandform;
+                    float tileRegionZ = ConvertLandformMapToRegionCoords(chosenTile.Z); //(chosenTile.Z + landformPad) / (float)noiseSizeLandform;
 
                     float tileChunkX = tileRegionX * regionChunkSize;
                     float tileChunkZ = tileRegionZ * regionChunkSize;
@@ -642,8 +869,8 @@ namespace SmoothCoastlines.Rivers {
             var contList = new List<XZ>();
 
             foreach (var cont in contCoords) {
-                if (riversByContinent.ContainsKey(cont) && !contList.Contains(cont)) {
-                    var list = riversByContinent[cont];
+                var list = riversByContinent.TryGetValue(cont);
+                if (list != null && !contList.Contains(cont)) {
                     foreach (var river in list) {
                         if (river.DoesRiverPassThroughRegion(regionCoords)) {
                             contList.Add(cont);
@@ -654,6 +881,44 @@ namespace SmoothCoastlines.Rivers {
             }
 
             return contList;
+        }
+
+        /*private XZ ConvertToOceanMapCoords(XZ regionCoords, int offset = 0) {
+            return new XZ((regionCoords.X * noiseSizeOcean - oceanPad) + offset, (regionCoords.Z * noiseSizeOcean - oceanPad) + offset);
+        }*/
+
+        // --- These are going to lose precision when moving upwards to a higher scale! So do not use it to convert from ocean to landform scales! ---
+
+        private int ConvertRegionToOceanMapCoords(int coord, int offset = 0) {
+            return (coord * noiseSizeOcean - oceanPad) + offset;
+        }
+
+        private int ConvertOceanMapToRegionCoords(int oceanCoord) {
+            return (oceanCoord + oceanPad) / noiseSizeOcean;
+        }
+
+        private int ConvertOceanMapToWorldCoords(int coord, int offset = 0) {
+            return (coord * numBlocksInOceanMapTile) + offset;
+        }
+
+        private int ConvertWorldCoordsToOceanMap(int worldCoord) {
+            return (worldCoord / numBlocksInOceanMapTile);
+        }
+
+        private int ConvertRegionToLandformMapCoords(int coord, int offset = 0) {
+            return (coord * noiseSizeLandform - landformPad) + offset;
+        }
+
+        private int ConvertLandformMapToRegionCoords(int landformCoord) {
+            return (landformCoord + landformPad) / noiseSizeLandform;
+        }
+
+        private int ConvertLandformMapToWorldCoords(int coord, int offset = 0) {
+            return (coord * numBlocksInLandformMapTile) + offset;
+        }
+
+        private int ConvertWorldCoordsToLandformMap(int worldCoord) {
+            return (worldCoord / numBlocksInLandformMapTile);
         }
 
         public static XZ GetRegionDirectionTo(XZ desiredRegion, XZ currentRegion) {
