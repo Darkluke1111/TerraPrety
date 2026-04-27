@@ -1,6 +1,7 @@
 ﻿using Cairo;
 using HarmonyLib;
 using MapLayer;
+using SmoothCoastlines.ContinentalUpheaval;
 using SmoothCoastlines.LandformHeights;
 using System;
 using System.Collections.Generic;
@@ -73,26 +74,42 @@ namespace SmoothCoastlines
         public static IEnumerable<CodeInstruction> OnMapRegionGenTranspiler(IEnumerable<CodeInstruction> instructions) {
             var codes = new List<CodeInstruction>(instructions);
 
-            int indexOfInjectPoint = -1;
+            int indexOfUpPad = -1;
+            int indexOfHeightMapInjectPoint = -1;
 
             for (int i = 0; i < codes.Count; i++) {
-                if (codes[i].opcode == OpCodes.Ldstr && codes[i].operand as string == "forceLandform") {
-                    indexOfInjectPoint = i - 3;
+                if (indexOfUpPad == -1 && codes[i].opcode == OpCodes.Ldc_I4_3) {
+                    indexOfUpPad = i;
+                    continue;
+                }
+
+                if (indexOfUpPad > -1 && codes[i].opcode == OpCodes.Ldstr && codes[i].operand as string == "forceLandform") {
+                    indexOfHeightMapInjectPoint = i - 3;
                     break;
                 }
             }
 
             var addHeightmapToRegionMethod = AccessTools.Method(typeof(Patch), "AddHeightmapToRegionData", new Type[1] { typeof(IMapRegion) });
+            //var sendCallToUpheavalHandler = AccessTools.Method(typeof(ContinentalUpheavalHandler), "HandleGenMapsForAddedMaps", new Type[3] { typeof(IMapRegion), typeof(int), typeof(int) });
 
             var addHeightmapToRegionData = new List<CodeInstruction> {
                 CodeInstruction.LoadArgument(1),
                 new CodeInstruction(OpCodes.Call, addHeightmapToRegionMethod)
             };
 
-            if (indexOfInjectPoint > -1) {
-                codes.InsertRange(indexOfInjectPoint, addHeightmapToRegionData);
+           /* var callToAdditionalMapData = new List<CodeInstruction> {
+                CodeInstruction.LoadArgument(1),
+                CodeInstruction.LoadArgument(2),
+                CodeInstruction.LoadArgument(3),
+                new CodeInstruction(OpCodes.Call, sendCallToUpheavalHandler)
+            };*/
+
+            if (indexOfUpPad > -1 && indexOfHeightMapInjectPoint > -1) {
+                codes[indexOfUpPad].opcode = OpCodes.Ldc_I4_5;
+                //codes.InsertRange(indexOfHeightMapInjectPoint, callToAdditionalMapData);
+                codes.InsertRange(indexOfHeightMapInjectPoint, addHeightmapToRegionData);
             } else {
-                SmoothCoastlinesModSystem.Logger.Warning("Could not locate the forceLandform string in OnMapRegionGen. Will not be able to save the Heightmap to Region Data.");
+                SmoothCoastlinesModSystem.Logger.Warning("GenMaps.OnMapRegionGen transpiler has failed. Will not be able to save the Heightmap to Region Data, and upheaval padding is incorrect.");
             }
 
             return codes.AsEnumerable();
@@ -100,75 +117,6 @@ namespace SmoothCoastlines
 
         private static void AddHeightmapToRegionData(IMapRegion region) {
             ((MapLayerLandformsSmooth)SmoothCoastlinesModSystem.Sapi.ModLoader.GetModSystem<GenMaps>().landformsGen)?.AddHeightmapToRegion(region);
-        }
-    }
-
-    [HarmonyPatch]
-    public static class GenTerraPatches {
-
-        public static MethodBase TargetMethod() {
-            var type = AccessTools.FirstInner(typeof(GenTerra), t => t.Name.Contains("<>c__DisplayClass33_0"));
-            var method = AccessTools.FirstMethod(type, m => m.Name.Contains("<generate>b__0"));
-            return method;
-        }
-
-        [HarmonyTranspiler]
-        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator) {
-            var codes = new List<CodeInstruction>(instructions);
-
-            bool isOceanicitySet = false;
-            int ldlocCount = 0;
-            int indexOfOceanicityCompVal = -1;
-            object oceanicity = null;
-
-            for (int i = 0; i < codes.Count; i++) {
-                if (i > codes.Count - 6) {
-                    break;
-                }
-
-                if (codes[i].opcode == OpCodes.Ldloc_S && codes[i+4].opcode == OpCodes.Ldloc_2 && codes[i+6].opcode == OpCodes.Ldloc_3) {
-                    oceanicity = codes[i].operand;
-                    ldlocCount++;
-                    isOceanicitySet = true;
-                    continue;
-                }
-
-                if (isOceanicitySet && ldlocCount == 1 && codes[i].opcode == OpCodes.Ldloc_S && codes[i].operand == oceanicity) {
-                    if (codes[i + 1].opcode == OpCodes.Ldc_R4) {
-                        ldlocCount++;
-                        indexOfOceanicityCompVal = i + 1;
-                        break;
-                    }
-                }
-            }
-
-            var getHeightmapCompMethod = AccessTools.Method(typeof(GenTerraPatches), "GetHeightmapCompValue", new Type[3] { typeof(int), typeof(int), typeof(float) });
-
-            var factorHeightmapAgainstOceanicity = new List<CodeInstruction> { 
-                new CodeInstruction(OpCodes.Ldloc_2),
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, oceanicity),
-                new CodeInstruction(OpCodes.Call, getHeightmapCompMethod)
-            };
-
-            if (indexOfOceanicityCompVal > -1) {
-                codes.RemoveAt(indexOfOceanicityCompVal);
-                //codes[indexOfOceanicityCompVal].opcode = OpCodes.Nop;
-                codes.InsertRange(indexOfOceanicityCompVal, factorHeightmapAgainstOceanicity);
-            } else {
-                SmoothCoastlinesModSystem.Logger.Error("Transpiler on GenTerra's Generate Lambda Method has failed.");
-                if (isOceanicitySet) {
-                    SmoothCoastlinesModSystem.Logger.Error("Could not locate first loading of Oceanicity.");
-                } else if (ldlocCount < 2) {
-                    SmoothCoastlinesModSystem.Logger.Error("Could not find the second ldloc_s call. Only found " + ldlocCount);
-                }
-            }
-
-            return codes.AsEnumerable();
-        }
-
-        private static float GetHeightmapCompValue(int worldx, int worldz, float oceanicity) {
-            return MapLayerLandformsSmooth.noiseLandforms.GetCompValueForOceanicity(worldx, worldz, oceanicity);
         }
     }
 }

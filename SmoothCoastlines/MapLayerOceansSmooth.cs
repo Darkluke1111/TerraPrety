@@ -35,7 +35,6 @@ namespace MapLayer
             wobbleIntensity = config.oceanWobbleIntensity * config.noiseScale;
             noisegenX = NormalizedSimplexNoise.FromDefaultOctaves(woctaves, 1 / wscale, wpersistence, seed + 2);
             noisegenY = NormalizedSimplexNoise.FromDefaultOctaves(woctaves, 1 / wscale, wpersistence, seed + 1231296);
-
         }
 
         public override int[] GenLayer(int xCoord, int zCoord, int sizeX, int sizeZ)

@@ -56,17 +56,25 @@ namespace SmoothCoastlines.LandformHeights {
         protected int heightMapRegionZSize;
         public static int[] heightMapValues;
 
+        private float[] threshForOceanicityComp;
+        private float[] oceanicityCompMults;
+        private float[] oceanicityCompFlats;
+
         public LandformHeightNoise(long seed, ICoreServerAPI api, float scale, WorldGenConfig config) : base(seed) {
             this.scale = scale;
             this.config = config;
-            this.oceanicityFactor = api.WorldManager.MapSizeY / 256 * 0.33333f;
+            this.oceanicityFactor = ((float)(api.WorldManager.MapSizeY - 64) / (float)256) * 0.33333f; //the -64 is to account for the shifting of the whole world downwards by 64 to fit more Mountain room above.
             forcedLandforms = new List<ForceLandform>();
             sapi = api;
 
             int hOctaves = this.config.heightMapOctaves;
             float hScale = this.config.heightMapNoiseScale;
             float hPersistance = this.config.heightMapPersistance;
-            heightNoise = new WeightedNormalizedSimplexNoise(hOctaves, 1 / hScale, hPersistance, seed + 53247, this.config.radiusMultOutwardsForSmoothing);
+            heightNoise = new WeightedNormalizedSimplexNoise(hOctaves, 1 / hScale, hPersistance, seed + 53247, this.config.radiusMultOutwardsForSmoothing, scale, config.chanceForMidZone, config.midHeightKeys, config.midHeightValues, config.targetMidLevel, config.lowThreshForMidZone);
+
+            threshForOceanicityComp = config.heightThresholdsForOceanicityComp;
+            oceanicityCompMults = config.heightMultsAtThresholdsForOceanicityComp;
+            oceanicityCompFlats = config.heightFlatsAtThresholdsForOceanicityComp;
 
             LoadLandforms(api);
         }
@@ -153,7 +161,11 @@ namespace SmoothCoastlines.LandformHeights {
                 } else {
                     heights = new LandformGenHeight();
                 }
-                reqHeights.Add(new RequiredHeightPoints(forcedLand.CenterPos.X, forcedLand.CenterPos.Z, forcedLand.Radius, heights.minHeight, heights.maxHeight));
+
+                var modifiedX = forcedLand.CenterPos.X + forcedLand.Radius;
+                var modifiedZ = forcedLand.CenterPos.Z + forcedLand.Radius;
+
+                reqHeights.Add(new RequiredHeightPoints(modifiedX, modifiedZ, forcedLand.Radius, heights.minHeight, heights.maxHeight));
             }
 
             heightNoise.SetRequiredPoints(reqHeights);
@@ -170,11 +182,22 @@ namespace SmoothCoastlines.LandformHeights {
         }
 
         public int GetLandformIndexAt(int unscaledXpos, int unscaledZpos, int temp, int rain) {
+            int noiseSizeLandform = sapi.ModLoader.GetModSystem<GenMaps>().noiseSizeLandform;
+
+            int regionX = unscaledXpos / (noiseSizeLandform - TerraGenConfig.landformMapPadding);
+            int regionZ = unscaledZpos / (noiseSizeLandform - TerraGenConfig.landformMapPadding);
+
+            var region = sapi.WorldManager.GetMapRegion(regionX, regionZ);
+
             float xpos = unscaledXpos / scale;
             float zpos = unscaledZpos / scale;
 
             int xposInt = (int)xpos;
             int zposInt = (int)zpos;
+
+            //TerraGenConfig.landFormSmoothingRadius = 0;
+            //TerraGenConfig.landformMapPadding = 1;
+            //TerraGenConfig.terrainNoiseVerticalScale = 2;
 
             int parentIndex = GetParentLandformIndexAt(xposInt, zposInt, unscaledXpos, unscaledZpos, temp, rain);
 
@@ -207,6 +230,7 @@ namespace SmoothCoastlines.LandformHeights {
 
             double weightSum = 0;
             double heightAtPoint = heightNoise.Height(unscaledXpos, unscaledZpos);
+
             SaveValueToHeightmap(heightAtPoint);
             int i;
             for (i = 0; i < landforms.Variants.Length; i++) {
@@ -239,45 +263,33 @@ namespace SmoothCoastlines.LandformHeights {
             return landforms.Variants[i].index;
         }
 
-        public float GetCompValueForOceanicity(int worldX, int worldZ, float oceanicity) {
+        public float GetCompValueForOceanicity(int worldX, int worldZ, float oceanicity) { //This is a mess I'll clean up later. Oof.
+            if (oceanicity <= 16.6663f) {
+                return 16.6664f;
+            }
+
             var heightAtX = worldX / TerraGenConfig.landformMapScale;
             var heightAtZ = worldZ / TerraGenConfig.landformMapScale;
             var height = heightNoise.Height((int)heightAtX, (int)heightAtZ);
 
-            if (height > config.heightAboveWhichToWatchOceanicity) {
-                if (oceanicity < config.highHeightLowOceanicityMin) {
-                    return config.highHeightLowOceanicityMin;
-                } else if (oceanicity < config.highHeightLowOceanicityMax) {
-                    return 1;
-                }
-            } else if (height > config.heightMidAboveWhichToWatchOceanicity) {
-                if (oceanicity < config.midHeightMidOceanicityMin) {
-                    return config.midHeightMidOceanicityMin;
-                } else if (oceanicity < config.midHeightMidOceanicityMax) {
-                    return 1;
-                }
-            }
-
-                var thresholdIndex = GetHeightThresholdIndex(height);
-            var compValue = (float)(height * config.heightMultsAtThresholdsForOceanicityComp[thresholdIndex]) * oceanicityFactor;
-            compValue += config.heightFlatsAtThresholdsForOceanicityComp[thresholdIndex];
-
-            return compValue;
+            var thresholdIndex = GetHeightThresholdIndex(height);
+            var compValue = (float)(height * oceanicityCompMults[thresholdIndex]) * oceanicityFactor;
+            return (compValue + oceanicityCompFlats[thresholdIndex]);
         }
 
         public int GetHeightThresholdIndex(double height) { //This will find a valid threshold or simply return the last one.
-            var thresholds = config.heightThresholdsForOceanicityComp;
+            var thresholds = threshForOceanicityComp;
             var prevThreshold = 0.0f;
             int i;
 
             for (i = 0; i < thresholds.Length; i++) {
-                if (height >= prevThreshold && height <= thresholds[i]) {
+                if (height > prevThreshold && height <= thresholds[i]) {
                     return i;
                 }
                 prevThreshold = thresholds[i];
             }
 
-            return i;
+            return 0;
         }
 
         public void PrepareForNewHeightmap(int xCoord, int zCoord, int sizeX, int sizeZ) {
@@ -302,9 +314,11 @@ namespace SmoothCoastlines.LandformHeights {
         public IntDataMap2D GetHeightData() {
             var pad = TerraGenConfig.landformMapPadding;
             var landformScale = sapi.WorldManager.RegionSize / TerraGenConfig.landformMapScale;
+            int[] heightCopy = new int[heightMapValues.Length];
+            heightMapValues.CopyTo(heightCopy, 0);
 
             return new IntDataMap2D {
-                Data = heightMapValues,
+                Data = heightCopy,
                 Size = landformScale + 2 * pad,
                 TopLeftPadding = pad,
                 BottomRightPadding = pad
