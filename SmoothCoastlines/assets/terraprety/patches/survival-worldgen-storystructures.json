@@ -2,7 +2,7 @@
   {
     "op": "replace",
     "path": "/structures/0/requireLandform",
-    "value": "eternalrockyconcaveimmortalhillslake",
+    "value": "endlessrockyconcaveimmortalnightmarepeaks",
     "file": "game:worldgen/storystructures.json",
     "side": "Server"
   },
@@ -22,20 +22,6 @@
   },
   {
     "op": "replace",
-    "path": "/structures/3/extraLandClaimX",
-    "value": 320,
-    "file": "game:worldgen/storystructures.json",
-    "side": "Server"
-  },
-  {
-    "op": "replace",
-    "path": "/structures/3/extraLandClaimZ",
-    "value": 320,
-    "file": "game:worldgen/storystructures.json",
-    "side": "Server"
-  },
-  {
-    "op": "replace",
     "path": "/structures/3/requireLandform",
     "value": "ultraflats",
     "file": "game:worldgen/storystructures.json",
@@ -43,85 +29,22 @@
   },
   {
     "op": "replace",
-    "path": "/structures/4/CustomLandClaims/0/x1",
-    "value": 76,
-    "file": "game:worldgen/storystructures.json",
-    "side": "Server"
-  },
-  {
-    "op": "replace",
-    "path": "/structures/4/CustomLandClaims/0/x2",
-    "value": 89,
-    "file": "game:worldgen/storystructures.json",
-    "side": "Server"
-  },
-  {
-    "op": "replace",
-    "path": "/structures/4/CustomLandClaims/0/y2",
-    "value": 17,
-    "file": "game:worldgen/storystructures.json",
-    "side": "Server"
-  },
-  {
-    "op": "replace",
-    "path": "/structures/4/CustomLandClaims/0/z1",
-    "value": 99,
-    "file": "game:worldgen/storystructures.json",
-    "side": "Server"
-  },
-  {
-    "op": "replace",
-    "path": "/structures/4/CustomLandClaims/0/z2",
-    "value": 112,
-    "file": "game:worldgen/storystructures.json",
-    "side": "Server"
-  },
-  {
-    "op": "replace",
-    "path": "/structures/4/CustomLandClaims/1/x1",
-    "value": 68,
-    "file": "game:worldgen/storystructures.json",
-    "side": "Server"
-  },
-  {
-    "op": "replace",
-    "path": "/structures/4/CustomLandClaims/1/x2",
-    "value": 112,
-    "file": "game:worldgen/storystructures.json",
-    "side": "Server"
-  },
-  {
-    "op": "replace",
-    "path": "/structures/4/CustomLandClaims/1/y1",
-    "value": 1,
-    "file": "game:worldgen/storystructures.json",
-    "side": "Server"
-  },
-  {
-    "op": "replace",
-    "path": "/structures/4/CustomLandClaims/1/y2",
-    "value": 18,
-    "file": "game:worldgen/storystructures.json",
-    "side": "Server"
-  },
-  {
-    "op": "replace",
-    "path": "/structures/4/CustomLandClaims/1/z1",
-    "value": 62,
-    "file": "game:worldgen/storystructures.json",
-    "side": "Server"
-  },
-  {
-    "op": "replace",
-    "path": "/structures/4/CustomLandClaims/1/z2",
-    "value": 99,
-    "file": "game:worldgen/storystructures.json",
-    "side": "Server"
-  },
-  {
-    "op": "replace",
     "path": "/structures/4/requireLandform",
     "value": "ultraflats",
+    "file": "game:worldgen/storystructures.json",
+    "side": "Server"
+  },
+  {
+    "op": "replace",
+    "path": "/structures/5/requireLandform",
+    "value": "ultraflats",
+    "file": "game:worldgen/storystructures.json",
+    "side": "Server"
+  },
+  {
+    "op": "replace",
+    "path": "/structures/5/landformRadius",
+    "value": 100,
     "file": "game:worldgen/storystructures.json",
     "side": "Server"
   }
