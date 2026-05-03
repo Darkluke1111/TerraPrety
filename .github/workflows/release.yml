@@ -12,7 +12,6 @@ on:
         required: true
       release_description: 
         required: true
-  push:
 
 jobs:
   build:
