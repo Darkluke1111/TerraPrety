@@ -12,7 +12,7 @@ using Vintagestory.ServerMods;
 public class MoreContinentalUpheavalPatches
 {
     public static Type closureWrapperType = AccessTools.FirstInner(typeof(GenTerra), (Type t) => t.Name.Contains("DisplayClass"));
-    public static MethodInfo parallelClosure = AccessTools.FirstMethod(closureWrapperType, (MethodInfo m) => m.Name.Contains("<generate>b__0"));
+    public static MethodInfo parallelClosure = AccessTools.FirstMethod(closureWrapperType, (MethodInfo m) => m.Name.Contains("<generate>"));
 
 	public static MethodBase TargetMethod()
     {
@@ -22,7 +22,7 @@ public class MoreContinentalUpheavalPatches
 	public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator)
 	{
 
-		List<CodeInstruction> list = new List<CodeInstruction>(instructions);
+		List<CodeInstruction> list = [.. instructions];
 		int num = 0;
 		int num2 = -1;
 		FieldInfo fieldInfo = AccessTools.Field(closureWrapperType, "mapsizeY");
@@ -55,7 +55,9 @@ public class MoreContinentalUpheavalPatches
 				break;
 			}
 		}
-		MethodInfo methodInfo = AccessTools.Method(typeof(MoreContinentalUpheavalPatches), "GetHeightmapCompValue", [typeof(int),typeof(int),typeof(float)], null);
+
+		MethodInfo methodInfo = SymbolExtensions.GetMethodInfo((int worldX, int worldZ, float oceanicity) => GetHeightmapCompValue(worldX, worldZ, oceanicity));
+		
 		List<CodeInstruction> collection = new List<CodeInstruction>
 		{
 			new CodeInstruction(OpCodes.Ldloc_2, null),
