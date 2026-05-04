@@ -31,6 +31,7 @@ jobs:
           draft: false
           prerelease: false
           tag: v${{env.MOD_VERSION}}
+          commit: ${{ github.sha }}
           body: ${{ github.event.inputs.release_description }}
           artifacts: ${{ github.workspace }}/${{env.RESULT}}
           artifactContentType: application/zip
