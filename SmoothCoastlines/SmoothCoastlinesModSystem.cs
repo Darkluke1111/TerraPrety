@@ -15,6 +15,11 @@ public class SmoothCoastlinesModSystem : ModSystem
     public static ILogger Logger;
     public static ICoreServerAPI Sapi;
 
+    public override bool ShouldLoad(EnumAppSide forSide)
+    {
+        return forSide == EnumAppSide.Server;
+    }
+
     public override void StartPre(ICoreAPI api)
     {
         Logger = Mod.Logger;
