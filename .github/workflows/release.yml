@@ -4,9 +4,6 @@ run-name: Create Release ${{github.ref_name}}
 on: 
   workflow_dispatch:
     inputs:
-      mod_version:
-        description: 'Semantic Mod Version'
-        required: true
       vintage_story_version:
         description: 'Semantic Vintage Story Version'
         required: true
@@ -33,7 +30,7 @@ jobs:
         with:
           draft: true
           prerelease: false
-          tag: ${{ github.event.inputs.mod_version }}
+          tag: ${{env.MOD_VERSION}}
           body: ${{ github.event.inputs.release_description }}
           artifacts: ${{ github.workspace }}/${{env.RESULT}}
           artifactContentType: application/zip
