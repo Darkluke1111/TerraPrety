@@ -29,7 +29,7 @@ jobs:
           vs_version: ${{ github.event.inputs.vintage_story_version }}
 
       - name: Rename artifact
-        run:  mv ${{ github.workspace }}/${{env.RESULT}} /TerraPrety_${{env.MOD_VERSION}}${{ github.event.inputs.additional_version_label }}.zip
+        run:  cp ${{ github.workspace }}/${{env.RESULT}} /TerraPrety_${{env.MOD_VERSION}}${{ github.event.inputs.additional_version_label }}.zip
 
       - name: release
         uses: ncipollo/release-action@v1
