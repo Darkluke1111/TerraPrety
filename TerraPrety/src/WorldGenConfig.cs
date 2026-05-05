@@ -2,15 +2,15 @@
 {
     public class WorldGenConfig
     {
-        public float noiseScale = 256.0f;
+        public float noiseScale = 300.0f;
         public float heightMapNoiseScale = 32.0f;
         public string fallbackParentLandformCode = "ultraflats"; //This is just in case it somehow rolls a height value with no valid Landforms that would fit it, it will use this one instead.
 
         public bool Delicate_configs_below__alter_at_your_own_peril = false;
 
         public float oceanWobbleScale = 2.0f;
-        public float oceanWobbleIntensity = 1.0f;
-        public double[] remappingKeys = { 0.115, 0.285 };
+        public float oceanWobbleIntensity = 2.0f;
+        public double[] remappingKeys = { 0.15, 0.325 };
         public double[] remappingValues = {0.0, 1.0 };
 
         public int heightMapOctaves = 1;
@@ -18,9 +18,9 @@
 
         public double[] midHeightKeys = { 0.0, 0.05, 0.33333, 1.0 };
         public double[] midHeightValues = { 1.0, 0.9, 0.0, 0.0 };
-        public float chanceForMidZone = 1.0f;
-        public float targetMidLevel = 0.2f;
-        public float lowThreshForMidZone = 0.2f;
+        public float chanceForMidZone = 0.8f;
+        public float targetMidLevel = 0.5f;
+        public float lowThreshForMidZone = 0.35f;
 
         public float radiusMultOutwardsForSmoothing = 6.0f;
 
