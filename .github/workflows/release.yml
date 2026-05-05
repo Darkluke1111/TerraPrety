@@ -29,9 +29,9 @@ jobs:
           vs_version: ${{ github.event.inputs.vintage_story_version }}
 
       - name: Debug
-        run:  bash ls ${{ github.workspace }}/
+        run:  ls ${{ github.workspace }}/
       - name: Rename artifact
-        run:  bash -c "mv ${{ github.workspace }}/${{env.RESULT}} ${{github.workspace}}/TerraPrety_${{env.MOD_VERSION}}${{ github.event.inputs.additional_version_label }}.zip"
+        run:  mv ${{ github.workspace }}/${{env.RESULT}} ${{github.workspace}}/TerraPrety_${{env.MOD_VERSION}}${{ github.event.inputs.additional_version_label }}.zip
 
       - name: release
         uses: ncipollo/release-action@v1
