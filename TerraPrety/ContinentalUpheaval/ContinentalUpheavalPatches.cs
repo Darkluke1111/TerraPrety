@@ -4,8 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
-using SmoothCoastlines;
-using SmoothCoastlines.LandformHeights;
+using TerraPrety;
+using TerraPrety.LandformHeights;
 using Vintagestory.ServerMods;
 
 [HarmonyPatch]
@@ -77,22 +77,22 @@ public class MoreContinentalUpheavalPatches
 		}
 		else
 		{
-			SmoothCoastlinesModSystem.Logger.Error("Transpiler on GenTerra's Generate Lambda Method has failed. Shoving the Sea Water placement closer to the coast will not function.");
+			TerraPretyModSystem.Logger.Error("Transpiler on GenTerra's Generate Lambda Method has failed. Shoving the Sea Water placement closer to the coast will not function.");
 			if (num < 1)
 			{
-				SmoothCoastlinesModSystem.Logger.Error("Could not locate first ldelema instruction.");
+				TerraPretyModSystem.Logger.Error("Could not locate first ldelema instruction.");
 			}
 			else if (num < 2)
 			{
-				SmoothCoastlinesModSystem.Logger.Error("Could not find the second ldelema call. Only found " + num);
+				TerraPretyModSystem.Logger.Error("Could not find the second ldelema call. Only found " + num);
 			}
 			else if (num4 == -1)
 			{
-				SmoothCoastlinesModSystem.Logger.Error("Could not locate the loading of the MapsizeM2 Field.");
+				TerraPretyModSystem.Logger.Error("Could not locate the loading of the MapsizeM2 Field.");
 			}
 			else if (num3 == -1)
 			{
-				SmoothCoastlinesModSystem.Logger.Error("Could not locate the loading of the Mapsize Field.");
+				TerraPretyModSystem.Logger.Error("Could not locate the loading of the Mapsize Field.");
 			}
 		}
 		return list.AsEnumerable();

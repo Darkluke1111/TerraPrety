@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Vintagestory.API.Common;
 
-namespace SmoothCoastlines.LandformHeights {
+namespace TerraPrety.LandformHeights {
     public class LandformsHeightsWorldProperty : WorldProperty<LandformGenHeight> {
         [JsonIgnore]
         public LandformGenHeight[] LandformHeightsByIndex;

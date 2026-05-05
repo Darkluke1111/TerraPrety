@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35818.85 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmoothCoastlines", "SmoothCoastlines\SmoothCoastlines.csproj", "{93147D1C-114D-4064-91E1-6E77B8D042E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerraPrety", "TerraPrety\TerraPrety.csproj", "{93147D1C-114D-4064-91E1-6E77B8D042E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CakeBuild", "ZZCakeBuild\CakeBuild.csproj", "{6E8D72C1-F7BA-40A2-AD58-B05E849EED39}"
 EndProject

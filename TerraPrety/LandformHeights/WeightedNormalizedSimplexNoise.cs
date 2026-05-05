@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Vintagestory.API.MathTools;
 
-namespace SmoothCoastlines.LandformHeights {
+namespace TerraPrety.LandformHeights {
     public class WeightedNormalizedSimplexNoise { 
 
         private NormalizedSimplexNoise SimplexNoise;

@@ -4,7 +4,7 @@ using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 using Vintagestory.ServerMods;
 
-namespace SmoothCoastlines.LandformHeights {
+namespace TerraPrety.LandformHeights {
 
     public class MapLayerLandformsSmooth : MapLayerBase {
 

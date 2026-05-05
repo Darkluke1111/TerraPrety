@@ -7,7 +7,7 @@ using Vintagestory.API.Server;
 using Vintagestory.ServerMods;
 using Vintagestory.ServerMods.NoObf;
 
-namespace SmoothCoastlines.LandformHeights {
+namespace TerraPrety.LandformHeights {
 
     public struct RequiredHeightPoints {
         public int x;

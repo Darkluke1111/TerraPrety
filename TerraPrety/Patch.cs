@@ -4,12 +4,12 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using MapLayer;
-using SmoothCoastlines.LandformHeights;
+using TerraPrety.LandformHeights;
 using Vintagestory.API.Common;
 using Vintagestory.API.Server;
 using Vintagestory.ServerMods;
 
-namespace SmoothCoastlines
+namespace TerraPrety
 {
     [HarmonyPatch]
     public static class Patch
@@ -19,7 +19,7 @@ namespace SmoothCoastlines
         [HarmonyPatch(typeof(GenMaps), nameof(GenMaps.GetOceanMapGen))]
         public static bool Prefix(ref MapLayerBase __result, long seed, float landcover, int oceanMapScale, float oceanScaleMul, List<XZ> requireLandAt, bool requiresSpawnOffset)
         {
-            __result = new MapLayerOceansSmooth(seed, SmoothCoastlinesModSystem.config, requireLandAt);
+            __result = new MapLayerOceansSmooth(seed, TerraPretyModSystem.config, requireLandAt);
             return false;
         }
 
@@ -28,7 +28,7 @@ namespace SmoothCoastlines
         public static bool Prefix(ref MapLayerBase __result, long seed, NoiseClimate climateNoise, ICoreServerAPI api, float landformScale)
         {
             new MapLayerLandforms(seed + 12, climateNoise, api, landformScale); //Luke pointed out this is a much better place to initialize this, since it SHOULD be the same as in the SmoothLandforms version, this should be fine! Both init them the same way, Smooth just also inits the heights as well.
-            MapLayerLandformsSmooth mapLayerLandformsSmooth = new MapLayerLandformsSmooth(seed + 12, climateNoise, api, landformScale, SmoothCoastlinesModSystem.config);
+            MapLayerLandformsSmooth mapLayerLandformsSmooth = new MapLayerLandformsSmooth(seed + 12, climateNoise, api, landformScale, TerraPretyModSystem.config);
             mapLayerLandformsSmooth.DebugDrawBitmap(DebugDrawMode.LandformRGB, 0, 0, "Height-Based Landforms");
             __result = mapLayerLandformsSmooth;
 

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using SmoothCoastlines;
+using TerraPrety;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Util;
 using Vintagestory.ServerMods;
 
-namespace SmoothCoastLines.Noise {
+namespace TerraPrety.Noise {
 
     // Basic voronoi noise with the ability to force the position of some voronoi points based on a list.
     interface Noise2D {
@@ -18,7 +18,7 @@ namespace SmoothCoastLines.Noise {
         double scale;
         const double maxDistanceConstant = 1.41421356237309505; //Square Root of 2
         List<XZ> forcedPoints;
-        public Dictionary<XZ, VoronoiDataPoint> pointCache => ObjectCacheUtil.GetOrCreate(SmoothCoastlinesModSystem.Sapi as ICoreAPI, "continentalVoronoiPoints", () => new Dictionary<XZ, VoronoiDataPoint>());
+        public Dictionary<XZ, VoronoiDataPoint> pointCache => ObjectCacheUtil.GetOrCreate(TerraPretyModSystem.Sapi as ICoreAPI, "continentalVoronoiPoints", () => new Dictionary<XZ, VoronoiDataPoint>());
 
         public VoronoiNoise(long seed, double scale, List<XZ> forcedPoints) : base(seed) {
             this.scale = scale;

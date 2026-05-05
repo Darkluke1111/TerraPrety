@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using SmoothCoastLines.Noise;
+using TerraPrety.Noise;
 using Vintagestory.API.MathTools;
 using Vintagestory.ServerMods;
 
-namespace SmoothCoastlines.ContinentalUpheaval {
+namespace TerraPrety.ContinentalUpheaval {
 
     public class MapLayerContinentalUpheaval : MapLayerBase {
 

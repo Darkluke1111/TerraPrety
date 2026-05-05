@@ -1,4 +1,4 @@
-﻿namespace SmoothCoastlines
+﻿namespace TerraPrety
 {
     public class WorldGenConfig
     {

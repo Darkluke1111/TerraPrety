@@ -4,9 +4,9 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Server;
 using Vintagestory.ServerMods;
 
-namespace SmoothCoastlines;
+namespace TerraPrety;
 
-public class SmoothCoastlinesModSystem : ModSystem
+public class TerraPretyModSystem : ModSystem
 {
 
     public static WorldGenConfig config;

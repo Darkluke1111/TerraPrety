@@ -1,8 +1,8 @@
-﻿using SmoothCoastLines.Noise;
+﻿using TerraPrety.Noise;
 using Vintagestory.API.MathTools;
 using Vintagestory.ServerMods;
 
-namespace SmoothCoastlines.LandformHeights {
+namespace TerraPrety.LandformHeights {
 
     public class MidpointDistFromPointNoise : NoiseBase, Noise2D {
 

@@ -1,7 +1,7 @@
-﻿using SmoothCoastLines.Noise;
+﻿using TerraPrety.Noise;
 using Vintagestory.API.MathTools;
 
-namespace SmoothCoastlines
+namespace TerraPrety
 {
 
     //Wrapper for Noise2D that remapps noise values between 0 and 1 to different values between 0 and 1 with a partially linear monotonically non-decreasing function

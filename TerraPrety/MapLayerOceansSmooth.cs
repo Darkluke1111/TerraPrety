@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using SmoothCoastlines;
-using SmoothCoastLines.Noise;
+using TerraPrety;
+using TerraPrety.Noise;
 using Vintagestory.API.MathTools;
 using Vintagestory.ServerMods;
 

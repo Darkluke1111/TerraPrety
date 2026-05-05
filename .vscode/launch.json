@@ -10,7 +10,7 @@
         "request": "launch",
         "preLaunchTask": "build",
         "program": "${env:VINTAGE_STORY}/Vintagestory.dll",
-        "args": ["--tracelog", "--addModPath", "/${workspaceFolder}/SmoothCoastlines/bin/Debug/Mods/"],
+        "args": ["--tracelog", "--addModPath", "/${workspaceFolder}/TerraPrety/bin/Debug/Mods/"],
         "cwd": "${env:VINTAGE_STORY}",
         "stopAtEntry": false,
         "console": "internalConsole"
