@@ -9,7 +9,7 @@
     ],
     "description": "A redesign of worldgen to feel more natural, beautiful and enjoyable to traverse.",
     "Website": "https://mods.vintagestory.at/terraprety",
-    "version": "7.10.0",
+    "version": "7.9.1",
     "side" : "Server",
     "requiredOnClient": false,
     "requiredOnServer": true,
