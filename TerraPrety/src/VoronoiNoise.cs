@@ -39,12 +39,6 @@ namespace TerraPrety.Noise {
             double zFrac = zpos_full - zCell;
             XZ cellXZ = new XZ(xCell, zCell);
 
-            if (pointCache.ContainsKey(cellXZ)) {
-                pointCache.TryGetValue(cellXZ, out var point);
-                var ret = point.GetMinDist(xFrac, zFrac);
-                return ret / maxDistanceConstant;
-            }
-
             double min_distance = Double.MaxValue;
             VoronoiDataPoint newPoint = new VoronoiDataPoint(new XZd());
 
@@ -89,10 +83,6 @@ namespace TerraPrety.Noise {
                         }
                     }
                 }
-            }
-
-            if (!pointCache.ContainsKey(cellXZ)) {
-                pointCache.Add(cellXZ, newPoint);
             }
 
             // Normalize to [0,1] and return

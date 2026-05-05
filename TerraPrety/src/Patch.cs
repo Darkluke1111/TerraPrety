@@ -42,6 +42,7 @@ namespace TerraPrety
         {
             var sapi = (ICoreServerAPI)__instance.GetType().GetField("sapi", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
             double regionSize = sapi.WorldManager.RegionSize;
+            TerraPretyModSystem.Logger.Debug($"Forcing land at {positionX}, {positionZ} with radius {radius} and region size {regionSize}");
             var factor = __instance.noiseSizeOcean / regionSize;
             __instance.requireLandAt.Add(new XZ((int)(positionX * factor), (int)(positionZ * factor)));
 
