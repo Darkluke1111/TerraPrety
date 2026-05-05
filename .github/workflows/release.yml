@@ -7,6 +7,10 @@ on:
       vintage_story_version:
         description: 'Semantic Vintage Story Version'
         required: true
+      additional_version_label:
+        description: 'Additional version label to distinguish the release (e.g. "-beta", "-alpha", "-rc1")'
+        default: ''
+        required: false
       release_description: 
         required: true
 
@@ -24,14 +28,17 @@ jobs:
         with: 
           vs_version: ${{ github.event.inputs.vintage_story_version }}
 
+      - name: Rename artifact
+        run:  sudo mv ${{ github.workspace }}/${{env.RESULT}} /TerraPrety_${{env.MOD_VERSION}}${{ github.event.inputs.additional_version_label }}.zip
+
       - name: release
         uses: ncipollo/release-action@v1
         id: create_release
         with:
           draft: false
           prerelease: false
-          tag: v${{env.MOD_VERSION}}
+          tag: v${{env.MOD_VERSION}}${{ github.event.inputs.additional_version_label }}
           commit: ${{ github.sha }}
           body: ${{ github.event.inputs.release_description }}
-          artifacts: ${{ github.workspace }}/${{env.RESULT}}
+          artifacts: /TerraPrety_${{env.MOD_VERSION}}${{ github.event.inputs.additional_version_label }}.zip
           artifactContentType: application/zip
