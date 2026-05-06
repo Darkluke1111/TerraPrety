@@ -2,7 +2,7 @@
 {
     public class WorldGenConfig
     {
-        public float noiseScale = 256.0f;
+        public float noiseScale = 300.0f;
         public float heightMapNoiseScale = 32.0f;
         public string fallbackParentLandformCode = "ultraflats"; //This is just in case it somehow rolls a height value with no valid Landforms that would fit it, it will use this one instead.
 
