@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
@@ -45,11 +46,16 @@ namespace TerraPrety.LandformHeights {
         private ICoreServerAPI sapi;
 
         public const int significantDigitMult = 10000;
-        protected int xPos;
-        protected int zPos;
-        protected int heightMapRegionXSize;
-        protected int heightMapRegionZSize;
-        public static int[] heightMapValues;
+
+        // A seperate instance of each of these for every chunkdbthread and it's workers
+        [ThreadStatic] static int xPos;
+        [ThreadStatic] static int zPos;
+        [ThreadStatic] static int heightMapRegionXSize;
+        [ThreadStatic] static int heightMapRegionZSize;
+        [ThreadStatic] public static int[] heightMapValues;
+        [ThreadStatic] static double[] weightTmp;
+
+        private readonly long mapGenSeed;
 
         private float[] threshForOceanicityComp;
         private float[] oceanicityCompMults;
@@ -61,6 +67,15 @@ namespace TerraPrety.LandformHeights {
             this.oceanicityFactor = ((float)(api.WorldManager.MapSizeY - 64) / (float)256) * 0.33333f; //the -64 is to account for the shifting of the whole world downwards by 64 to fit more Mountain room above.
             forcedLandforms = new List<ForceLandform>();
             sapi = api;
+
+            // Move the NoiseBase constructor's mapGenSeed creation here so different threads can get the seed rng without risking modifying the seed creation at the same time
+            this.mapGenSeed = seed;
+            this.mapGenSeed *= seed * 6364136223846793005L + 1442695040888963407L;
+            this.mapGenSeed += 1L;
+            this.mapGenSeed *= seed * 6364136223846793005L + 1442695040888963407L;
+            this.mapGenSeed += 2L;
+            this.mapGenSeed *= seed * 6364136223846793005L + 1442695040888963407L;
+            this.mapGenSeed += 3L;
 
             int hOctaves = this.config.heightMapOctaves;
             float hScale = this.config.heightMapNoiseScale;
@@ -198,8 +213,8 @@ namespace TerraPrety.LandformHeights {
 
             LandformVariant[] mutations = landforms.Variants[parentIndex].Mutations;
             if (mutations != null && mutations.Length > 0) {
-                InitPositionSeed(unscaledXpos / 2, unscaledZpos / 2);
-                float chance = NextInt(101) / 100f;
+                long mutationSeed = ThreadLocalPositionSeed(mapGenSeed, unscaledXpos / 2, unscaledZpos / 2);
+                float chance = ThreadLocalNextInt(ref mutationSeed, mapGenSeed, 101) / 100f;
 
                 for (int i = 0; i < mutations.Length; i++) {
                     LandformVariant variantMut = mutations[i];
@@ -221,14 +236,23 @@ namespace TerraPrety.LandformHeights {
 
 
         public int GetParentLandformIndexAt(int xpos, int zpos, int unscaledXpos, int unscaledZpos, int temp, int rain) {
-            InitPositionSeed(xpos, zpos);
+            long currentSeed = ThreadLocalPositionSeed(mapGenSeed, xpos, zpos);
 
             double weightSum = 0;
             double heightAtPoint = heightNoise.Height(unscaledXpos, unscaledZpos);
 
             SaveValueToHeightmap(heightAtPoint);
+
+            // Thread local landform variant weights
+            int variantCount = landforms.Variants.Length;
+            double[] weights = weightTmp;
+            if (weights == null || weights.Length < variantCount) {
+                weights = new double[variantCount];
+                weightTmp = weights;
+            }
+
             int i;
-            for (i = 0; i < landforms.Variants.Length; i++) {
+            for (i = 0; i < variantCount; i++) {
                 double weight = landforms.Variants[i].Weight;
 
                 if (heightAtPoint < landformsHeights.LandformHeightsByIndex[i].minHeight || heightAtPoint > landformsHeights.LandformHeightsByIndex[i].maxHeight) {
@@ -240,7 +264,7 @@ namespace TerraPrety.LandformHeights {
                     if (distRain != 0 || distTemp != 0) weight = 0;
                 }
 
-                landforms.Variants[i].WeightTmp = weight;
+                weights[i] = weight;
                 weightSum += weight;
             }
 
@@ -248,14 +272,39 @@ namespace TerraPrety.LandformHeights {
                 return landforms.Variants[fallbackParentLandformID].index;
             }
 
-            double rand = weightSum * NextInt(10000) / 10000.0;
+            double rand = weightSum * ThreadLocalNextInt(ref currentSeed, mapGenSeed, 10000) / 10000.0;
 
-            for (i = 0; i < landforms.Variants.Length; i++) {
-                rand -= landforms.Variants[i].WeightTmp;
+            for (i = 0; i < variantCount; i++) {
+                rand -= weights[i];
                 if (rand <= 0) return landforms.Variants[i].index;
             }
 
-            return landforms.Variants[i].index;
+            // Floating-point drift can leave rand still above 0 after subtracting every weight
+            // If that happens use the last variant since i is now 1 past the size of landforms.Variants
+            return landforms.Variants[variantCount - 1].index;
+        }
+
+        // Move NoiseBase.InitPositionSeed's currentSeed modifications here so different threads can get the seed rng without risking modifying the seed at the same time
+        private static long ThreadLocalPositionSeed(long mapGenSeed, int xPos, int zPos) {
+            long seed = mapGenSeed;
+            seed *= seed * 6364136223846793005L + 1442695040888963407L; seed += xPos;
+            seed *= seed * 6364136223846793005L + 1442695040888963407L; seed += zPos;
+            seed *= seed * 6364136223846793005L + 1442695040888963407L; seed += xPos;
+            seed *= seed * 6364136223846793005L + 1442695040888963407L; seed += zPos;
+            return seed;
+        }
+
+        // Move NoiseBase.NextInt's currentSeed modifications here so different threads can get the seed rng without risking modifying the seed at the same time
+        private static int ThreadLocalNextInt(ref long currentSeed, long mapGenSeed, int max) {
+            int num = (int)((currentSeed >> 24) % (long)max);
+            if (num < 0)
+            {
+                num += max;
+            }
+
+            currentSeed *= currentSeed * 6364136223846793005L + 1442695040888963407L;
+            currentSeed += mapGenSeed;
+            return num;
         }
 
         public float GetCompValueForOceanicity(int worldX, int worldZ, float oceanicity) { //This is a mess I'll clean up later. Oof.
