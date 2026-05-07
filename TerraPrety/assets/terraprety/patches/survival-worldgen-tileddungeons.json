@@ -1,0 +1,36 @@
+[
+  {
+    "op": "replace",
+    "path": "/dungeons/0/RequiredLandform/0/Code",
+    "value": "game:endlesssmoothconcaveplainslake",
+    "file": "game:worldgen/tileddungeons.json",
+    "side": "Server"
+  },
+  {
+    "op": "replace",
+    "path": "/dungeons/0/RequiredLandform/0/value",
+    "value": "0.5",
+    "file": "game:worldgen/tileddungeons.json",
+    "side": "Server"
+  },
+
+
+
+
+
+
+  {
+    "op": "replace",
+    "path": "/dungeons/1/RequiredLandform/0/Code",
+    "value": "game:endlesssmoothconcaveplainslake",
+    "file": "game:worldgen/tileddungeons.json",
+    "side": "Server"
+  },
+  {
+    "op": "replace",
+    "path": "/dungeons/1/RequiredLandform/0/value",
+    "value": "0.5",
+    "file": "game:worldgen/tileddungeons.json",
+    "side": "Server"
+  },
+]
