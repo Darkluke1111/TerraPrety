@@ -338,16 +338,26 @@ namespace TerraPrety.ContinentalUpheaval {
     [HarmonyPatch]
     public class MoreContinentalUpheavalPatches {
 
+        static Type DisplayClassType;
+
         public static MethodBase TargetMethod() {
-            var type = AccessTools.FirstInner(typeof(GenTerra), t => t.Name.Contains("<>c__DisplayClass34_0") || t.Name.Contains("<>c__DisplayClass44_0"));
-            MethodInfo method;
-            if (type.Name.Contains("<>c__DisplayClass34_0")) {
-                method = AccessTools.FirstMethod(type, m => m.Name.Contains("<generate>b__0"));
-            } else {
-                method = AccessTools.FirstMethod(type, m => m.Name.Contains("<generate>b__1")); //Support for Stratum!
+            // Search through all nested compiler-generated display classes in GenTerra,
+            // looking for the one containing the <generate>b__N lambda — regardless of the numeric
+            // suffix that shifts with any changes to the class's methods/fields (as Stratum does).
+            foreach (var nested in typeof(GenTerra).GetNestedTypes(AccessTools.all)) {
+                if (!nested.Name.StartsWith("<>c__DisplayClass")) {
+                    continue;
+                }
+
+                var method = AccessTools.FirstMethod(nested, m => m.Name.Contains("<generate>b__"));
+                if (method != null) {
+                    DisplayClassType = nested;
+                    return method;
+                }
             }
-            
-            return method;
+
+            TerraPretyModSystem.Logger.Error("Could not locate the <generate> lambda display class in GenTerra. More Continental Upheaval patch will not be applied.");
+            return null;
         }
 
         [HarmonyTranspiler]
@@ -355,10 +365,10 @@ namespace TerraPrety.ContinentalUpheaval {
             var codes = new List<CodeInstruction>(instructions);
 
             int indexOfSetOceanicity = -1; //Not actually used for the transpiler here, but it serves as our starting point! And ensures that it is set and everything.
-            var oceanicityFacField = AccessTools.Field(AccessTools.FirstInner(typeof(GenTerra), t => t.Name.Contains("<>c__DisplayClass34_0") || t.Name.Contains("<>c__DisplayClass44_0")), "oceanicityFac");
+            var oceanicityFacField = AccessTools.Field(DisplayClassType, "oceanicityFac");
             int indexOfSetDistY = -1;
             var columnResultsField = AccessTools.Field(typeof(GenTerra), "columnResults");
-            var columnResultsStratumField = AccessTools.Field(AccessTools.FirstInner(typeof(GenTerra), t => t.Name.Contains("<>c__DisplayClass44_0")), "columnResults");
+            var columnResultsStratumField = AccessTools.Field(DisplayClassType, "columnResults");
             int indexOfOceanicityComp = -1;
             //int indexMapsizeM2Field = -1;
             //var mapsizeField = AccessTools.Field(AccessTools.FirstInner(typeof(GenTerra), t => t.Name.Contains("<>c__DisplayClass34_0")), "mapsizeY");
