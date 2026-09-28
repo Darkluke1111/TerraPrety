@@ -3,7 +3,6 @@ using TerraPrety.Rivers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MapLayer;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
@@ -33,6 +32,12 @@ namespace TerraPrety.LandformHeights {
         public bool IsWithinRange(int X, int Z, int range) {
             return X > (x - range) && X < (x + range) && Z > (z - range) && Z < (z + range);
         }
+
+        public int DistanceTo(int X, int Z) {
+            var xdiff = (x - X);
+            var zdiff = (z - Z);
+            return (int)Math.Sqrt((xdiff * xdiff) + (zdiff * zdiff));
+        }
     }
 
     public class LandformHeightNoise : NoiseBase {
@@ -57,6 +62,7 @@ namespace TerraPrety.LandformHeights {
         [ThreadStatic] static int heightMapRegionZSize;
         [ThreadStatic] public static int[] heightMapValues;
         [ThreadStatic] public static int[] mountainRangeMapValues;
+        [ThreadStatic] public static int[] upliftMapValues;
         [ThreadStatic] static double[] weightTmp;
 
         private readonly long mapGenSeed;
@@ -254,16 +260,24 @@ namespace TerraPrety.LandformHeights {
             long currentSeed = ThreadLocalPositionSeed(mapGenSeed, xpos, zpos);
 
             double weightSum = 0;
-            double coastHeight = this.CoastalMapLoweredHeight(unscaledXpos, unscaledZpos);
-            
+            var coastTuple = this.CoastalMapLoweredHeight(unscaledXpos, unscaledZpos);
+            double coastHeight = coastTuple.Item1;
+            double forcedPointWeight = coastTuple.Item2;
+
             // Don't lift within forced landforms
-            double heightAtPoint;
+            /*double heightAtPoint;
             if (heightNoise.IsInForcedLandform(unscaledXpos, unscaledZpos))
                 heightAtPoint = (double)coastHeight;
-            else
-                heightAtPoint = (double)heightNoise.LiftTowardMountainRangeTargetHeight(coastHeight, mountainRangeOpacity);
+            else*/
+            double mountainAndForcedPoint = mountainRangeOpacity - forcedPointWeight;
+            double heightAtPoint = (double)heightNoise.LiftTowardMountainRangeTargetHeight(coastHeight, mountainAndForcedPoint);
 
-            this.SaveValueToHeightmap(heightAtPoint, mountainRangeOpacity);
+            int upliftBlocks = 0;
+            if (mountainAndForcedPoint > 0.5) { //Limit it to the upper half of the mountain height, so that it is a lot less likely to uplift just random flat regions.
+                upliftBlocks = (int)((mountainAndForcedPoint - 0.5) * (-64 * 2)); //Technically this can be simplified, but I want to leave it at -64 specifically because this is a hard limit. It CANNOT end up going above 64 or it's going to go higher then the game world.
+            }
+
+            this.SaveValueToHeightmap(heightAtPoint, mountainRangeOpacity, upliftBlocks);
 
             // Thread local landform variant weights
             int variantCount = landforms.Variants.Length;
@@ -307,7 +321,7 @@ namespace TerraPrety.LandformHeights {
         }
 
         public double HeightNoiseHeight(int unscaledXpos, int unscaledZpos)
-            => this.heightNoise.Height(unscaledXpos, unscaledZpos);
+            => (this.heightNoise.Height(unscaledXpos, unscaledZpos).Item1);
 
         public double FinalMountainRangeMask(int unscaledXpos, int unscaledZpos)
         {
@@ -329,9 +343,14 @@ namespace TerraPrety.LandformHeights {
 
             int oceanX = unscaledXpos * TerraGenConfig.landformMapScale / TerraGenConfig.oceanMapScale;
             int oceanZ = unscaledZpos * TerraGenConfig.landformMapScale / TerraGenConfig.oceanMapScale;
-            double oceanOpacity = ocean.OceanOpacity(oceanX, oceanZ);
 
-            return 1.0 - GameMath.Clamp(oceanOpacity * config.mountainRangeOceanFadeStrength, 0.0, 1.0);
+            double continentalPosition = ocean.ContinentalPosition(oceanX, oceanZ);
+            double fadeStart = config.mountainRangeFadeStartPositionInContinent;
+            double fadeEnd = config.mountainRangeFadeEndPositionInContinent;
+
+            double fade = GameMath.Clamp((continentalPosition - fadeStart) / (fadeEnd - fadeStart), 0.0, 1.0);
+
+            return 1.0 - GameMath.Clamp(fade, 0.0, 1.0);
         }
 
         private double InlandMountainRangeRaw(int x, int z) => this.heightNoise.InlandMountainRangeMaskValue(x, z);
@@ -377,20 +396,23 @@ namespace TerraPrety.LandformHeights {
             return step * step * (3.0 - (2.0 * step));
         }
 
-        public double CoastalMapLoweredHeight(int unscaledXpos, int unscaledZpos)
+        public (double, double) CoastalMapLoweredHeight(int unscaledXpos, int unscaledZpos)
         {
-            double heightNoiseHeight = heightNoise.Height(unscaledXpos, unscaledZpos);
+            var heightTuple = heightNoise.Height(unscaledXpos, unscaledZpos);
+            double heightNoiseHeight = heightTuple.Item1;
+            double forcedPointWeight = heightTuple.Item2;
 
             // Only lower, don't raise
             if (heightNoiseHeight <= config.coastTargetLandformHeight)
-                return heightNoiseHeight;
+                return heightTuple;
 
             MapLayerOceansSmooth ocean = MapLayerOceansSmooth.Instance;
             if (ocean == null) // World startup race guard
-                return heightNoiseHeight;
+                return heightTuple;
 
             int oceanX = unscaledXpos * TerraGenConfig.landformMapScale / TerraGenConfig.oceanMapScale;
             int oceanZ = unscaledZpos * TerraGenConfig.landformMapScale / TerraGenConfig.oceanMapScale;
+
             double rawCoastOpacity = ocean.CoastOpacity(oceanX, oceanZ);
 
             // 0 is no coast, 1 is full coast
@@ -399,8 +421,14 @@ namespace TerraPrety.LandformHeights {
                 0.0,
                 1.0);
 
-            // Lower the landform height down towards the coast target
-            return GameMath.Lerp(heightNoiseHeight, config.coastTargetLandformHeight, normalizedCoastOpacity);
+            double coastAndForcedFactor = normalizedCoastOpacity - forcedPointWeight;
+
+            if (coastAndForcedFactor <= 0.0) {
+                return heightTuple;
+            } else {
+                // Lower the landform height down towards the coast target
+                return (GameMath.Lerp(heightNoiseHeight, config.coastTargetLandformHeight, coastAndForcedFactor), forcedPointWeight);
+            }
         }
 
         // Move NoiseBase.InitPositionSeed's currentSeed modifications here so different threads can get the seed rng without risking modifying the seed at the same time
@@ -427,7 +455,7 @@ namespace TerraPrety.LandformHeights {
         }
 
         public float GetHeightMapAt(int xCoord, int zCoord) {
-            return (float)heightNoise.Height(xCoord, zCoord);
+            return (float)(heightNoise.Height(xCoord, zCoord).Item1);
         }
 
         public void PrepareForNewHeightmap(int xCoord, int zCoord, int sizeX, int sizeZ) {
@@ -435,16 +463,19 @@ namespace TerraPrety.LandformHeights {
             heightMapValues = new int[sizeX * sizeZ];
             mountainRangeMapValues = null;
             mountainRangeMapValues = new int[sizeX * sizeZ];
+            upliftMapValues = null;
+            upliftMapValues = new int[sizeX * sizeZ];
             heightMapRegionXSize = sizeX;
             heightMapRegionZSize = sizeZ;
             xPos = 0;
             zPos = 0;
         }
 
-        public void SaveValueToHeightmap(double height, double mountainRangeOpacity) {
+        public void SaveValueToHeightmap(double height, double mountainRangeOpacity, int upliftAmount) {
             int index = zPos * heightMapRegionXSize + xPos;
             heightMapValues[index] = (int)(height * significantDigitMult);
             mountainRangeMapValues[index] = (int)(GameMath.Clamp(mountainRangeOpacity, 0.0, 1.0) * 255);
+            upliftMapValues[index] = upliftAmount;
 
             zPos++;
             if (zPos >= heightMapRegionZSize) {
@@ -475,6 +506,20 @@ namespace TerraPrety.LandformHeights {
 
             return new IntDataMap2D {
                 Data = mountainRangeCopy,
+                Size = landformScale + 2 * pad,
+                TopLeftPadding = pad,
+                BottomRightPadding = pad
+            };
+        }
+
+        public IntDataMap2D GetUpliftData() {
+            var pad = TerraGenConfig.landformMapPadding;
+            var landformScale = sapi.WorldManager.RegionSize / TerraGenConfig.landformMapScale;
+            int[] upliftCopy = new int[upliftMapValues.Length];
+            upliftMapValues.CopyTo(upliftCopy, 0);
+
+            return new IntDataMap2D {
+                Data = upliftCopy,
                 Size = landformScale + 2 * pad,
                 TopLeftPadding = pad,
                 BottomRightPadding = pad

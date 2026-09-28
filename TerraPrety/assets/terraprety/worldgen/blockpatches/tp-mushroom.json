@@ -1,0 +1,498 @@
+[
+	{
+		blockCodes: ["game:mushroom-beardedtooth-normal-north"],
+		placement: "OnTrees",
+		treeType: "Decidious",
+		minRain: 0.7,
+		minTemp: 0,
+		maxTemp: 30,
+		quantity: { avg: 1, var: 0 },
+		chance: 8,
+		// Game will randomly choose one based on world seed
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-whiteoyster-normal-north"],
+		placement: "OnTrees",
+		treeType: "Conifer",
+		minRain: 0.7,
+		minTemp: 0,
+		maxTemp: 20,
+		quantity: { avg: 1, var: 0 },
+		chance: 6.4,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-pinkoyster-normal-north"],
+		placement: "OnTrees",
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: 15,
+		maxTemp: 20,
+		quantity: { avg: 1, var: 0 },
+		chance: 4,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-dryadsaddle-normal-north"],
+		placement: "OnTrees",
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: -15,
+		maxTemp: 20,
+		quantity: { avg: 1, var: 0 },
+		chance: 8,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-tinderhoof-normal-north"],
+		placement: "OnTrees",
+		treeType: "Decidious",
+		minRain: 0.7,
+		minTemp: -15,
+		maxTemp: 10,
+		quantity: { avg: 1, var: 0 },
+		chance: 12,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-chickenofthewoods-normal-north"],
+		placement: "OnTrees",
+		treeType: "Decidious",
+		minRain: 0.7,
+		minTemp: -15,
+		maxTemp: 20,
+		quantity: { avg: 1, var: 0 },
+		chance: 8,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	
+	{
+		blockCodes: ["game:mushroom-reishi-normal-north"],
+		placement: "OnTrees",
+		treeType: "Decidious",
+		minRain: 0.7,
+		minTemp: 10,
+		maxTemp: 50,
+		quantity: { avg: 1, var: 0 },
+		chance: 3.2,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-funeralbell-normal-north"],
+		placement: "OnTrees",
+		treeType: "Conifer",
+		minRain: 0.7,
+		minTemp: -20,
+		maxTemp: 50,
+		quantity: { avg: 1, var: 0 },
+		chance: 8,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-deerear-normal-north"],
+		placement: "OnTrees",
+		treeType: "Tropical",
+		minRain: 0.7,
+		minTemp: -5,
+		maxTemp: 50,
+		quantity: { avg: 1, var: 0 },
+		chance: 8,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-livermushroom-normal-north"],
+		placement: "OnTrees",
+		treeType: "Tropical",
+		minRain: 0.7,
+		minTemp: 10,
+		maxTemp: 50,
+		quantity: { avg: 1, var: 0 },
+		chance: 8,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-pinkbonnet-normal-north"],
+		placement: "OnTrees",
+		treeType: "Tropical",
+		minRain: 0.7,
+		minTemp: -5,
+		maxTemp: 50,
+		quantity: { avg: 1, var: 0 },
+		chance: 8,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-shiitake-normal-north"],
+		placement: "OnTrees",
+		treeType: "Decidious",
+		minRain: 0.7,
+		minTemp: -6,
+		maxTemp: 23,
+		quantity: { avg: 1, var: 0 },
+		chance: 4,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	
+	
+	
+	{
+		blockCodes: ["game:mushroom-witchhat-normal"],
+		placement: "UnderTrees",
+		treeType: "Decidious",
+		minRain: 0.7,
+		minTemp: -15,
+		maxTemp: 20,
+		quantity: { avg: 1, var: 0 },
+		chance: 1.6,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-elfinsaddle-normal"],
+		placement: "UnderTrees",
+		treeType: "Conifer",
+		minRain: 0.7,
+		minTemp: -15,
+		maxTemp: 20,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.8,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-earthball-normal"],
+		placement: "UnderTrees",
+		treeType: "Conifer",
+		minRain: 0.7,
+		minTemp: -3,
+		maxTemp: 20,
+		quantity: { avg: 1, var: 0 },
+		chance: 1.6,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-devilstooth-normal"],
+		placement: "UnderTrees",
+		treeType: "Conifer",
+		minRain: 0.7,
+		minTemp: -15,
+		maxTemp: 20,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.2,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-saffronmilkcap-normal"],
+		placement: "UnderTrees",
+		treeType: "Conifer",
+		minRain: 0.7,
+		minTemp: -10,
+		maxTemp: 15,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.4,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-orangeoakbolete-normal"],
+		placement: "UnderTrees",
+		treeType: "Decidious",
+		minRain: 0.7,
+		minTemp: 0,
+		maxTemp: 10,
+		quantity: { avg: 1, var: 0 },
+		chance: 1.6,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-violetwebcap-normal"],
+		placement: "UnderTrees",
+		treeType: "Decidious",
+		minRain: 0.7,
+		minTemp: -20,
+		maxTemp: 12,
+		quantity: { avg: 1, var: 0 },
+		chance: 1.2,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-devilbolete-normal"],
+		placement: "UnderTrees",
+		treeType: "Decidious",
+		minRain: 0.7,
+		minTemp: 18,
+		maxTemp: 30,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.8,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-blacktrumpet-normal"],
+		placement: "UnderTrees",
+		treeType: "Decidious",
+		minRain: 0.7,
+		minTemp: -4,
+		maxTemp: 21,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.4,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-golddropmilkcap-normal"],
+		placement: "UnderTrees",
+		treeType: "Decidious",
+		minRain: 0.7,
+		minTemp: -2,
+		maxTemp: 22,
+		quantity: { avg: 1, var: 0 },
+		chance: 2,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-puffball-normal"],
+		minRain: 0.7,
+		maxForest: 0.2,
+		minTemp: -3,
+		maxTemp: 21,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.08,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-fieldmushroom-normal"],
+		minRain: 0.7,
+		maxForest: 0.2,
+		minTemp: 0,
+		maxTemp: 10,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.08,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-redwinecap-normal"],
+		minRain: 0.7,
+		maxForest: 0.2,
+		minTemp: 0,
+		maxTemp: 30,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.08,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-bitterbolete-normal"],
+		placement: "UnderTrees",
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: -2,
+		maxTemp: 11,
+		quantity: { avg: 1, var: 0 },
+		chance: 1.2,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-chanterelle-normal"],
+		placement: "UnderTrees",
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: -1,
+		maxTemp: 19,
+		quantity: { avg: 1, var: 0 },
+		chance: 1.4,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-deathcap-normal"],
+		placement: "UnderTrees",
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: -20,
+		maxTemp: 20,
+		quantity: { avg: 1, var: 0 },
+		chance: 1.6,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-greencrackedrussula-normal"],
+		placement: "UnderTrees",
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: -18,
+		maxTemp: 12,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.8,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-indigomilkcap-normal"],
+		placement: "UnderTrees",
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: 3,
+		maxTemp: 30,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.64,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-jackolantern-normal"],
+		placement: "UnderTrees",
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: -3,
+		maxTemp: 25,
+		quantity: { avg: 1, var: 0 },
+		chance: 2,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-kingbolete-normal"],
+		placement: "UnderTrees",
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: -5,
+		maxTemp: 24,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.8,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-lobster-normal"],
+		placement: "UnderTrees",
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: -20,
+		maxTemp: 30,
+		quantity: { avg: 1, var: 0 },
+		chance: 2,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-flyagaric-normal"],
+		placement: "UnderTrees",
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: -20,
+		maxTemp: 23,
+		quantity: { avg: 1, var: 0 },
+		chance: 1.2,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-almondmushroom-normal"],
+		placement: "UnderTrees",
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: 1,
+		maxTemp: 21,
+		quantity: { avg: 1, var: 0 },
+		chance: 2.4,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-paddystraw-normal"],
+		placement: "UnderTrees",
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: 12,
+		maxTemp: 30,
+		quantity: { avg: 1, var: 0 },
+		chance: 1.6,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-commonmorel-normal"],
+		placement: "UnderTrees",
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: -1,
+		maxTemp: 30,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.8,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	
+	
+	
+	{
+		blockCodes: ["game:mushroom-bluemeanie-normal"],
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: 15,
+		maxTemp: 20,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.01,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-foolsconecap-normal"],
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: 0,
+		maxTemp: 20,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.01,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-goldcap-normal"],
+		placement: "UnderTrees",
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: -1,
+		maxTemp: 30,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.01,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-honeymushroom-normal"],
+		placement: "UnderTrees",
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: 0,
+		maxTemp: 30,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.01,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-laughingjim-normal"],
+		placement: "UnderTrees",
+		treeType: "Conifer",
+		minRain: 0.7,
+		minTemp: -10,
+		maxTemp: 10,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.01,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-libertycap-normal"],
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: -10,
+		maxTemp: 15,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.01,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-sickener-normal"],
+		placement: "UnderTrees",
+		treeType: "Conifer",
+		minRain: 0.7,
+		minTemp: -3,
+		maxTemp: 27,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.01,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	},
+	{
+		blockCodes: ["game:mushroom-wavycap-normal"],
+		treeType: "Any",
+		minRain: 0.7,
+		minTemp: 3,
+		maxTemp: 25,
+		quantity: { avg: 1, var: 0 },
+		chance: 0.01,
+		randomMapCodePool: ["mush1", "mush2", "mush3", "mush4", "mush5", "mush6", "mush7"]
+	}	
+]

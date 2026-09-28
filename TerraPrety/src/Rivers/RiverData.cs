@@ -109,7 +109,7 @@ namespace TerraPrety.Rivers {
         private float primaryHeightMapFlex;
 
         public PrimaryRiverLogic(int baseWeight) : base(baseWeight) {
-            primaryHeightMapFlex = TerraPretyModSystem.config.primaryRiverHeightStepFlex;
+            primaryHeightMapFlex = 0.025f; //TerraPretyModSystem.config.primaryRiverHeightStepFlex;
         }
 
         public override RiverPlottingLogic ChainLogic(int baseWeight) {
@@ -238,7 +238,7 @@ namespace TerraPrety.Rivers {
         private float tributaryMaxStep;
 
         public TributaryRiverLogic(int baseWeight) : base(baseWeight) {
-            tributaryMaxStep = TerraPretyModSystem.config.tributaryDesiredHeightStepUp;
+            tributaryMaxStep = 0.04f; //TerraPretyModSystem.config.tributaryDesiredHeightStepUp;
         }
 
         public override RiverPlottingLogic ChainLogic(int baseWeight) {
@@ -388,9 +388,9 @@ namespace TerraPrety.Rivers {
 
         public RiverPlottingLogic(int baseWeight) {
             chances = new RiverPlottingChances(baseWeight);
-            oceanicityFlexFactor = TerraPretyModSystem.config.riverOceanicityStepFlexibility;
-            riverMaxOceanicity = TerraPretyModSystem.config.maximumRiverOceanicity;
-            heightFlexFactor = TerraPretyModSystem.config.tributaryRiverHeightStepFlex;
+            oceanicityFlexFactor = 5; //TerraPretyModSystem.config.riverOceanicityStepFlexibility;
+            riverMaxOceanicity = 100; //TerraPretyModSystem.config.maximumRiverOceanicity;
+            heightFlexFactor = 0.02f; //TerraPretyModSystem.config.tributaryRiverHeightStepFlex;
         }
 
         public abstract RiverPlottingLogic ChainLogic(int baseWeight);

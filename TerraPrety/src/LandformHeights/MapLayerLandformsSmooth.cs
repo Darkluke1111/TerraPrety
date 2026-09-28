@@ -99,6 +99,10 @@ namespace TerraPrety.LandformHeights {
 
             var mountainRangeMap = noiseLandforms.GetMountainRangeData();
             region.ModMaps["MountainRangeMap"] = mountainRangeMap;
+
+            var upliftMap = noiseLandforms.GetUpliftData();
+            //region.ModMaps["UpliftMap"] = upheavalMap;
+            region.UpheavelMap = upliftMap;
         }
 
         public void BorrowHeightMapReference(ref WeightedNormalizedSimplexNoise heightNoise, ref NormalizedSimplexNoise landformNoiseGenX, ref NormalizedSimplexNoise landformNoiseGenY) {

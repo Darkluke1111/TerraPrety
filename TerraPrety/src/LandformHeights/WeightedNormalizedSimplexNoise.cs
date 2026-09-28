@@ -70,21 +70,25 @@ namespace TerraPrety.LandformHeights {
             return false;
         }
 
-        public double Height(int x, int z) {
+        public (double, double) Height(int x, int z) {
             RequiredHeightPoints foundPoint = new RequiredHeightPoints(0,0,100,0,1); //This should never be accessed unless it's actually properly replaced.
             bool wasWithinRange = false;
             int scaledRadius;
             if (RequiredPoints != null && RequiredPoints.Count > 0) {
+                int lowestDistance = int.MaxValue;
                 foreach (var p in RequiredPoints) {
                     if (p.x == x && p.z == z) { //If the polled point actually is the weighted point, just return the center height and we are good to go.
-                        return p.centerHeight;
+                        return (p.centerHeight, 1.0);
                     }
                     scaledRadius = (int)(PointsOutwardsNeedingAverage * p.radius);
                     scaledRadius += scaledRadius / 2;
                     if (p.IsWithinRange(x, z, scaledRadius)) {
-                        foundPoint = p;
                         wasWithinRange = true;
-                        break;
+                        var dist = p.DistanceTo(x, z);
+                        if (dist < lowestDistance) {
+                            lowestDistance = dist;
+                            foundPoint = p;
+                        }
                     }
                 }
             }
@@ -113,12 +117,12 @@ namespace TerraPrety.LandformHeights {
                 //Handle the smoothing here. foundPoint is set.
                 scaledRadius = (int)(PointsOutwardsNeedingAverage * foundPoint.radius);
                 var centerHeightWeight = GetAdjustmentFromGaussian(scaledRadius, foundPoint, x, z); //This SHOULD return a double from 0 - 1, which is how strong of a 'pull' should the center point have over the current height
-                adjustedHeight = GameMath.Lerp(height, foundPoint.centerHeight, centerHeightWeight);
+                adjustedHeight = GameMath.Lerp(adjustedHeight, foundPoint.centerHeight, centerHeightWeight);
 
-                return adjustedHeight;
+                return (adjustedHeight, centerHeightWeight);
             }
 
-            return adjustedHeight;
+            return (adjustedHeight, 0.0);
         }
 
         public double GetAdjustmentFromGaussian(int radius, RequiredHeightPoints foundPoint, int x, int z) {

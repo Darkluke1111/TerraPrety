@@ -102,6 +102,31 @@
 			"maxHeight": 0.35
 		},
 		{
+			"code": "endlessrockyconcavefoothillsdry",
+			"minHeight": 0.3,
+			"maxHeight": 0.55
+		},
+		{
+			"code": "endlessrockyconcavegrandhillsdry",
+			"minHeight": 0.65,
+			"maxHeight": 0.75
+		},
+		{
+			"code": "endlessrockyconcaveglorioushillsdry",
+			"minHeight": 0.75,
+			"maxHeight": 0.8
+		},
+		{
+			"code": "endlessrockyconcavegigantichillsdry",
+			"minHeight": 0.8,
+			"maxHeight": 0.9
+		},
+		{
+			"code": "endlessrockyconcaveimmortalhillsdry",
+			"minHeight": 0.8,
+			"maxHeight": 0.99
+		},
+		{
 			"code": "abridgedsmoothrotundgentleslopeslake",
 			"minHeight": 0.25,
 			"maxHeight": 0.35
@@ -369,27 +394,27 @@
 		{
 			"code": "endlessrockyconcaveimmortalhillslake",
 			"minHeight": 0.8,
-			"maxHeight": 1.0
+			"maxHeight": 0.99
 		},
 		{
 			"code": "eternalmajorplateaulake",
-			"minHeight": 0.3,
-			"maxHeight": 0.5
+			"minHeight": 0.25,
+			"maxHeight": 0.4
 		},
 		{
 			"code": "eternalmagnificentplateaulake",
-			"minHeight": 0.3,
-			"maxHeight": 0.5
+			"minHeight": 0.25,
+			"maxHeight": 0.4
 		},
 		{
 			"code": "eternalmonumentalplateaulake",
-			"minHeight": 0.3,
-			"maxHeight": 0.5
+			"minHeight": 0.25,
+			"maxHeight": 0.4
 		},
 		{
 			"code": "eternalmonstrousplateaulake",
-			"minHeight": 0.3,
-			"maxHeight": 0.5
+			"minHeight": 0.25,
+			"maxHeight": 0.4
 		},
 		{
 			"code": "minorbenches",
@@ -430,16 +455,6 @@
 			"code": "stairwayfinalfermentation",
 			"minHeight": 0.5,
 			"maxHeight": 0.6
-		},
-		{
-			"code": "smallterraceslake",
-			"minHeight": 0.3,
-			"maxHeight": 0.4
-		},
-		{
-			"code": "mediumterraceslake",
-			"minHeight": 0.3,
-			"maxHeight": 0.4
 		},
 		{
 			"code": "endlesssublimerotundplains",
@@ -487,22 +502,12 @@
 			"maxHeight": 0.05
 		},
 		{
-			"code": "atomicbogsaverage",
-			"minHeight": 0.0,
-			"maxHeight": 0.05
-		},
-		{
 			"code": "atomicbogsthick",
 			"minHeight": 0.0,
 			"maxHeight": 0.05
 		},
 		{
 			"code": "fracturedbogsthin",
-			"minHeight": 0.0,
-			"maxHeight": 0.05
-		},
-		{
-			"code": "fracturedbogsaverage",
 			"minHeight": 0.0,
 			"maxHeight": 0.05
 		},
@@ -552,84 +557,44 @@
 			"maxHeight": 0.075
 		},
 		{
-			"code": "coagulatedcliffsminor",
+			"code": "abridgedmesaminor",
 			"minHeight": 0.2,
-			"maxHeight": 0.4
+			"maxHeight": 0.35
 		},
 		{
-			"code": "coagulatedcliffsmajor",
+			"code": "abridgedmesamajor",
 			"minHeight": 0.2,
-			"maxHeight": 0.4
+			"maxHeight": 0.35
 		},
 		{
-			"code": "abridgedcliffsminor",
+			"code": "abridgedmesamagnificent",
 			"minHeight": 0.2,
-			"maxHeight": 0.4
+			"maxHeight": 0.35
 		},
 		{
-			"code": "abridgedcliffsmajor",
+			"code": "abridgedmesamonumental",
 			"minHeight": 0.2,
-			"maxHeight": 0.4
+			"maxHeight": 0.35
 		},
 		{
-			"code": "broadcliffsminor",
-			"minHeight": 0.3,
-			"maxHeight": 0.5
-		},
-		{
-			"code": "broadcliffsmajor",
-			"minHeight": 0.3,
-			"maxHeight": 0.5
-		},
-		{
-			"code": "vastcliffsminor",
-			"minHeight": 0.4,
-			"maxHeight": 0.6
-		},
-		{
-			"code": "vastcliffsmajor",
-			"minHeight": 0.4,
-			"maxHeight": 0.6
-		},
-		{
-			"code": "coagulatedsunkencliffsminor",
+			"code": "abridgedsunkenmesaminor",
 			"minHeight": 0.2,
-			"maxHeight": 0.4
+			"maxHeight": 0.35
 		},
 		{
-			"code": "coagulatedsunkencliffsmajor",
+			"code": "abridgedsunkenmesamajor",
 			"minHeight": 0.2,
-			"maxHeight": 0.4
+			"maxHeight": 0.35
 		},
 		{
-			"code": "abridgedsunkencliffsminor",
+			"code": "abridgedsunkenmesamagnificent",
 			"minHeight": 0.2,
-			"maxHeight": 0.4
+			"maxHeight": 0.35
 		},
 		{
-			"code": "abridgedsunkencliffsmajor",
+			"code": "abridgedsunkenmesamonumental",
 			"minHeight": 0.2,
-			"maxHeight": 0.4
-		},
-		{
-			"code": "broadsunkencliffsminor",
-			"minHeight": 0.3,
-			"maxHeight": 0.5
-		},
-		{
-			"code": "broadsunkencliffsmajor",
-			"minHeight": 0.3,
-			"maxHeight": 0.5
-		},
-		{
-			"code": "vastsunkencliffsminor",
-			"minHeight": 0.4,
-			"maxHeight": 0.6
-		},
-		{
-			"code": "vastsunkencliffsmajor",
-			"minHeight": 0.4,
-			"maxHeight": 0.6
+			"maxHeight": 0.35
 		},
 		{
 			"code": "millionterracetowerspeak",
@@ -672,22 +637,12 @@
 			"maxHeight": 1.0
 		},
 		{
-			"code": "coagulatedcrags",
+			"code": "broadspires",
 			"minHeight": 0.1,
 			"maxHeight": 0.2
 		},
 		{
-			"code": "abridgedcrags",
-			"minHeight": 0.1,
-			"maxHeight": 0.2
-		},
-		{
-			"code": "coagulatedmounds",
-			"minHeight": 0.1,
-			"maxHeight": 0.2
-		},
-		{
-			"code": "abridgedmounds",
+			"code": "vastspires",
 			"minHeight": 0.1,
 			"maxHeight": 0.2
 		},
@@ -728,7 +683,7 @@
 		},
 		{
 			"code": "ultraflats",
-			"minHeight": 0.0,
+			"minHeight": 0.05,
 			"maxHeight": 0.1
 		},
 	]

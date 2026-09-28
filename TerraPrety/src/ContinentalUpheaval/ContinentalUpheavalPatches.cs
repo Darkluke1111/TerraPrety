@@ -101,6 +101,7 @@ namespace TerraPrety.ContinentalUpheaval {
         public static IEnumerable<CodeInstruction> GenTerraGenerateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator) {
             var codes = new List<CodeInstruction>(instructions);
 
+            int indexOfRegionChunkSize = -1;
             int indexOfSealevelWorldHeight = -1;
             //int indexOfTimesPointNine = -1;
             //int indexOfSetMapChunk = -1;
@@ -121,7 +122,15 @@ namespace TerraPrety.ContinentalUpheaval {
                     continue;
                 }*/
 
-                if (indexOfSealevelWorldHeight == -1 && codes[i].opcode == OpCodes.Ldc_I4 && (int)codes[i].operand == 256) {
+                if (indexOfRegionChunkSize == -1 && codes[i].opcode == OpCodes.Ldc_I4_S && codes[i].operand.GetType() == typeof(SByte) && (SByte)codes[i].operand == (SByte)32) {
+                    if (codes[i + 2].opcode == OpCodes.Stloc_S) {
+                        indexOfRegionChunkSize = 4;
+                    } else {
+                        indexOfRegionChunkSize = 3;
+                    }
+                }
+
+                if (indexOfSealevelWorldHeight == -1 && codes[i].opcode == OpCodes.Ldc_I4 && codes[i].operand.GetType() == typeof(int) && (int)codes[i].operand == 256) {
                     indexOfSealevelWorldHeight = i;
                     break; //continue;
                 }
@@ -133,15 +142,15 @@ namespace TerraPrety.ContinentalUpheaval {
             }
 
             var sub64FromWorldHeight = new List<CodeInstruction> {
-                new CodeInstruction(OpCodes.Ldc_I4, 64),
+                new CodeInstruction(OpCodes.Ldc_I4, TerraPretyModSystem.NumBlocksLowerWorldBy),
                 new CodeInstruction(OpCodes.Sub)
             };
 
             var initCoastmap = new List<CodeInstruction> {
                 new CodeInstruction(OpCodes.Ldarg_1),
-                new CodeInstruction(OpCodes.Ldloc_S, 5),
-                new CodeInstruction(OpCodes.Ldloc_S, 6),
-                new CodeInstruction(OpCodes.Ldloc_S, 3),
+                new CodeInstruction(OpCodes.Ldloc_S, indexOfRegionChunkSize + 2),
+                new CodeInstruction(OpCodes.Ldloc_S, indexOfRegionChunkSize + 3),
+                new CodeInstruction(OpCodes.Ldloc_S, indexOfRegionChunkSize),
                 new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(ContinentalUpheavalPatches), "initCoastmapForChunk", [typeof(IServerChunk[]), typeof(int), typeof(int), typeof(int)]))
             };
 
@@ -160,8 +169,8 @@ namespace TerraPrety.ContinentalUpheaval {
                 new CodeInstruction(OpCodes.Stfld, AccessTools.Field(typeof(int), "rlZ")),
             };*/
 
-            //codes.InsertRange(indexOfTimesPointNine - 1, sub64FromWorldHeight); //Tweaks the Taper Threshold to account for the - 64 to World Height
-            codes.InsertRange(indexOfSealevelWorldHeight, sub64FromWorldHeight); //Sets the Oceanicity Factor WorldHeight - 64
+            //codes.InsertRange(indexOfTimesPointNine - 1, sub64FromWorldHeight); //Tweaks the Taper Threshold to account for the - TerraPretyModSystem.NumBlocksLowerWorldBy to World Height
+            codes.InsertRange(indexOfSealevelWorldHeight, sub64FromWorldHeight); //Sets the Oceanicity Factor WorldHeight - TerraPretyModSystem.NumBlocksLowerWorldBy
             codes.InsertRange(indexOfSealevelWorldHeight - 5, initCoastmap); //Attempt to init the static vars in the Coastmap for this chunk.
             //codes.InsertRange(indexOfSetRLZ, setXAndZField);
             //codes.InsertRange(indexOfSetMapChunk, setMapChunkField);
@@ -199,7 +208,7 @@ namespace TerraPrety.ContinentalUpheaval {
             }
 
             var sub64FromWorldHeight = new List<CodeInstruction> {
-                new CodeInstruction(OpCodes.Ldc_I4, 64),
+                new CodeInstruction(OpCodes.Ldc_I4, TerraPretyModSystem.NumBlocksLowerWorldBy),
                 new CodeInstruction(OpCodes.Sub)
             };
 
@@ -207,8 +216,8 @@ namespace TerraPrety.ContinentalUpheaval {
             //codes[indexOfLoad256F + 14].operand = AccessTools.Method(typeof(ContinentalUpheavalPatches), "GetConfigurableFrequency");
             //codes[indexOfLoad256F + 19].opcode = OpCodes.Call;
             //codes[indexOfLoad256F + 19].operand = AccessTools.Method(typeof(ContinentalUpheavalPatches), "GetConfigurablePersistance");
-            codes.InsertRange(indexOfLoad256F + 9, sub64FromWorldHeight); //Sets the WorldHeight sent to TerrainOctaves to WorldHeight - 64
-            codes.InsertRange(indexOfLoad256F - 1, sub64FromWorldHeight); //Sets the NoiseScale to WorldHeight - 64
+            codes.InsertRange(indexOfLoad256F + 9, sub64FromWorldHeight); //Sets the WorldHeight sent to TerrainOctaves to WorldHeight - TerraPretyModSystem.NumBlocksLowerWorldBy
+            codes.InsertRange(indexOfLoad256F - 1, sub64FromWorldHeight); //Sets the NoiseScale to WorldHeight - TerraPretyModSystem.NumBlocksLowerWorldBy
 
             return codes.AsEnumerable();
         }
@@ -222,7 +231,7 @@ namespace TerraPrety.ContinentalUpheaval {
         }*/
 
         [HarmonyTranspiler]
-        [HarmonyPatch(typeof(GenTerra), nameof(GenTerra.AssetsFinalize))] //This patch drops the SeaLevel down by 64 blocks, which is 1 step on the World Size scale.
+        [HarmonyPatch(typeof(GenTerra), nameof(GenTerra.AssetsFinalize))] //This patch drops the SeaLevel down by TerraPretyModSystem.NumBlocksLowerWorldBy blocks, which is 1 step on the World Size scale.
         public static IEnumerable<CodeInstruction> GenTerraAssetsFinalizeTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator) {
             var codes = new List<CodeInstruction>(instructions);
 
@@ -236,11 +245,11 @@ namespace TerraPrety.ContinentalUpheaval {
             }
 
             var sub64FromWorldHeight = new List<CodeInstruction> {
-                new CodeInstruction(OpCodes.Ldc_I4, 64),
+                new CodeInstruction(OpCodes.Ldc_I4, TerraPretyModSystem.NumBlocksLowerWorldBy),
                 new CodeInstruction(OpCodes.Sub)
             };
 
-            codes.InsertRange(indexOfLDCR8 + 5, sub64FromWorldHeight); //This sets the Sea Level to WorldHeight - 64
+            codes.InsertRange(indexOfLDCR8 + 5, sub64FromWorldHeight); //This sets the Sea Level to WorldHeight - TerraPretyModSystem.NumBlocksLowerWorldBy
 
             return codes.AsEnumerable();
         }
@@ -260,11 +269,11 @@ namespace TerraPrety.ContinentalUpheaval {
             }
 
             var sub64FromWorldHeight = new List<CodeInstruction> {
-                new CodeInstruction(OpCodes.Ldc_I4_S, 64),
+                new CodeInstruction(OpCodes.Ldc_I4_S, TerraPretyModSystem.NumBlocksLowerWorldBy),
                 new CodeInstruction(OpCodes.Sub)
             };
 
-            codes.InsertRange(indexOfCallVirt + 1, sub64FromWorldHeight); //Sub 64 from the Worldheight being sent to LerpThresholds
+            codes.InsertRange(indexOfCallVirt + 1, sub64FromWorldHeight); //Sub TerraPretyModSystem.NumBlocksLowerWorldBy from the Worldheight being sent to LerpThresholds
 
             return codes.AsEnumerable();
         }
@@ -291,12 +300,12 @@ namespace TerraPrety.ContinentalUpheaval {
             }
 
             var add64ToWorldHeight = new List<CodeInstruction> {
-                new CodeInstruction(OpCodes.Ldc_I4_S, 64),
+                new CodeInstruction(OpCodes.Ldc_I4_S, TerraPretyModSystem.NumBlocksLowerWorldBy),
                 new CodeInstruction(OpCodes.Add)
             };
 
             codes.InsertRange(indexOfLastMapY + 1, add64ToWorldHeight); //Attempting to ensure this lerped thresholds array is able to fit the whole map. Is this going to still function right with uplift? Will have to test with mountains.
-            codes.InsertRange(indexOfFirstMapY + 1, add64ToWorldHeight); //Re-adds the 64 to initializing the array and looping through it all so it fits the full world height.
+            codes.InsertRange(indexOfFirstMapY + 1, add64ToWorldHeight); //Re-adds the TerraPretyModSystem.NumBlocksLowerWorldBy to initializing the array and looping through it all so it fits the full world height.
 
             return codes.AsEnumerable();
         }
@@ -316,11 +325,11 @@ namespace TerraPrety.ContinentalUpheaval {
             }
 
             var sub64FromWorldHeight = new List<CodeInstruction> {
-                new CodeInstruction(OpCodes.Ldc_I4_S, 64),
+                new CodeInstruction(OpCodes.Ldc_I4_S, TerraPretyModSystem.NumBlocksLowerWorldBy),
                 new CodeInstruction(OpCodes.Sub)
             };
 
-            codes.InsertRange(indexOfCallVirt + 1, sub64FromWorldHeight); //Remove 64 from the number of octaves generated by the world height. Helps keep the same shape despite being 64 blocks taller for the world.
+            codes.InsertRange(indexOfCallVirt + 1, sub64FromWorldHeight); //Remove TerraPretyModSystem.NumBlocksLowerWorldBy from the number of octaves generated by the world height. Helps keep the same shape despite being TerraPretyModSystem.NumBlocksLowerWorldBy blocks taller for the world.
 
             return codes.AsEnumerable();
         }
@@ -329,41 +338,75 @@ namespace TerraPrety.ContinentalUpheaval {
     [HarmonyPatch]
     public class MoreContinentalUpheavalPatches {
 
+        static Type DisplayClassType;
+
         public static MethodBase TargetMethod() {
-            var type = AccessTools.FirstInner(typeof(GenTerra), t => t.Name.Contains("<>c__DisplayClass34_0"));
-            var method = AccessTools.FirstMethod(type, m => m.Name.Contains("<generate>b__0"));
-            return method;
+            // Search through all nested compiler-generated display classes in GenTerra,
+            // looking for the one containing the <generate>b__N lambda — regardless of the numeric
+            // suffix that shifts with any changes to the class's methods/fields (as Stratum does).
+            foreach (var nested in typeof(GenTerra).GetNestedTypes(AccessTools.all)) {
+                if (!nested.Name.StartsWith("<>c__DisplayClass")) {
+                    continue;
+                }
+
+                var method = AccessTools.FirstMethod(nested, m => m.Name.Contains("<generate>b__"));
+                if (method != null) {
+                    DisplayClassType = nested;
+                    return method;
+                }
+            }
+
+            TerraPretyModSystem.Logger.Error("Could not locate the <generate> lambda display class in GenTerra. More Continental Upheaval patch will not be applied.");
+            return null;
         }
 
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator) {
             var codes = new List<CodeInstruction>(instructions);
 
-            int ldelemaCount = 0;
+            int indexOfSetOceanicity = -1; //Not actually used for the transpiler here, but it serves as our starting point! And ensures that it is set and everything.
+            var oceanicityFacField = AccessTools.Field(DisplayClassType, "oceanicityFac");
+            int indexOfSetDistY = -1;
+            var columnResultsField = AccessTools.Field(typeof(GenTerra), "columnResults");
+            var columnResultsStratumField = AccessTools.Field(DisplayClassType, "columnResults");
             int indexOfOceanicityComp = -1;
+            //int indexMapsizeM2Field = -1;
             //var mapsizeField = AccessTools.Field(AccessTools.FirstInner(typeof(GenTerra), t => t.Name.Contains("<>c__DisplayClass34_0")), "mapsizeY");
-            var mapsizem2Field = AccessTools.Field(AccessTools.FirstInner(typeof(GenTerra), t => t.Name.Contains("<>c__DisplayClass34_0")), "mapsizeYm2");
+            //var mapsizem2Field = AccessTools.Field(AccessTools.FirstInner(typeof(GenTerra), t => t.Name.Contains("<>c__DisplayClass34_0")), "mapsizeYm2");
             //int indexMapsizeField = -1;
-            int indexMapsizeM2Field = -1;
 
             for (int i = 0; i < codes.Count; i++) {
-                if (ldelemaCount == 0 && codes[i].opcode == OpCodes.Ldelema) {
-                    ldelemaCount++;
-                    continue;
-                }
-
-                if (ldelemaCount == 1 && codes[i].opcode == OpCodes.Ldelema) {
-                    if (codes[i + 2].opcode == OpCodes.Ldc_R4) {
-                        ldelemaCount++;
-                        indexOfOceanicityComp = i + 1;
+                if (indexOfSetOceanicity == -1 && i + 2 < codes.Count && codes[i].opcode == OpCodes.Ldfld && (FieldInfo)codes[i].operand == oceanicityFacField) {
+                    if (codes[i + 2].opcode == OpCodes.Stloc_S) {
+                        indexOfSetOceanicity = i + 2;
                         continue;
                     }
                 }
 
-                if (indexOfOceanicityComp > -1 && codes[i].opcode == OpCodes.Ldfld && (FieldInfo)codes[i].operand == mapsizem2Field) {
-                    indexMapsizeM2Field = i + 1;
-                    continue;
+                if (indexOfSetOceanicity > -1 && i > 3 && i + 5 < codes.Count && codes[i].opcode == OpCodes.Ldfld && ((FieldInfo)codes[i].operand == columnResultsField || (FieldInfo)codes[i].operand == columnResultsStratumField)) {
+                    if (codes[i - 3].opcode == OpCodes.Stloc_S) {
+                        indexOfSetDistY = i - 3;
+                    }
+                    if (indexOfSetDistY == -1 && codes[i - 2].opcode == OpCodes.Stloc_S) { //Stratum Compat Handling hopefully!
+                        indexOfSetDistY = i - 2;
+                    }
+                    if (codes[i + 5].opcode == OpCodes.Bgt_S) {
+                        indexOfOceanicityComp = i + 3;
+                    }
+                    if (indexOfSetDistY > -1 && indexOfOceanicityComp > -1) {
+                        break;
+                    }
                 }
+
+                /*if (indexOfSetDistY > -1 && codes[i].opcode == OpCodes.Ldloc_S && codes[i - 1].opcode == OpCodes.Ldelema) {
+                    indexOfOceanicityComp = i;
+                    break;
+                }*/
+
+                /*if (indexOfOceanicityComp > -1 && codes[i].opcode == OpCodes.Ldfld && (FieldInfo)codes[i].operand == mapsizem2Field) {
+                    indexMapsizeM2Field = i + 1;
+                    break;
+                }*/
             }
 
             var getSalinityMethod = AccessTools.Method(typeof(MoreContinentalUpheavalPatches), "getSalinityFor", [typeof(int), typeof(int), typeof(float)]);
@@ -375,25 +418,35 @@ namespace TerraPrety.ContinentalUpheaval {
                 new CodeInstruction(OpCodes.Call, getSalinityMethod)
             };
 
-            var sub64FromWorldHeight = new List<CodeInstruction> {
-                new CodeInstruction(OpCodes.Ldc_I4_S, 64),
+            /*var sub64FromWorldHeight = new List<CodeInstruction> {
+                new CodeInstruction(OpCodes.Ldc_I4_S, TerraPretyModSystem.NumBlocksLowerWorldBy),
                 new CodeInstruction(OpCodes.Sub)
-            };
+            };*/
 
-            if (indexOfOceanicityComp > -1 && indexMapsizeM2Field > -1) {
-                codes.InsertRange(indexMapsizeM2Field, sub64FromWorldHeight); //Sub 64 from the StartSampleDisplacedThreshold MapsizeM2
+            if (indexOfSetOceanicity > -1 && indexOfSetDistY > -1 && indexOfOceanicityComp > -1 /*&& indexMapsizeM2Field > -1*/) {
+                //codes.InsertRange(indexMapsizeM2Field, sub64FromWorldHeight); //Sub TerraPretyModSystem.NumBlocksLowerWorldBy from the StartSampleDisplacedThreshold MapsizeM2
                 codes[indexOfOceanicityComp + 2].opcode = OpCodes.Bge_S;
                 codes.RemoveAt(indexOfOceanicityComp);
                 codes.InsertRange(indexOfOceanicityComp, factorHeightmapAgainstOceanicity);
+                codes[indexOfSetDistY - 2].opcode = OpCodes.Nop;
+                codes[indexOfSetDistY - 3].opcode = OpCodes.Nop;
+                codes[indexOfSetDistY - 4].opcode = OpCodes.Nop;
+                codes[indexOfSetDistY - 5].opcode = OpCodes.Nop;
+                codes[indexOfSetDistY - 6].opcode = OpCodes.Nop;
+                codes[indexOfSetDistY - 7].opcode = OpCodes.Nop;
+                codes[indexOfSetDistY - 9].opcode = OpCodes.Nop;
+                codes[indexOfSetDistY - 10].opcode = OpCodes.Nop;
             } else {
                 TerraPretyModSystem.Logger.Error("Transpiler on GenTerra's Generate Lambda Method has failed. Coastmap will be unable to determine the salinity of water.");
-                if (ldelemaCount < 1) {
-                    TerraPretyModSystem.Logger.Error("Could not locate first ldelema instruction.");
-                } else if (ldelemaCount < 2) {
-                    TerraPretyModSystem.Logger.Error("Could not find the second ldelema call. Only found " + ldelemaCount);
-                } else if (indexMapsizeM2Field == -1) {
+                if (indexOfSetOceanicity == -1) {
+                    TerraPretyModSystem.Logger.Error("Could not locate where Oceanicity is set.");
+                } else if (indexOfSetDistY == -1) {
+                    TerraPretyModSystem.Logger.Error("Could not locate where DistY is set.");
+                } else if (indexOfOceanicityComp == -1) {
+                    TerraPretyModSystem.Logger.Error("Could not locate where Oceanicity is checked for Salinity.");
+                } /*else if (indexMapsizeM2Field == -1) {
                     TerraPretyModSystem.Logger.Error("Could not locate the loading of the MapsizeM2 Field.");
-                }
+                }*/
             }
 
             return codes.AsEnumerable();

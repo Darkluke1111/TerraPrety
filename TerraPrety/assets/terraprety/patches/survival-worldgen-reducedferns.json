@@ -1,0 +1,44 @@
+[
+	{
+		"op": "replace",
+		"path": "/0/quantity",
+		"file": "game:worldgen/blockpatches/fern.json",
+		"value": { avg: 4, var: 3 },
+	},
+	{
+		"op": "replace",
+		"path": "/1/quantity",
+		"file": "game:worldgen/blockpatches/fern.json",
+		"value": { avg: 1, var: 0.5 },
+	},
+	{
+		"op": "replace",
+		"path": "/2/quantity",
+		"file": "game:worldgen/blockpatches/fern.json",
+		"value": { avg: 1, var: 0.5 },
+	},
+	{
+		"op": "replace",
+		"path": "/3/quantity",
+		"file": "game:worldgen/blockpatches/fern.json",
+		"value": { avg: 0.25, var: 0.1 },
+	},
+	{
+		"op": "replace",
+		"path": "/4/quantity",
+		"file": "game:worldgen/blockpatches/fern.json",
+		"value": { avg: 1, var: 0.5 },
+	},
+	{
+		"op": "replace",
+		"path": "/5/quantity",
+		"file": "game:worldgen/blockpatches/fern.json",
+		"value": { avg: 2, var: 1.5 },
+	},
+	{
+		"op": "replace",
+		"path": "/6/quantity",
+		"file": "game:worldgen/blockpatches/fern.json",
+		"value": { avg: 1, var: 0.5 },
+	},
+]

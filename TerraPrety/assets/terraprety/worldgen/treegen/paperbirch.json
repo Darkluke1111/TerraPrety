@@ -1,0 +1,37 @@
+{
+	treeWorldPropertyCode: "whitepaperbirch",
+	sizeMultiplier: 0.6,
+	trunks: [{
+		widthloss: 0.044,
+		dieAt: { avg: 0.05 },
+		branchStart: { dist: "gaussian", avg: 0.4, var: 0.2 },
+		branchSpacing: { avg: 0.15, var: 0.005 },
+		branchVerticalAngle:  { avg: 1.32, var: 0 },
+		branchHorizontalAngle: { avg: 0, var: 3.1415 },
+		branchWidthMultiplier: { avg: 0.1, var: 0 },
+		branchWidthMultiplierEvolve: { transform: "linear", factor: 1.4 },
+		branchQuantity: { avg: 2, var: 1 },
+		branchQuantityEvolve: { transform: "linear", factor: 3 }
+	}],
+	branches: [{
+		widthLoss: 0.06,
+		gravityDrag: 0,
+
+		branchStart:  { avg: 0, var: 0 },
+		branchSpacing: { avg: 0.01, var: 0 },
+		branchVerticalAngle: { avg: 1.1, var: 0.2 },
+		branchHorizontalAngle: { avg: 0, var: 3.1415 },
+
+		branchQuantity: { avg: 1, var: 0 },
+		branchWidthMultiplier: { avg: 0.5, var: 0 }
+	}, {
+		branchStart: { avg: 2 }
+	}],
+	treeBlocks: {
+		logBlockCode: "game:log-grown-birch-ud",
+		leavesBlockCode: "game:leaves-grown-birch",
+		leavesBranchyBlockCode: "game:leavesbranchy-grown-birch",
+		vinesBlockCode: "game:wildvine-section-north",
+		vinesEndBlockCode: "game:wildvine-end-north", mossDecorCode: "game:attachingplant-spottymoss"
+	}
+}

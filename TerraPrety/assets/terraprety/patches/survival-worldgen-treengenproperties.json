@@ -1,0 +1,733 @@
+[
+	{
+		"op": "replace",
+		"path": "/shrubgens/3/Weight",
+		"file": "game:worldgen/treengenproperties.json",
+		"value": 8,
+	},
+	{
+		"op": "replace",
+		"path": "/shrubgens/4/Weight",
+		"file": "game:worldgen/treengenproperties.json",
+		"value": 0,
+	},
+	{
+		"op": "replace",
+		"path": "/treesPerChunk/avg",
+		"file": "game:worldgen/treengenproperties.json",
+		"value": 64,
+	},
+	{
+		"op": "replace",
+		"path": "/treesPerChunk/var",
+		"file": "game:worldgen/treengenproperties.json",
+		"value": 42,
+	},
+	{
+		"op": "replace",
+		"path": "/shrubsPerChunk/avg",
+		"file": "game:worldgen/treengenproperties.json",
+		"value": 32,
+	},
+	{
+		"op": "replace",
+		"path": "/shrubsPerChunk/var",
+		"file": "game:worldgen/treengenproperties.json",
+		"value": 24,
+	},
+
+
+
+
+
+
+	{
+		"op": "addmerge",
+		"path": "/treegens",
+		"file": "game:worldgen/treengenproperties.json",
+		"value": [
+		{
+			Generator: "terraprety:paperbirch",
+			MinSize: 0.75,
+			MaxSize: 1.5,
+			Weight: 128,
+			MinTemp: 3,
+			MaxTemp: 16,
+			MinRain: 95,
+			MaxRain: 255,
+			MinFert: 10,
+			MaxFert: 100,
+			MinForest: 10,
+			MaxForest: 255,
+			MinHeight: 0.0,
+			MaxHeight: 0.5
+		},
+		]
+	},
+	{
+		"op": "addmerge",
+		"path": "/shrubgens",
+		"file": "game:worldgen/treengenproperties.json",
+		"value": [
+			{
+				Generator: "terraprety:bigpineshrub",
+				Weight: 0.06,
+				MinTemp: -20,
+				MaxTemp: 12,
+				MinRain: 50,
+				MaxRain: 70,
+				MinFert: 30,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigmapleshrub",
+				Weight: 0.03,
+				MinTemp: -20,
+				MaxTemp: 20,
+				MinRain: 85,
+				MaxRain: 105,
+				MinFert: 80,
+				MaxFert: 200,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigcrimsonkingmapleshrub",
+				Weight: 0.004,
+				MinTemp: -15,
+				MaxTemp: 8,
+				MinRain: 85,
+				MaxRain: 105,
+				MinFert: 125,
+				MaxFert: 225,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigacaciashrub",
+				Weight: 0.03,
+				MinTemp: 28,
+				MaxTemp: 40,
+				MinRain: 80,
+				MaxRain: 100,
+				MinFert: 50,
+				MaxFert: 200,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigbaldcypressshrub",
+				Weight: 0.03,
+				MinTemp: 15,
+				MaxTemp: 24,
+				MinRain: 180,
+				MaxRain: 200,
+				MinFert: 100,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigebonyshrub",
+				Weight: 0.004,
+				MinTemp: 28,
+				MaxTemp: 40,
+				MinRain: 100,
+				MaxRain: 120,
+				MinFert: 50,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigwalnutshrub",
+				Weight: 0.03,
+				MinTemp: 6,
+				MaxTemp: 22,
+				MinRain: 95,
+				MaxRain: 115,
+				MinFert: 90,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+
+
+
+
+
+
+			{
+				Generator: "terraprety:bigpineshrub",
+				Weight: 0.225,
+				MinTemp: -20,
+				MaxTemp: 12,
+				MinRain: 70,
+				MaxRain: 200,
+				MinFert: 30,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigmapleshrub",
+				Weight: 0.1125,
+				MinTemp: -20,
+				MaxTemp: 20,
+				MinRain: 105,
+				MaxRain: 225,
+				MinFert: 80,
+				MaxFert: 200,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigcrimsonkingmapleshrub",
+				Weight: 0.015,
+				MinTemp: -15,
+				MaxTemp: 8,
+				MinRain: 105,
+				MaxRain: 225,
+				MinFert: 125,
+				MaxFert: 225,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigacaciashrub",
+				Weight: 0.1125,
+				MinTemp: 28,
+				MaxTemp: 40,
+				MinRain: 100,
+				MaxRain: 140,
+				MinFert: 50,
+				MaxFert: 200,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigbaldcypressshrub",
+				Weight: 0.1125,
+				MinTemp: 15,
+				MaxTemp: 24,
+				MinRain: 200,
+				MaxRain: 255,
+				MinFert: 100,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigebonyshrub",
+				Weight: 0.0015,
+				MinTemp: 28,
+				MaxTemp: 40,
+				MinRain: 120,
+				MaxRain: 140,
+				MinFert: 50,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigwalnutshrub",
+				Weight: 0.1125,
+				MinTemp: 6,
+				MaxTemp: 22,
+				MinRain: 115,
+				MaxRain: 170,
+				MinFert: 90,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+
+
+
+
+
+
+
+			{
+				Generator: "terraprety:bigpineshrub",
+				Weight: 0.9,
+				MinTemp: -20,
+				MaxTemp: 12,
+				MinRain: 200,
+				MaxRain: 225,
+				MinFert: 150,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigmapleshrub",
+				Weight: 0.45,
+				MinTemp: -20,
+				MaxTemp: 20,
+				MinRain: 225,
+				MaxRain: 255,
+				MinFert: 150,
+				MaxFert: 200,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigcrimsonkingmapleshrub",
+				Weight: 0.06,
+				MinTemp: -15,
+				MaxTemp: 8,
+				MinRain: 225,
+				MaxRain: 255,
+				MinFert: 150,
+				MaxFert: 225,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigoakshrub",
+				Weight: 0.625,
+				MinTemp: -15,
+				MaxTemp: 12,
+				MinRain: 175,
+				MaxRain: 255,
+				MinFert: 125,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigacaciashrub",
+				Weight: 0.45,
+				MinTemp: 28,
+				MaxTemp: 40,
+				MinRain: 80,
+				MaxRain: 140,
+				MinFert: 50,
+				MaxFert: 200,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigbaldcypressshrub",
+				Weight: 0.45,
+				MinTemp: 15,
+				MaxTemp: 24,
+				MinRain: 180,
+				MaxRain: 255,
+				MinFert: 100,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigebonyshrub",
+				Weight: 0.006,
+				MinTemp: 28,
+				MaxTemp: 40,
+				MinRain: 100,
+				MaxRain: 140,
+				MinFert: 50,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:bigwalnutshrub",
+				Weight: 0.45,
+				MinTemp: 6,
+				MaxTemp: 22,
+				MinRain: 95,
+				MaxRain: 170,
+				MinFert: 90,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+
+
+
+
+
+			{
+				Generator: "terraprety:smallpineshrub",
+				Weight: 0.1125,
+				MinTemp: -20,
+				MaxTemp: 12,
+				MinRain: 50,
+				MaxRain: 70,
+				MinFert: 30,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallmapleshrub",
+				Weight: 0.05625,
+				MinTemp: -20,
+				MaxTemp: 20,
+				MinRain: 85,
+				MaxRain: 105,
+				MinFert: 80,
+				MaxFert: 200,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallcrimsonkingmapleshrub",
+				Weight: 0.00775,
+				MinTemp: -15,
+				MaxTemp: 8,
+				MinRain: 85,
+				MaxRain: 105,
+				MinFert: 125,
+				MaxFert: 225,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallacaciashrub",
+				Weight: 0.05625,
+				MinTemp: 28,
+				MaxTemp: 40,
+				MinRain: 80,
+				MaxRain: 100,
+				MinFert: 50,
+				MaxFert: 200,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallbaldcypressshrub",
+				Weight: 0.05625,
+				MinTemp: 15,
+				MaxTemp: 24,
+				MinRain: 180,
+				MaxRain: 200,
+				MinFert: 100,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallebonyshrub",
+				Weight: 0.00775,
+				MinTemp: 28,
+				MaxTemp: 40,
+				MinRain: 100,
+				MaxRain: 120,
+				MinFert: 50,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallwalnutshrub",
+				Weight: 0.05625,
+				MinTemp: 6,
+				MaxTemp: 22,
+				MinRain: 95,
+				MaxRain: 115,
+				MinFert: 90,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+
+
+
+
+
+
+			{
+				Generator: "terraprety:smallpineshrub",
+				Weight: 0.45,
+				MinTemp: -20,
+				MaxTemp: 12,
+				MinRain: 70,
+				MaxRain: 200,
+				MinFert: 30,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallmapleshrub",
+				Weight: 0.225,
+				MinTemp: -20,
+				MaxTemp: 20,
+				MinRain: 105,
+				MaxRain: 225,
+				MinFert: 80,
+				MaxFert: 200,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallcrimsonkingmapleshrub",
+				Weight: 0.03125,
+				MinTemp: -15,
+				MaxTemp: 8,
+				MinRain: 105,
+				MaxRain: 225,
+				MinFert: 125,
+				MaxFert: 225,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallacaciashrub",
+				Weight: 0.225,
+				MinTemp: 28,
+				MaxTemp: 40,
+				MinRain: 100,
+				MaxRain: 140,
+				MinFert: 50,
+				MaxFert: 200,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallbaldcypressshrub",
+				Weight: 0.225,
+				MinTemp: 15,
+				MaxTemp: 24,
+				MinRain: 200,
+				MaxRain: 255,
+				MinFert: 100,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallebonyshrub",
+				Weight: 0.003125,
+				MinTemp: 28,
+				MaxTemp: 40,
+				MinRain: 120,
+				MaxRain: 140,
+				MinFert: 50,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallwalnutshrub",
+				Weight: 0.225,
+				MinTemp: 6,
+				MaxTemp: 22,
+				MinRain: 115,
+				MaxRain: 170,
+				MinFert: 90,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+
+
+
+
+
+
+
+			{
+				Generator: "terraprety:smallpineshrub",
+				Weight: 1.8,
+				MinTemp: -20,
+				MaxTemp: 12,
+				MinRain: 200,
+				MaxRain: 225,
+				MinFert: 150,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallmapleshrub",
+				Weight: 0.9,
+				MinTemp: -20,
+				MaxTemp: 20,
+				MinRain: 225,
+				MaxRain: 255,
+				MinFert: 150,
+				MaxFert: 200,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallcrimsonkingmapleshrub",
+				Weight: 0.125,
+				MinTemp: -15,
+				MaxTemp: 8,
+				MinRain: 225,
+				MaxRain: 255,
+				MinFert: 150,
+				MaxFert: 225,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smalloakshrub",
+				Weight: 1.25,
+				MinTemp: -15,
+				MaxTemp: 12,
+				MinRain: 175,
+				MaxRain: 255,
+				MinFert: 125,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallacaciashrub",
+				Weight: 0.9,
+				MinTemp: 28,
+				MaxTemp: 40,
+				MinRain: 80,
+				MaxRain: 140,
+				MinFert: 50,
+				MaxFert: 200,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallbaldcypressshrub",
+				Weight: 0.9,
+				MinTemp: 15,
+				MaxTemp: 24,
+				MinRain: 180,
+				MaxRain: 255,
+				MinFert: 100,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallebonyshrub",
+				Weight: 0.0125,
+				MinTemp: 28,
+				MaxTemp: 40,
+				MinRain: 100,
+				MaxRain: 140,
+				MinFert: 50,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+			{
+				Generator: "terraprety:smallwalnutshrub",
+				Weight: 0.9,
+				MinTemp: 6,
+				MaxTemp: 22,
+				MinRain: 95,
+				MaxRain: 170,
+				MinFert: 90,
+				MaxFert: 255,
+				MinForest: 0,
+				MaxForest: 255,
+				MinHeight: 0.0,
+				MaxHeight: 1.0
+			},
+		]
+	},
+
+
+
+
+
+  {
+    "dependsOn": [ { "modid": "betterforest", } ],
+    "file": "game:worldgen/treengenproperties.json",
+    "side": "Server",
+    "op": "remove",
+    "path": "/shrubgens/5",
+  },
+]

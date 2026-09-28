@@ -5,12 +5,13 @@
     "authors": [
         "Nephelangelo",
         "Darkluke1111",
-        "JonR"
+		"JonR",
+		"Algernon"
     ],
-    "description": "A redesign of worldgen to feel more natural, beautiful and enjoyable to traverse.",
+    "description": "DEBUG build A redesign of worldgen to feel more natural, beautiful and enjoyable to traverse.",
     "Website": "https://mods.vintagestory.at/terraprety",
-    "version": "7.10.2",
-    "side" : "Server",
+    "version": "7.11.2",
+    "side": "Universal",
     "requiredOnClient": false,
     "requiredOnServer": true,
     "dependencies": {

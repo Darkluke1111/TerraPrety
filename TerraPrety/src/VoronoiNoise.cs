@@ -55,8 +55,8 @@ namespace TerraPrety.Noise {
         }
 
         private void GetValueAt(int unscaledXpos, int unscaledZpos, out double F1_1stClosestPointDistance, out double F2_2ndClosestPointDistance) {
-            double xpos_full = unscaledXpos / scale;
-            double zpos_full = unscaledZpos / scale;
+            double xpos_full = (unscaledXpos / scale) - 0.25;
+            double zpos_full = (unscaledZpos / scale) - 0.25; //The -0.25 shifts the spot polled by the Voronoi by this much - to ideally try and center the spawn in the Cell.
 
             //Integer part of the position is the voronoi square coordinate
             int xCell = (int)xpos_full;

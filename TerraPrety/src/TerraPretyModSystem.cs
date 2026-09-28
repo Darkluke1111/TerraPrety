@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using MapLayer;
 using TerraPrety.LandformHeights;
-using MapLayer;
 using System;
 using System.Collections.Generic;
 using Vintagestory.API.Common;
@@ -22,6 +21,7 @@ public class TerraPretyModSystem : ModSystem
     public Harmony harmony;
     public static ILogger Logger;
     public static ICoreServerAPI Sapi;
+    public const int NumBlocksLowerWorldBy = 64;
 
     public int NoiseSizeRivers;
     public int NoiseSizeCoast;

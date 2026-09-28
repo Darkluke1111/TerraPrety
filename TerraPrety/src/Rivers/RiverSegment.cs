@@ -56,7 +56,7 @@ namespace TerraPrety.Rivers {
             maximumWorldX = -1;
             maximumWorldZ = -1;
             
-            maxPointsPerSegment = TerraPretyModSystem.config.maxPointsPerRiverSegment;
+            maxPointsPerSegment = 10; //TerraPretyModSystem.config.maxPointsPerRiverSegment;
         }
 
         public void AttachUpstream(RiverSegment upSegment) {
